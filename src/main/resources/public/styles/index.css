@@ -1,0 +1,14 @@
+.logo{
+    width: 6rem;
+}
+
+.cvut-logo {
+    background-image: url("../images/logo_cvut_en.svg") ;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+a.cvut-logo {
+    min-width: 8rem;
+}

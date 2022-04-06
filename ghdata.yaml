@@ -1,0 +1,15 @@
+version: '1'
+services:
+  ghdata:
+    image: ghdata:1.0
+    depends_on:
+      - postgres
+    ports:
+      - 8090:8090
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=admin#1234
+
