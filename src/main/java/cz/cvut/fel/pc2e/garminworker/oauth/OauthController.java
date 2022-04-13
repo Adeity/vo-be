@@ -93,7 +93,8 @@ public class OauthController {
         OAuthAuthorizeTemporaryTokenUrl authorizeUrl = new OAuthAuthorizeTemporaryTokenUrl(AUTHORIZE_URL);
         authorizeUrl.temporaryToken = requestTokenResponse.token;
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
+        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.buildAuthority() + "garmin/oathCallback")).build();
     }
 
     /**
@@ -142,6 +143,7 @@ public class OauthController {
         log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getDeviceId(), accessTokenResponse.tokenSecret);
 
         return "redirect:" + ADMIN_UI_URL;
+        //return "redirect:" + ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
     }
 
     /**
