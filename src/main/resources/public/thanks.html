@@ -1,4 +1,5 @@
 <!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -23,31 +24,8 @@
         </a>
     </header>
 
-    <form
-          action="https://vyzkumodolnosti.felk.cvut.cz/garmin/authorize"
-          method="get"
-    >
-        <div class="form-input-material">
-            <h3>Register your device</h3>
-            <p>Please fill in this form to register your device with the Vyzkum odolnosti project.</p>
-
-            <label for="device_id">Device ID:</label>
-            <input
-                    required
-                    type="text"
-                    id="device_id"
-                    name="device_id"
-                    class=""
-                    autocomplete="off"
-                    spellcheck="False"
-                    value=""
-            >
-
-
-            <input class="btn" type="submit" value="Register">
-
-        </div>
-    </form>
+    <p>Your device was successfully registered.</p>
+    <p>Thank you for participating in the research!</p>
 
 </div>
 
