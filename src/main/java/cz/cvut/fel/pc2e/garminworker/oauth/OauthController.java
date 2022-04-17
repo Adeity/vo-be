@@ -12,11 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
+import java.net.URL;
 import java.util.Optional;
 
 @Slf4j
@@ -69,6 +72,7 @@ public class OauthController {
         requestToken.transport = TRANSPORT;
         requestToken.signer = signer;
 
+        requestToken.callback = "https://vyzkumodolnosti.felk.cvut.cz/garmin/oauthCallback";
 
         OAuthCredentialsResponse requestTokenResponse = requestToken.execute();
         log.info("Successfully received request token for device with deviceId: {}", deviceId);
@@ -93,8 +97,7 @@ public class OauthController {
         OAuthAuthorizeTemporaryTokenUrl authorizeUrl = new OAuthAuthorizeTemporaryTokenUrl(AUTHORIZE_URL);
         authorizeUrl.temporaryToken = requestTokenResponse.token;
 
-        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.buildAuthority() + "garmin/oathCallback")).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
     }
 
     /**
@@ -107,6 +110,7 @@ public class OauthController {
      * @throws IOException if occurs in request processing
      */
     @GetMapping("/garmin/oauthCallback")
+    @ResponseBody
     public String processOauthCallback(@RequestParam(name = "oauth_token") String requestToken, @RequestParam(name = "oauth_verifier") String verifier) throws IOException {
         log.info("Processing oAuth callback with requestToken: {}", requestToken);
 
@@ -142,8 +146,8 @@ public class OauthController {
         log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getDeviceId(), accessTokenResponse.token);
         log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getDeviceId(), accessTokenResponse.tokenSecret);
 
-        return "redirect:" + ADMIN_UI_URL;
-        //return "redirect:" + ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
+        return "thanks.html";
+        //return "redirect:" + ADMIN_UI_URL;
     }
 
     /**
