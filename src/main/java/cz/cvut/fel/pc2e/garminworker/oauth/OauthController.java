@@ -72,7 +72,7 @@ public class OauthController {
         requestToken.transport = TRANSPORT;
         requestToken.signer = signer;
 
-        requestToken.callback = "https://vyzkumodolnosti.felk.cvut.cz/garmin/oauthCallback";
+        //requestToken.callback = "https://vyzkumodolnosti.felk.cvut.cz/garmin/oauthCallback";
 
         OAuthCredentialsResponse requestTokenResponse = requestToken.execute();
         log.info("Successfully received request token for device with deviceId: {}", deviceId);
@@ -97,7 +97,12 @@ public class OauthController {
         OAuthAuthorizeTemporaryTokenUrl authorizeUrl = new OAuthAuthorizeTemporaryTokenUrl(AUTHORIZE_URL);
         authorizeUrl.temporaryToken = requestTokenResponse.token;
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
+        String oath_callback = "&oauth_callback=https://vyzkumodolnosti.felk.cvut.cz/garmin/oauthCallback";
+        String authURL = authorizeUrl.buildAuthority();
+        String relURL = authorizeUrl.buildRelativeUrl() + oath_callback;
+
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL+relURL)).build();
+        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
     }
 
     /**
@@ -111,7 +116,7 @@ public class OauthController {
      */
     @GetMapping("/garmin/oauthCallback")
     @ResponseBody
-    public String processOauthCallback(@RequestParam(name = "oauth_token") String requestToken, @RequestParam(name = "oauth_verifier") String verifier) throws IOException {
+    public ResponseEntity<Serializable> processOauthCallback(@RequestParam(name = "oauth_token") String requestToken, @RequestParam(name = "oauth_verifier") String verifier) throws IOException {
         log.info("Processing oAuth callback with requestToken: {}", requestToken);
 
         DeviceEntity deviceEntity = deviceRepository.findByRequestToken(requestToken).orElseThrow(() -> {
@@ -146,7 +151,11 @@ public class OauthController {
         log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getDeviceId(), accessTokenResponse.token);
         log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getDeviceId(), accessTokenResponse.tokenSecret);
 
-        return "thanks.html";
+        String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
+        String relURL = "thanks.html";
+
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL+relURL)).build();
+        //return "redirect" + "https://vyzkumodolnosti.felk.cvut.cz/" + "thanks.html";
         //return "redirect:" + ADMIN_UI_URL;
     }
 
