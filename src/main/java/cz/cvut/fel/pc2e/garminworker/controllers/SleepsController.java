@@ -38,15 +38,12 @@ public class SleepsController {
     @PostMapping
     public ResponseEntity<Serializable> postData(@RequestBody String pBody) {
         log.info("Received push notification for SLEEPS");
-        log.info(pBody);
-
         //rawMessageProducer.sendRawMessage(pBody);
 
         try {
             ObjectMapper om = new ObjectMapper();
             om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             SleepsPushNotificationDto sleepsPushNotification = om.readValue(pBody, SleepsPushNotificationDto.class);
-            System.out.println(sleepsPushNotification);
 
 //
             if (sleepsPushNotification != null && sleepsPushNotification.getSleeps() != null) {
