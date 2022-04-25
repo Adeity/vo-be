@@ -59,35 +59,37 @@ public class SleepsService {
         // also we accept TENTATIVE mode, because the API is unpredictable, and it is quite often to receive just TENTATIVE validation state and no FINAL,
         // so we need to have server-side logic in aggregator to be able to update records in case of update
         // ... GHDATA edit: also accepting DEVICE for testing
-        if (
-                ValidationTypeEnum.ENHANCED_TENTATIVE.equals(sleepSummary.getValidation()) ||
-                ValidationTypeEnum.ENHANCED_FINAL.equals(sleepSummary.getValidation()) ||
-                ValidationTypeEnum.DEVICE.equals(sleepSummary.getValidation())
-        ) {
-            if (sleepSummary.getUserAccessToken() == null) {
-                log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);
-                return;
-            }
-            if (sleepSummary.getStartTimeInSeconds() == null || sleepSummary.getDurationInSeconds() == null) {
-                log.warn("Skipping sleep summary, because startTime or duration is missing. sleep: {}", sleepSummary);
-                return;
-            }
-
-            Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
-
-            deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
-                String deviceId = deviceEntity.getDeviceId();
-
-                Long startTime = sleepSummary.getStartTimeInSeconds();
-                String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
-
-                this.sleepSummaryDao.persist(sleepSummary);
-                //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
-
-            }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
-        } else {
-            log.warn("Skipping sleep summary with ID: {}, because of ValidationType: {}", sleepSummary.getSummaryId(), sleepSummary.getValidation());
+//        boolean correctValidation =
+//                ValidationTypeEnum.ENHANCED_TENTATIVE.equals(sleepSummary.getValidation()) ||
+//                ValidationTypeEnum.ENHANCED_FINAL.equals(sleepSummary.getValidation()) ||
+//                ValidationTypeEnum.DEVICE.equals(sleepSummary.getValidation());
+//        // for now allow any validation
+//        if (correctValidation) {
+//
+//        } else {
+//            log.warn("Skipping sleep summary with ID: {}, because of ValidationType: {}", sleepSummary.getSummaryId(), sleepSummary.getValidation());
+//        }
+        if (sleepSummary.getUserAccessToken() == null) {
+            log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);
+            return;
         }
+        if (sleepSummary.getStartTimeInSeconds() == null || sleepSummary.getDurationInSeconds() == null) {
+            log.warn("Skipping sleep summary, because startTime or duration is missing. sleep: {}", sleepSummary);
+            return;
+        }
+
+        Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
+
+        deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
+            String deviceId = deviceEntity.getDeviceId();
+
+            Long startTime = sleepSummary.getStartTimeInSeconds();
+            String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
+
+            this.sleepSummaryDao.persist(sleepSummary);
+            //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
+
+        }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
     }
 
     private SleepSummary convertDtoToBusinessObject(SleepSummaryDto dto) {
@@ -137,6 +139,7 @@ public class SleepsService {
     }
 
     private List<SleepScore> convertSleepScores(Map<String, Object> input) {
+        if (input == null) return null;
         List<SleepScore> res = new ArrayList<>();
         for (var entry : input.entrySet()) {
             SleepScore s = new SleepScore();
@@ -149,6 +152,7 @@ public class SleepsService {
     }
 
     private List<TimeOffsetSleepSpo2> convertTimeOffsetSleepSpo2(Map<Integer, Integer> input) {
+        if (input == null) return null;
         List<TimeOffsetSleepSpo2> res = new ArrayList<>();
         for (var entry : input.entrySet()) {
             TimeOffsetSleepSpo2 t = new TimeOffsetSleepSpo2();
@@ -160,6 +164,7 @@ public class SleepsService {
     }
 
     private List<TimeOffsetSleepRespiration> convertTimeOffsetSleepRespiration(Map<Integer, Integer> input) {
+        if (input == null) return null;
         List<TimeOffsetSleepRespiration> res = new ArrayList<>();
         for (var entry : input.entrySet()) {
             TimeOffsetSleepRespiration t = new TimeOffsetSleepRespiration();
@@ -171,6 +176,7 @@ public class SleepsService {
     }
 
     private OverallSleepScore convertOverallSleepScore(Map<String, Object> overallSleepScoreDto) {
+        if (overallSleepScoreDto == null) return null;
         OverallSleepScore overallSleepScore = new OverallSleepScore();
         overallSleepScore.setValue((Integer) overallSleepScoreDto.get("value"));
         overallSleepScore.setQualifierKey((String) overallSleepScoreDto.get("qualifierKey"));
@@ -178,6 +184,7 @@ public class SleepsService {
     }
 
     private SleepLevelsMap convertSleepLevelsMap(Map<String, List<SleepLevelTimeRange>> sleepLevelsMap) {
+        if (sleepLevelsMap == null) return null;
         SleepLevelsMap res = new SleepLevelsMap();
         res.setPhaseOfSleepList(new ArrayList<>());
         List <PhaseOfSleepList> listOfPhaseList = res.getPhaseOfSleepList();
