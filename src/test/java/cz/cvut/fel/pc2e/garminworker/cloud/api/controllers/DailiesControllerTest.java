@@ -1,9 +1,10 @@
 package cz.cvut.fel.pc2e.garminworker.cloud.api.controllers;
 
+import cz.cvut.fel.pc2e.garminworker.controllers.DailiesController;
 import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.HeartRateMessageProducer;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.RawMessageProducer;
-import cz.cvut.fel.pc2e.garminworker.repositories.DeviceRepository;
+import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +28,7 @@ class DailiesControllerTest {
     private final static String OAUTH_TOKEN_2 = "oauthToken2";
 
     @Mock
-    DeviceRepository deviceRepository;
+    DeviceDao deviceRepository;
 
     @Mock
     RawMessageProducer rawMessageProducer;

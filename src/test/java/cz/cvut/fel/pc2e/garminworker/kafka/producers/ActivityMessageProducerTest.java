@@ -1,6 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.kafka.producers;
 
-import cz.cvut.fel.pc2e.garminworker.cloud.api.dto.ActivityTypeEnum;
+import cz.cvut.fel.pc2e.garminworker.dto.ActivityTypeEnum;
 import cz.cvut.fel.pc2e.garminworker.kafka.messages.ActivityMessage;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

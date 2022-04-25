@@ -1,11 +1,12 @@
 package cz.cvut.fel.pc2e.garminworker.cloud.api.controllers;
 
+import cz.cvut.fel.pc2e.garminworker.controllers.HealthEpochController;
 import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.entities.PeriodOffsetEntity;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.ActivityMessageProducer;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.RawMessageProducer;
-import cz.cvut.fel.pc2e.garminworker.repositories.DeviceRepository;
-import cz.cvut.fel.pc2e.garminworker.repositories.PeriodOffsetRepository;
+import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
+import cz.cvut.fel.pc2e.garminworker.dao.PeriodOffsetDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,10 +33,10 @@ class HealthEpochControllerTest {
     private final static long EPOCH_START_TIME = 1637453700L;
 
     @Mock
-    DeviceRepository deviceRepository;
+    DeviceDao deviceRepository;
 
     @Mock
-    PeriodOffsetRepository periodOffsetRepository;
+    PeriodOffsetDao periodOffsetRepository;
 
     @Mock
     RawMessageProducer rawMessageProducer;

@@ -1,7 +1,7 @@
 package cz.cvut.fel.pc2e.garminworker.kafka.messages;
 
 
-import cz.cvut.fel.pc2e.garminworker.cloud.api.dto.ActivityTypeEnum;
+import cz.cvut.fel.pc2e.garminworker.dto.ActivityTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,9 +1,10 @@
 package cz.cvut.fel.pc2e.garminworker.cloud.api.controllers;
 
-import cz.cvut.fel.pc2e.garminworker.cloud.api.dto.DeregistrationDto;
-import cz.cvut.fel.pc2e.garminworker.cloud.api.dto.DeregistrationPushNotificationDto;
+import cz.cvut.fel.pc2e.garminworker.dto.DeregistrationDto;
+import cz.cvut.fel.pc2e.garminworker.dto.DeregistrationPushNotificationDto;
+import cz.cvut.fel.pc2e.garminworker.controllers.DeregistrationController;
 import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
-import cz.cvut.fel.pc2e.garminworker.repositories.DeviceRepository;
+import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +29,7 @@ class DeregistrationControllerTest {
     private final static String OAUTH_TOKEN = "oauthToken";
 
     @Mock
-    DeviceRepository deviceRepository;
+    DeviceDao deviceRepository;
 
     @Mock
     DeviceEntity deviceEntityMock;

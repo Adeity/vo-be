@@ -1,10 +1,11 @@
 package cz.cvut.fel.pc2e.garminworker.cloud.api.controllers;
 
+import cz.cvut.fel.pc2e.garminworker.controllers.SleepsController;
 import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.RawMessageProducer;
 import cz.cvut.fel.pc2e.garminworker.kafka.producers.SleepMessageProducer;
-import cz.cvut.fel.pc2e.garminworker.repositories.DeviceRepository;
-import cz.cvut.fel.pc2e.garminworker.repositories.PeriodOffsetRepository;
+import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
+import cz.cvut.fel.pc2e.garminworker.dao.PeriodOffsetDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,10 +29,10 @@ class SleepsControllerTest {
     private final static String OAUTH_TOKEN_2 = "oauthToken2";
 
     @Mock
-    DeviceRepository deviceRepository;
+    DeviceDao deviceRepository;
 
     @Mock
-    PeriodOffsetRepository periodOffsetRepository;
+    PeriodOffsetDao periodOffsetRepository;
 
     @Mock
     RawMessageProducer rawMessageProducer;
