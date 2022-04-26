@@ -39,9 +39,11 @@ public class SleepsService {
         this.sleepSummaryDao = sleepSummaryDao;
     }
 
+    /*
     public SleepSummary getSleepSummaryById(Integer id) {
         return sleepSummaryDao.find(id);
     }
+     */
 
     @Transactional
     public void processSleepSummaryDTO(SleepSummaryDto sleepSummaryDto) {
@@ -58,38 +60,34 @@ public class SleepsService {
         // we accept only enhanced records, because all of our devices support enhanced mode with REM sleep
         // also we accept TENTATIVE mode, because the API is unpredictable, and it is quite often to receive just TENTATIVE validation state and no FINAL,
         // so we need to have server-side logic in aggregator to be able to update records in case of update
-        // ... GHDATA edit: also accepting DEVICE for testing
-//        boolean correctValidation =
-//                ValidationTypeEnum.ENHANCED_TENTATIVE.equals(sleepSummary.getValidation()) ||
-//                ValidationTypeEnum.ENHANCED_FINAL.equals(sleepSummary.getValidation()) ||
-//                ValidationTypeEnum.DEVICE.equals(sleepSummary.getValidation());
-//        // for now allow any validation
-//        if (correctValidation) {
-//
-//        } else {
-//            log.warn("Skipping sleep summary with ID: {}, because of ValidationType: {}", sleepSummary.getSummaryId(), sleepSummary.getValidation());
-//        }
-        if (sleepSummary.getUserAccessToken() == null) {
-            log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);
-            return;
+        boolean correctValidation =
+                ValidationTypeEnum.ENHANCED_TENTATIVE.equals(sleepSummary.getValidation()) ||
+                ValidationTypeEnum.ENHANCED_FINAL.equals(sleepSummary.getValidation());
+        if (correctValidation) {
+            if (sleepSummary.getUserAccessToken() == null) {
+                log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);
+                return;
+            }
+            if (sleepSummary.getStartTimeInSeconds() == null || sleepSummary.getDurationInSeconds() == null) {
+                log.warn("Skipping sleep summary, because startTime or duration is missing. sleep: {}", sleepSummary);
+                return;
+            }
+
+            Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
+
+            deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
+                String deviceId = deviceEntity.getDeviceId();
+
+                Long startTime = sleepSummary.getStartTimeInSeconds();
+                String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
+
+                this.sleepSummaryDao.persist(sleepSummary);
+                //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
+
+            }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
+        } else {
+            log.warn("Skipping sleep summary with ID: {}, because of ValidationType: {}", sleepSummary.getSummaryId(), sleepSummary.getValidation());
         }
-        if (sleepSummary.getStartTimeInSeconds() == null || sleepSummary.getDurationInSeconds() == null) {
-            log.warn("Skipping sleep summary, because startTime or duration is missing. sleep: {}", sleepSummary);
-            return;
-        }
-
-        Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
-
-        deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
-            String deviceId = deviceEntity.getDeviceId();
-
-            Long startTime = sleepSummary.getStartTimeInSeconds();
-            String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
-
-            this.sleepSummaryDao.persist(sleepSummary);
-            //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
-
-        }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
     }
 
     private SleepSummary convertDtoToBusinessObject(SleepSummaryDto dto) {
@@ -194,6 +192,8 @@ public class SleepsService {
         jsonToEntitySleepLevels(sleepLevelsMap, "deep", listOfPhaseList, SleepPhaseEnum.DEEP_SLEEP);
 
         jsonToEntitySleepLevels(sleepLevelsMap, "light", listOfPhaseList, SleepPhaseEnum.LIGHT_SLEEP);
+
+        jsonToEntitySleepLevels(sleepLevelsMap, "awake", listOfPhaseList, SleepPhaseEnum.LIGHT_SLEEP);
 
         return res;
     }
