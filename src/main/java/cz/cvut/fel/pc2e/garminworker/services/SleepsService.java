@@ -81,6 +81,8 @@ public class SleepsService {
                 Long startTime = sleepSummary.getStartTimeInSeconds();
                 String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
 
+                checkForDuplicateRecords(sleepSummary);
+
                 this.sleepSummaryDao.persist(sleepSummary);
                 //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
 
@@ -243,5 +245,19 @@ public class SleepsService {
 
         Timestamp timestamp = new Timestamp(startTime * 1000);
         return sdf.format(timestamp);
+    }
+
+    private void checkForDuplicateRecords(SleepSummary newRecord) {
+        SleepSummary originalSummary = sleepSummaryDao.findBySummaryUserAndDate(newRecord.getUserId(), newRecord.getStartTimeInSeconds());
+        if (originalSummary != null) {
+
+            if (originalSummary.getDurationInSeconds() < newRecord.getDurationInSeconds()) {
+                log.info("Updating summary, record about the same sleep already in the DB.");
+
+                sleepSummaryDao.remove(originalSummary);
+
+            }
+
+        }
     }
 }
