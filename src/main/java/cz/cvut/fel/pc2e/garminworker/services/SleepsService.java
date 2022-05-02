@@ -83,7 +83,7 @@ public class SleepsService {
 
                 checkForDuplicateRecords(sleepSummary);
 
-                this.sleepSummaryDao.persist(sleepSummary);
+
                 //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
 
             }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
@@ -256,6 +256,10 @@ public class SleepsService {
 
                 sleepSummaryDao.remove(originalSummary);
 
+                this.sleepSummaryDao.persist(newRecord);
+            } else {
+                log.warn("Skipping sleep summary: {}, because update of this summary is already recorded - sleep: {}.",
+                        newRecord, originalSummary);
             }
 
         }
