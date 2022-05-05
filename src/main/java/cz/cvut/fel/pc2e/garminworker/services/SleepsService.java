@@ -29,9 +29,9 @@ public class SleepsService {
 
     private final DeviceDao deviceRepository;
 
-    @Autowired
     private final SleepSummaryDao sleepSummaryDao;
 
+    @Autowired
     public SleepsService(RawMessageProducer rawMessageProducer, SleepMessageProducer sleepMessageProducer, DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao) {
         this.rawMessageProducer = rawMessageProducer;
         this.sleepMessageProducer = sleepMessageProducer;
@@ -81,8 +81,7 @@ public class SleepsService {
                 Long startTime = sleepSummary.getStartTimeInSeconds();
                 String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
 
-                checkForDuplicateRecords(sleepSummary);
-
+                this.sleepSummaryDao.persist(sleepSummary);
 
                 //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
 
