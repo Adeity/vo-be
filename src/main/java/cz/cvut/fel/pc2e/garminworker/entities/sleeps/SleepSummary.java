@@ -65,4 +65,7 @@ public class SleepSummary extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<SleepScore> sleepScores;
+
+    @Column(name = "delete_flag", columnDefinition = "boolean default false")
+    private boolean deleteFlag = false;
 }
