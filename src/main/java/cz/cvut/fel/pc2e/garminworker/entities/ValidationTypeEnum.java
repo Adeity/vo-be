@@ -7,5 +7,6 @@ public enum ValidationTypeEnum {
     AUTO_TENTATIVE,
     AUTO_FINAL,
     ENHANCED_TENTATIVE,
-    ENHANCED_FINAL
+    ENHANCED_FINAL,
+    AUTO_MANUAL
 }
