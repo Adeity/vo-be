@@ -39,11 +39,9 @@ public class SleepsService {
         this.sleepSummaryDao = sleepSummaryDao;
     }
 
-    /*
     public SleepSummary getSleepSummaryById(Integer id) {
         return sleepSummaryDao.find(id);
     }
-     */
 
     @Transactional
     public void processSleepSummaryDTO(SleepSummaryDto sleepSummaryDto) {

@@ -25,13 +25,10 @@ public class SleepsController {
         this.sleepsService = sleepsService;
     }
 
-    /*
     @GetMapping(value = "/{id}")
     public SleepSummary getSleepSummaryById(@PathVariable Integer id) {
         return sleepsService.getSleepSummaryById(id);
     }
-
-     */
 
     /**
      * {
