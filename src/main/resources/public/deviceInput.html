@@ -28,10 +28,10 @@
           method="get"
     >
         <div class="form-input-material">
-            <h3>Register your device</h3>
-            <p>Please fill in this form to register your device with the Vyzkum odolnosti project.</p>
+            <h3>Registrace Garmin zařízení</h3>
+            <p>Prosím zadejte výzkumné číslo, které Vám bylo přiděleno. </p>
 
-            <label for="device_id">Device ID:</label>
+            <label for="device_id">Výzkumné číslo:</label>
             <input
                     required
                     type="text"
@@ -44,9 +44,27 @@
             >
 
 
-            <input class="btn" type="submit" value="Register">
-
+            <input class="btn" type="submit" value="Odeslat">
         </div>
+
+        <h5>Návod</h5>
+        <p>Po vyplnění budete přesměrováni na stránku
+        Garmin Connect a bude nutné vyplnit přihlašovací údaje k Vašemu Garmin účtu. Po správném zadání
+        přihlašovacích údajů, je třeba udělit samotný souhlas. V prvním kroku volíte, která data chcete sdílet.
+        Prosíme nechte vše zaškrtnuté a uložte Vaši volbu kliknutím na tlačítko SAVE. Ve druhém kroku potvrďte
+        Váš souhlas se sdílením dat kliknutím na tlačítko AGREE.</p>
+
+        <p>Pokud vše proběhne, jak má, budete přesměrování na stránku s poděkováním.</p>
+
+        <div id="steps_instructions">
+            <img id="Garmin_instructions"
+                 src="images/StepByStep.png"
+                 alt="Garmin registration instructions"
+                 height="665" width="1043"
+            >
+        </div>
+
+
     </form>
 
 </div>
