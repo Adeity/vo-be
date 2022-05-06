@@ -15,6 +15,7 @@ a.cvut-logo {
 
 
 input[type=text] {
+    min-width: 300px;
     width: 30%; /* Full width */
     padding: 12px; /* Some padding */
     border: 1px solid #ccc; /* Gray border */
@@ -44,4 +45,92 @@ input[type=submit]:hover {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
+
+.welcome {
+    text-align: center;
+}
+
+.register_link_button {
+    width: 300px;
+    color: white;
+    background-color: black;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 0px;
+    border-style: solid;
+    border-width: medium;
+    cursor: pointer;
+}
+
+.register_link_button a {
+    color: white;
+    text-decoration: none;
+}
+
+.register_link_button:hover {
+    background-color: green;
+    color: black;
+    border-style: solid;
+}
+
+.garmin_logo {
+    padding: 40px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#Garmin_logo {
+    padding: 0px;
+    margin: 10px;
+}
+
+.highlight {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#steps_instructions img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form p {
+    text-align: justify;
+}
+
+.form-input-material {
+    margin: 30px;
+    border: black;
+    border-style: solid;
+    border-width: 2px;
+    width: fit-content;
+    padding: 8px 20px;
+}
+
+#thanks_box {
+    font-size: 3em;
+    text-align: center;
+    margin-top: 15%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#thanks_box p {
+    justify-content: flex-end;
+}
+
+#thank_page {
+    height: 100%;
+    position: relative;
+}
+
+#thank_page body, #thank_page .container {
+    height: 100%;
+}
+
