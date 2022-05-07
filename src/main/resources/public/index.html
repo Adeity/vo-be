@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,6 +12,38 @@
     <title>GHDATA</title>
 </head>
 <body>
+
+<script>
+    function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /*loop through a collection of all HTML elements:*/
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                        if (this.status === 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status === 404) {elmnt.innerHTML = "Page not found.";}
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("w3-include-html");
+                        includeHTML();
+                    }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+            }
+        }
+    };
+</script>
+
+
 <div class="container">
     <header class="d-flex  justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
@@ -21,8 +53,35 @@
         <a href="//cvut.cz" class="cvut-logo">
         </a>
     </header>
-    <a href="deviceInput.html" >Register device
-    </a>
+
+    <main>
+
+        <div class="welcome">
+
+            <p class="highlight">Jste se učastníkem ve výzkumu odolnosti?</p>
+            <p>V tom případě zbývá poslední krok k tomu, abychom mohli začít sbírat data z vaší nositelné elektroniky
+                - udělení souhlasu se sdílením dat.</p>
+            <p class="highlight">A jak na to?</p>
+            <p>Stačí kliknout na tlačítko níže a vyplnit výzkumné číslo, které Vám bylo přiděleno.</p>
+
+        </div>
+
+        <div class="garmin_logo">
+            <img id="Garmin_logo"
+                 src="images/Garmin_logo.png"
+                 alt="Garmin logo"
+                 height="58" width="217"
+            >
+
+
+            <span class="register_link_button">
+                <a href="deviceInput.html" >Registrace zařízení</a>
+            </span>
+        </div>
+
+    </main>
+
+
 </div>
 
 <!-- Optional JavaScript; choose one of the two! -->
