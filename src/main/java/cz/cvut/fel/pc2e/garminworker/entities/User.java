@@ -12,12 +12,8 @@ import javax.persistence.*;
 })
 public class User extends AbstractEntity {
 
-    @Basic(optional = false)
-    @Column(nullable = false)
     private String firstName;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
     private String lastName;
 
     @Basic(optional = false)
