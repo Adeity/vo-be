@@ -42,6 +42,17 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
 	implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '2.0.5'
 
+	// security
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.2.11.RELEASE'
+
+
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+	implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.2.11.RELEASE'
+
+
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+	implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.2.11.RELEASE'
 
 }
 

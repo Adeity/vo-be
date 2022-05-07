@@ -1,11 +1,13 @@
 package cz.cvut.fel.pc2e.garminworker.dao;
 
 import cz.cvut.fel.pc2e.garminworker.entities.sleeps.SleepSummary;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.List;
 
+@Slf4j
 @Repository
 public class SleepSummaryDao extends BaseDao<SleepSummary> {
     protected SleepSummaryDao() {
@@ -31,6 +33,7 @@ public class SleepSummaryDao extends BaseDao<SleepSummary> {
                     .setParameter("startTime", startTime)
                     .getSingleResult();
         } catch (NoResultException e) {
+            log.info("No existing data with userId ${} and start time ${} found", userId, startTime);
             return null;
         }
 
