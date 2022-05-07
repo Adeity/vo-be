@@ -37,12 +37,10 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
         } catch (Exception e){
             throw e;
         }
-        if (passwordEncoder.matches((CharSequence) authentication.getCredentials(), userDetails1.getPassword())){
-            System.out.println("pwd matched!");
-        }
-        else {
+        if (!passwordEncoder.matches((CharSequence) authentication.getCredentials(), userDetails1.getPassword())){
             throw new BadCredentialsException("Bad credentials!");
         }
+        // pwd matches
         userDetails1.eraseCredentials();
         return SecurityUtils.setCurrentUser(userDetails1);
     }
