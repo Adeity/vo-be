@@ -3,65 +3,45 @@ package cz.cvut.fel.pc2e.garminworker.services;
 import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
 import cz.cvut.fel.pc2e.garminworker.dao.SleepSummaryDao;
 import cz.cvut.fel.pc2e.garminworker.dto.SleepSummaryDto;
-import cz.cvut.fel.pc2e.garminworker.entities.ValidationTypeEnum;
 import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.entities.sleeps.*;
-import cz.cvut.fel.pc2e.garminworker.kafka.producers.RawMessageProducer;
-import cz.cvut.fel.pc2e.garminworker.kafka.producers.SleepMessageProducer;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class SleepsService {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    private final RawMessageProducer rawMessageProducer;
-
-    private final SleepMessageProducer sleepMessageProducer;
-
     private final DeviceDao deviceRepository;
 
     private final SleepSummaryDao sleepSummaryDao;
 
     @Autowired
-    public SleepsService(RawMessageProducer rawMessageProducer, SleepMessageProducer sleepMessageProducer, DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao) {
-        this.rawMessageProducer = rawMessageProducer;
-        this.sleepMessageProducer = sleepMessageProducer;
+    public SleepsService(DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao) {
         this.deviceRepository = deviceRepository;
         this.sleepSummaryDao = sleepSummaryDao;
     }
 
     public SleepSummary getSleepSummaryById(Integer id) {
-        return sleepSummaryDao.find(id);
+        Optional<SleepSummary> s = sleepSummaryDao.findById(id);
+        return s.orElse(null);
     }
 
     @Transactional
     public void processSleepSummaryDTO(SleepSummaryDto sleepSummaryDto) {
         log.debug("Processing sleepSummaryDTO: {} ", sleepSummaryDto);
         // first check if sleep summary with summaryId already exists
-        SleepSummary existingSummary = sleepSummaryDao.findBySummaryId(sleepSummaryDto.getSummaryId());
-        if (existingSummary != null) {
-            log.info("Existing summary came. not adding again.");
-            return;
-        }
+        Optional<SleepSummary> existingSummaryOpt = sleepSummaryDao.findBySummaryId(sleepSummaryDto.getSummaryId());
         // process SleepSummaryDto into SleepSummary business object
         SleepSummary sleepSummary = this.convertDtoToBusinessObject(sleepSummaryDto);
 
-        // we accept only enhanced records, because all of our devices support enhanced mode with REM sleep
-        // also we accept TENTATIVE mode, because the API is unpredictable, and it is quite often to receive just TENTATIVE validation state and no FINAL,
-        // so we need to have server-side logic in aggregator to be able to update records in case of update
-//        boolean correctValidation =
-//                ValidationTypeEnum.ENHANCED_TENTATIVE.equals(sleepSummary.getValidation()) ||
-//                ValidationTypeEnum.ENHANCED_FINAL.equals(sleepSummary.getValidation());
-//        if (correctValidation) {
         if (sleepSummary.getUserAccessToken() == null) {
             log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);
             return;
@@ -74,19 +54,18 @@ public class SleepsService {
         Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
 
         deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
-            String deviceId = deviceEntity.getDeviceId();
+            log.debug("New sleep summary:     {}", sleepSummary);
+            if (existingSummaryOpt.isPresent()) {
+                SleepSummary existingSummary = existingSummaryOpt.get();
+                log.debug("Existing sleep summary:     {}", existingSummary);
+                log.debug("An updated summary came. Going to overwrite it.");
 
-            Long startTime = sleepSummary.getStartTimeInSeconds();
-            String calendarDate = getCalendarDate(sleepSummary.getCalendarDate(), sleepSummary.getStartTimeInSeconds());
+                sleepSummary.setId(existingSummaryOpt.get().getId());
+            }
 
-            this.sleepSummaryDao.persist(sleepSummary);
-
-            //processSleepLevelsMap(sleepSummaryDto.getSleepLevelsMap(), deviceId, calendarDate);
+            this.sleepSummaryDao.save(sleepSummary);
 
         }, () -> log.error("Skipping sleep, because device with oAuthToken: {} was not found", sleepSummary.getUserAccessToken()));
-//        } else {
-//            log.warn("Skipping sleep summary with ID: {}, because of ValidationType: {}", sleepSummary.getSummaryId(), sleepSummary.getValidation());
-//        }
     }
 
     private SleepSummary convertDtoToBusinessObject(SleepSummaryDto dto) {
@@ -221,20 +200,6 @@ public class SleepsService {
         }
     }
 
-//    private void processSleepLevelsMap(Map<String, List<SleepLevelTimeRange>> sleepLevelsMap, String deviceId, String calendarDate) {
-//        if (sleepLevelsMap != null) {
-//            for (Map.Entry<String, List<SleepLevelTimeRange>> sleepLevelTimeRangeEntry : sleepLevelsMap.entrySet()) {
-//                if (!CollectionUtils.isEmpty(sleepLevelTimeRangeEntry.getValue())) {
-//                    for (SleepLevelTimeRange sleepLevelTimeRange : sleepLevelTimeRangeEntry.getValue()) {
-//                        SleepLevelTimeRangeMessage sleepLevelTimeRangeMessage = new SleepLevelTimeRangeMessage(deviceId, new Timestamp(System.currentTimeMillis()), calendarDate,
-//                                sleepLevelTimeRange.getStartTimeInSeconds(), sleepLevelTimeRange.getEndTimeInSeconds(), SleepLevelTypeEnum.valueOf(sleepLevelTimeRangeEntry.getKey().toUpperCase()));
-//                        sleepMessageProducer.sendSleepLevelTimeRangeMessage(sleepLevelTimeRangeMessage);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     private String getCalendarDate(String calendarDate, Long startTime) {
         if (StringUtils.isNotEmpty(calendarDate)) {
             return calendarDate;
@@ -242,23 +207,5 @@ public class SleepsService {
 
         Timestamp timestamp = new Timestamp(startTime * 1000);
         return sdf.format(timestamp);
-    }
-
-    private void checkForDuplicateRecords(SleepSummary newRecord) {
-        SleepSummary originalSummary = sleepSummaryDao.findBySummaryUserAndDate(newRecord.getUserId(), newRecord.getStartTimeInSeconds());
-        if (originalSummary != null) {
-
-            if (originalSummary.getDurationInSeconds() < newRecord.getDurationInSeconds()) {
-                log.info("Updating summary, record about the same sleep already in the DB.");
-
-                sleepSummaryDao.remove(originalSummary);
-
-                this.sleepSummaryDao.persist(newRecord);
-            } else {
-                log.warn("Skipping sleep summary: {}, because update of this summary is already recorded - sleep: {}.",
-                        newRecord, originalSummary);
-            }
-
-        }
     }
 }
