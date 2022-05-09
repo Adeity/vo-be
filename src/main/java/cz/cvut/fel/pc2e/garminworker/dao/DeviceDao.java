@@ -10,5 +10,5 @@ public interface DeviceDao extends JpaRepository<DeviceEntity, Integer> {
 
     Optional<DeviceEntity> findByRequestToken(String requestToken);
 
-    Optional<DeviceEntity> findByOauthToken(String oAuthToken);
+    Optional<DeviceEntity> findByOauthToken(String oauthToken);
 }
