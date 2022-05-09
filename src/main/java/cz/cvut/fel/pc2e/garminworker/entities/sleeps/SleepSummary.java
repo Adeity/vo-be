@@ -14,15 +14,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "sleeps")
-@NamedQueries({
-        @NamedQuery(name = "SleepSummary.findBySummaryId",
-                query = "SELECT s from SleepSummary s WHERE :summaryId = s.summaryId"),
-        @NamedQuery(name = "SleepSummary.findBySummaryUserAndDate",
-                query = "SELECT s from SleepSummary s " +
-                        "WHERE (:userId = s.userId) " +
-                        "AND (s.startTimeInSeconds BETWEEN (:startTime-3600) AND (:startTime+3600) )")
-})
-
 public class SleepSummary extends AbstractEntity {
 
     private String userId;
