@@ -3,32 +3,53 @@ package cz.cvut.fel.pc2e.garminworker.entities;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
-// We can't name the table User, as it is a reserved table name in some dbs, including Postgres
-@Table(name = "GHDATA_USER")
-@NamedQueries({
-        @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
-})
+@Table(name = "ghdata_user")
 public class User extends AbstractEntity {
 
+    @NotNull
+    @Column(
+            name = "first_name",
+            nullable = false,
+            unique = true
+    )
     private String firstName;
 
+    @NotNull
+    @Column(
+            name = "last_name",
+            nullable = false,
+            unique = true
+    )
     private String lastName;
 
-    @Basic(optional = false)
-    @Column(nullable = false, unique = true)
+    @NotNull
+    @Column(
+            name = "username",
+            nullable = false,
+            unique = true
+    )
     private String username;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
+    @NotNull
+    @Column(
+            name = "password",
+            nullable = false
+    )
     private String password;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(
+            name = "role",
+            nullable = false
+    )
+    private RoleEnum roleEnum;
 
     public User() {
-        this.role = Role.GUEST;
+        this.roleEnum = RoleEnum.GUEST;
     }
 
     public String getFirstName() {
@@ -71,18 +92,17 @@ public class User extends AbstractEntity {
         this.password = null;
     }
 
-    public Role getRole() {
-        return role;
+    public RoleEnum getRole() {
+        return roleEnum;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(RoleEnum roleEnum) {
+        this.roleEnum = roleEnum;
     }
 
     public boolean isAdmin() {
-        return role == Role.ADMIN;
+        return roleEnum == RoleEnum.ADMIN;
     }
-
 
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package cz.cvut.fel.pc2e.garminworker.entities;
+package cz.cvut.fel.pc2e.garminworker.dto;
 
 public enum ValidationTypeEnum {
     MANUAL,

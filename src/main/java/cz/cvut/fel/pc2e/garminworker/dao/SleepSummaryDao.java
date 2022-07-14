@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface SleepSummaryDao extends JpaRepository<SleepSummary, Integer> {
     Optional<SleepSummary> findBySummaryId(String deviceId);
 }

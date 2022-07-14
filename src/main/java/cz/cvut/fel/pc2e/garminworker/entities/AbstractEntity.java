@@ -1,5 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.entities;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -10,6 +11,7 @@ public abstract class AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Integer id;
 
     public Integer getId() {

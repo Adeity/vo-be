@@ -1,6 +1,7 @@
 package cz.cvut.fel.pc2e.garminworker.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
@@ -8,20 +9,53 @@ import java.sql.Timestamp;
 @Table(name = "device")
 public class DeviceEntity {
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(
+            name = "id",
+            nullable = false,
+            unique = true
+    )
     private int id;
 
     @Size(max = 255)
-    @Column(unique = true)
+    @NotNull
+    @Column(
+            name = "device_id",
+            nullable = false,
+            unique = true
+    )
     private String deviceId;
 
+    @Column(
+            name = "request_token"
+    )
     private String requestToken;
+    @Column(
+            name = "request_token_secret"
+    )
     private String requestTokenSecret;
+    @Column(
+            name = "request_token_verifier"
+    )
     private String requestTokenVerifier;
+    @Column(
+            name = "oauth_token"
+    )
     private String oauthToken;
+    @Column(
+            name = "oauth_token_secret"
+    )
     private String oauthTokenSecret;
 
+    @Column(
+            name = "last_sync_time"
+    )
     private Timestamp lastSyncTime;
+    @Column(
+            name = "user_id"
+    )
+    private String userId;
 
     private boolean allowed = false;
 

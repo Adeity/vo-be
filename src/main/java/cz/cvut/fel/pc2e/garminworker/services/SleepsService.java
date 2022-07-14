@@ -154,7 +154,7 @@ public class SleepsService {
     private OverallSleepScore convertOverallSleepScore(Map<String, Object> overallSleepScoreDto) {
         if (overallSleepScoreDto == null) return null;
         OverallSleepScore overallSleepScore = new OverallSleepScore();
-        overallSleepScore.setValue((Integer) overallSleepScoreDto.get("value"));
+        overallSleepScore.setScore((Integer) overallSleepScoreDto.get("value"));
         overallSleepScore.setQualifierKey((String) overallSleepScoreDto.get("qualifierKey"));
         return overallSleepScore;
     }

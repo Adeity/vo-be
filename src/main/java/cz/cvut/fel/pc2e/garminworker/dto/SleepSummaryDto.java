@@ -1,7 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import cz.cvut.fel.pc2e.garminworker.entities.ValidationTypeEnum;
 import cz.cvut.fel.pc2e.garminworker.entities.sleeps.SleepLevelTimeRange;
 import lombok.Data;
 import lombok.NoArgsConstructor;

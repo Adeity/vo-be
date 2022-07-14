@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
@@ -19,10 +21,10 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User user = userDao.findByUsername(username);
-        if (user == null) {
+        Optional<User> user = userDao.findByUsername(username);
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException("User with username " + username + " not found.");
         }
-        return new UserDetails(user);
+        return new UserDetails(user.get());
     }
 }
