@@ -1,6 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.security.model;
 
-import cz.cvut.fel.pc2e.garminworker.entities.User;
+import cz.cvut.fel.pc2e.garminworker.model.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
