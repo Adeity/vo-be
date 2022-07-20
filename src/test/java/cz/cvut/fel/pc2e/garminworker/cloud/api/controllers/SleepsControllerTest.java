@@ -1,8 +1,8 @@
 package cz.cvut.fel.pc2e.garminworker.cloud.api.controllers;
 
 import cz.cvut.fel.pc2e.garminworker.controllers.SleepsController;
-import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
-import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
+import cz.cvut.fel.pc2e.garminworker.model.entities.DeviceEntity;
+import cz.cvut.fel.pc2e.garminworker.repository.DeviceDao;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -3,8 +3,8 @@ package cz.cvut.fel.pc2e.garminworker.controllers;
 import com.google.api.client.auth.oauth.*;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import cz.cvut.fel.pc2e.garminworker.entities.DeviceEntity;
-import cz.cvut.fel.pc2e.garminworker.dao.DeviceDao;
+import cz.cvut.fel.pc2e.garminworker.model.entities.DeviceEntity;
+import cz.cvut.fel.pc2e.garminworker.repository.DeviceDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -52,9 +52,6 @@ public class OauthController {
      */
     @GetMapping("/garmin/authorize")
     public ResponseEntity<Serializable> authorizeNewDevice(@RequestParam(name = "device_id") String deviceId) throws IOException {
-        log.info("im here");
-        System.out.println("im here");
-
         // check whether the device is not already authorized
         Optional<DeviceEntity> deviceEntityOpt = getDeviceAndCheckNotAuthorized(deviceId);
 

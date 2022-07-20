@@ -1,0 +1,18 @@
+{
+  "sleeps": [
+    {
+      "userId": "neco",
+      "userAccessToken": "neco",
+      "summaryId": "neco",
+      "calendarDate": 1,
+      "sleepLevelsMap": {
+        "deep": [
+          {
+            "startTimeInSeconds": 2,
+            "endTimeInSeconds": 3
+          }
+        ]
+      }
+    }
+  ]
+}

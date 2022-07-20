@@ -17,7 +17,6 @@ repositories {
 	mavenCentral()
 }
 
-
 bootJar {
 	classifier = 'boot'
 }
@@ -46,14 +45,31 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
 	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.2.11.RELEASE'
 
-
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
 	implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.2.11.RELEASE'
-
 
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
 	implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.2.11.RELEASE'
 
+	// https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-full
+	implementation group: 'org.apache.poi', name: 'poi-ooxml-full', version: '5.2.2'
+// https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans
+	implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
+
+	implementation files('lib/poi-5.2.2.jar')
+
+	implementation files('lib/ooxml-lib/xmlbeans-5.0.3.jar')
+	implementation files('lib/ooxml-lib/commons-compress-1.21.jar')
+	implementation files('lib/ooxml-lib/commons-logging-1.21.jar')
+	implementation files('lib/poi-ooxml-5.2.2.jar')
+
+	implementation files('lib/libcommons/commons-codec-1.15.jar')
+	implementation files('lib/libcommons/commons-collections4-4.4.jar')
+	implementation files('lib/libcommons/commons-io-2.11.0.jar')
+
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 }
 
 test {
