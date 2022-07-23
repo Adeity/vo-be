@@ -33,9 +33,9 @@ public class SleepsController {
     private final SleepsPushNotificationService sleepsPushNotificationService;
 
     @Autowired
-    public SleepsController(SleepsService sleepsService, SleepsXlsExporter SleepsXlsExporter, SleepsPushNotificationService sleepsPushNotificationService) {
+    public SleepsController(SleepsService sleepsService, SleepsXlsExporter sleepsXlsExporter, SleepsPushNotificationService sleepsPushNotificationService) {
         this.sleepsService = sleepsService;
-        this.sleepsXlsExporter = SleepsXlsExporter;
+        this.sleepsXlsExporter = sleepsXlsExporter;
         this.sleepsPushNotificationService = sleepsPushNotificationService;
     }
 
@@ -54,7 +54,7 @@ public class SleepsController {
                 this.findAll(3)
         );
         try (
-                InputStream inputStream = new FileInputStream(f);
+                InputStream inputStream = new FileInputStream(f)
                 ){
             String filename = "sleeps_export_" +
                     LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) +
