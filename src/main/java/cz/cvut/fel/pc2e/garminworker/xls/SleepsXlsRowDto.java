@@ -1,8 +1,5 @@
 package cz.cvut.fel.pc2e.garminworker.xls;
 
-import cz.cvut.fel.pc2e.garminworker.xls.XlsDto;
-import cz.cvut.fel.pc2e.garminworker.xls.XlsRowDto;
-
 import java.util.ArrayList;
 import java.util.List;
 

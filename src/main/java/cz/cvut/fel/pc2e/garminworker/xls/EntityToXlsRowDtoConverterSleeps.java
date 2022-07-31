@@ -1,11 +1,8 @@
 package cz.cvut.fel.pc2e.garminworker.xls;
 
-import cz.cvut.fel.pc2e.garminworker.xls.SleepsXlsRowDto;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.pc2e.garminworker.services.DeviceService;
 import cz.cvut.fel.pc2e.garminworker.services.TimeComponent;
-import cz.cvut.fel.pc2e.garminworker.xls.EntityToXlsRowDtoConverter;
-import cz.cvut.fel.pc2e.garminworker.xls.XlsRowDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
