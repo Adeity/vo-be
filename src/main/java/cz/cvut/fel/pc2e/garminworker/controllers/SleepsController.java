@@ -3,7 +3,7 @@ package cz.cvut.fel.pc2e.garminworker.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
-import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsPushNotificationService;
+import cz.cvut.fel.pc2e.garminworker.services.sleeps.StringToSleepPushNotificationMapper;
 import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsService;
 import cz.cvut.fel.pc2e.garminworker.xls.EntityToXlsRowDtoConverter;
 import cz.cvut.fel.pc2e.garminworker.xls.XlsFileExporter;
@@ -32,15 +32,15 @@ import java.util.List;
 @RequestMapping(value = "/garmin/sleeps")
 public class SleepsController {
     private final SleepsService sleepsService;
-    private final SleepsPushNotificationService sleepsPushNotificationService;
+    private final StringToSleepPushNotificationMapper stringToSleepPushNotificationMapper;
 	private final XlsFileExporter xlsFileExporter = new XlsFileExporter();
 	private final EntityToXlsRowDtoConverter<SleepSummary> entityToXlsRowDtoConverter;
 
     @Autowired
-    public SleepsController(SleepsService sleepsService, SleepsPushNotificationService sleepsPushNotificationService,
+    public SleepsController(SleepsService sleepsService, StringToSleepPushNotificationMapper stringToSleepPushNotificationMapper,
 			EntityToXlsRowDtoConverter<SleepSummary> entityToXlsRowDtoConverter) {
         this.sleepsService = sleepsService;
-        this.sleepsPushNotificationService = sleepsPushNotificationService;
+        this.stringToSleepPushNotificationMapper = stringToSleepPushNotificationMapper;
 		this.entityToXlsRowDtoConverter = entityToXlsRowDtoConverter;
 	}
 
@@ -57,7 +57,7 @@ public class SleepsController {
     public @ResponseBody ResponseEntity<byte[]> export() {
 		try {
 			List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
-					this.findAll(3)
+					this.findAll(360)
 			);
 			File f = xlsFileExporter.exportToXlsFile(xlsDtos);
 
@@ -98,7 +98,7 @@ public class SleepsController {
     public ResponseEntity<Serializable> postData(@RequestBody String pBody) {
         log.info("Received push notification for SLEEPS");
         try {
-            SleepsPushNotificationDto sleepsPushNotification = sleepsPushNotificationService.mapStringToDto(pBody);
+            SleepsPushNotificationDto sleepsPushNotification = stringToSleepPushNotificationMapper.mapStringToDto(pBody);
             sleepsService.processSleepsPushNotificationDto(sleepsPushNotification);
         } catch (JsonProcessingException e) {
             log.error("Exception occurred during processing of SLEEP message", e);

@@ -28,6 +28,9 @@ public class TimeComponent {
      * @return hh:mm format of seconds
      */
     public String secondsToHourMinuteFormat(Integer seconds) {
+		if (seconds == null) {
+			return "00:00";
+		}
         int p2 = seconds / 60;
         int p3 = p2 % 60;
         p2 = p2 / 60;

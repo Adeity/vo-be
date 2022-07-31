@@ -75,11 +75,11 @@ public class OauthController {
         DeviceEntity deviceEntity;
         if (deviceEntityOpt.isPresent()) {
             deviceEntity = deviceEntityOpt.get();
-            deviceEntity.setOauthToken(null);
+            deviceEntity.setUserAccessToken(null);
             deviceEntity.setOauthTokenSecret(null);
         } else {
             deviceEntity = new DeviceEntity();
-            deviceEntity.setDeviceId(deviceId);
+            deviceEntity.setResearchNumber(deviceId);
         }
 
         deviceEntity.setRequestToken(requestTokenResponse.token);
@@ -136,15 +136,15 @@ public class OauthController {
         accessToken.verifier = verifier;
 
         OAuthCredentialsResponse accessTokenResponse = accessToken.execute();
-        log.info("Successfully received access token for device with deviceId: {}", deviceEntity.getDeviceId());
+        log.info("Successfully received access token for device with deviceId: {}", deviceEntity.getResearchNumber());
 
-        deviceEntity.setOauthToken(accessTokenResponse.token);
+        deviceEntity.setUserAccessToken(accessTokenResponse.token);
         deviceEntity.setOauthTokenSecret(accessTokenResponse.tokenSecret);
         deviceEntity.setAllowed(true);
         deviceRepository.save(deviceEntity);
 
-        log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getDeviceId(), accessTokenResponse.token);
-        log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getDeviceId(), accessTokenResponse.tokenSecret);
+        log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getResearchNumber(), accessTokenResponse.token);
+        log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getResearchNumber(), accessTokenResponse.tokenSecret);
 
         String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
         String relURL = "thanks.html";
@@ -161,9 +161,9 @@ public class OauthController {
      * @return device entity if exists of the unauthorized device
      */
     private Optional<DeviceEntity> getDeviceAndCheckNotAuthorized(String hwId) {
-        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceId(hwId);
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByResearchNumber(hwId);
 
-        if (deviceEntity.isPresent() && deviceEntity.get().getOauthToken() != null) {
+        if (deviceEntity.isPresent() && deviceEntity.get().getUserAccessToken() != null) {
             log.warn("Device with deviceId {} already authorized", hwId);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Device already authorized");
         }

@@ -1,6 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.repository;
 
-import cz.cvut.fel.pc2e.garminworker.model.entities.User;
+import cz.cvut.fel.pc2e.garminworker.security.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

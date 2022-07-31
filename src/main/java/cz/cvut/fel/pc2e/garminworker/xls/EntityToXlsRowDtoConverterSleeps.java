@@ -32,14 +32,11 @@ public class EntityToXlsRowDtoConverterSleeps implements EntityToXlsRowDtoConver
 			SleepsXlsRowDto sleepXlsRow = new SleepsXlsRowDto();
 
 			if (!sameUserAccessToken) {
-				researchNumber = deviceService
-						.getAllResearchIdsByOauthToken(
-								s.getUserAccessToken()
-						);
+				researchNumber = s.getDevice().getResearchNumber();
 			}
 			// get research number and see if it exists
 			if (researchNumber == null) {
-				log.debug("Didnt find any researh number for {}, skipping SleepSummary", s.getUserAccessToken());
+				log.debug("Didnt find any researh number for {}, skipping SleepSummary", s.getDevice());
 				sameUserAccessToken = isSameUserAccessToken(s, entityList, index);
 				index++;
 				continue;
@@ -118,8 +115,8 @@ public class EntityToXlsRowDtoConverterSleeps implements EntityToXlsRowDtoConver
 			return true;
 		}
 
-		String currentUserAccessToken = s.getUserAccessToken();
-		String nextUserAccessToken = sleepSummaries.get(index + 1).getUserAccessToken();
+		String currentUserAccessToken = s.getDevice().getUserAccessToken();
+		String nextUserAccessToken = sleepSummaries.get(index + 1).getDevice().getUserAccessToken();
 		return currentUserAccessToken.equals(nextUserAccessToken);
 	}
 }

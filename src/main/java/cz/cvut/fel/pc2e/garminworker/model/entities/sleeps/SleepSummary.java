@@ -2,6 +2,7 @@ package cz.cvut.fel.pc2e.garminworker.model.entities.sleeps;
 
 import cz.cvut.fel.pc2e.garminworker.model.entities.AbstractEntity;
 import cz.cvut.fel.pc2e.garminworker.model.domain.ValidationTypeEnum;
+import cz.cvut.fel.pc2e.garminworker.model.entities.DeviceEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,15 +18,17 @@ public class SleepSummary extends AbstractEntity {
     )
     private String oauthToken;
 
-    /**
-     * this is oauth_token in device table
-     */
-    // TODO: change this in db. column name to oauth_token
+	@NotNull
+	@Column(name = "user_access_token")
+	private String userAccessToken;
+
     @NotNull
-    @Column(
-            name = "user_access_token"
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "device_id",
+			referencedColumnName = "id"
     )
-    private String userAccessToken;
+    private DeviceEntity device;
 
     @NotNull
     @Column(
@@ -108,7 +111,15 @@ public class SleepSummary extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<SleepScore> sleepScores;
 
-    @NotNull
+	public String getUserAccessToken() {
+		return userAccessToken;
+	}
+
+	public void setUserAccessToken(String userAccessToken) {
+		this.userAccessToken = userAccessToken;
+	}
+
+	@NotNull
     @Column(
             name = "delete_flag"
     )
@@ -125,15 +136,15 @@ public class SleepSummary extends AbstractEntity {
         this.oauthToken = userId;
     }
 
-    public String getUserAccessToken() {
-        return userAccessToken;
-    }
+	public DeviceEntity getDevice() {
+		return device;
+	}
 
-    public void setUserAccessToken(String userAccessToken) {
-        this.userAccessToken = userAccessToken;
-    }
+	public void setDevice(DeviceEntity userAccessToken) {
+		this.device = userAccessToken;
+	}
 
-    public String getSummaryId() {
+	public String getSummaryId() {
         return summaryId;
     }
 

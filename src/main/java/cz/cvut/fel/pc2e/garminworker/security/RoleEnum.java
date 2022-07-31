@@ -1,7 +1,7 @@
-package cz.cvut.fel.pc2e.garminworker.model.entities;
+package cz.cvut.fel.pc2e.garminworker.security;
 
 public enum RoleEnum {
-    ADMIN("ROLE_ADMIN"), USER("ROLE_USER"), GUEST("ROLE_GUEST");
+    ADMIN("ROLE_ADMIN"), READER("ROLE_READER"), USER("ROLE_USER"), GUEST("ROLE_GUEST");
 
     private final String name;
 

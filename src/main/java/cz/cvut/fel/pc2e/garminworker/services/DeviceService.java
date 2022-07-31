@@ -34,7 +34,7 @@ public class DeviceService {
      * @return null if entities no research number (device_id) was found
      */
     public String getAllResearchIdsByOauthToken(String oauthToken) {
-        List<DeviceEntity> entities = dao.findDeviceEntitiesByOauthToken(oauthToken);
+        List<DeviceEntity> entities = dao.findDeviceEntitiesByUserAccessToken(oauthToken);
         if (entities.isEmpty()) return null;
         return connectDeviceIdsInString(entities);
     }
@@ -58,11 +58,11 @@ public class DeviceService {
         for (DeviceEntity e : entities) {
             if (e.getUserId() != null) {
                 // device already has userId, skipping
-                log.debug("Device with researchNumeber {} already has userId: {} skipping", e.getDeviceId(), e.getUserId());
+                log.debug("Device with researchNumeber {} already has userId: {} skipping", e.getResearchNumber(), e.getUserId());
                 continue;
             }
 
-            String OAUTH_TOKEN = e.getOauthToken();
+            String OAUTH_TOKEN = e.getUserAccessToken();
             String OAUTH_TOKEN_SECRET = e.getOauthTokenSecret();
 
             log.debug("Entity with OAUTH_TOKEN {} OAUTH_TOKEN_SECRET {}", OAUTH_TOKEN, OAUTH_TOKEN_SECRET);
@@ -72,7 +72,7 @@ public class DeviceService {
                 log.debug("Found no userId");
                 continue;
             }
-            log.debug("Found userId {}, research number {}", userId, e.getDeviceId());
+            log.debug("Found userId {}, research number {}", userId, e.getResearchNumber());
             dao.updateUserId(e.getId(), userId);
         }
     }
@@ -128,7 +128,7 @@ public class DeviceService {
         StringBuilder res = new StringBuilder("");
         for (DeviceEntity e : entities) {
             res
-                    .append(e.getDeviceId())
+                    .append(e.getResearchNumber())
                     .append(", ");
         }
         // get id of last ', ' characters

@@ -32,8 +32,8 @@ class DeviceDaoTest {
 
     private void insertDevice() {
         DeviceEntity deviceEntity = new DeviceEntity();
-        deviceEntity.setDeviceId(DEVICE_ID);
-        deviceEntity.setOauthToken(OAUTH_TOKEN);
+        deviceEntity.setResearchNumber(DEVICE_ID);
+        deviceEntity.setUserAccessToken(OAUTH_TOKEN);
         deviceEntity.setRequestToken(REQUEST_TOKEN);
 
         testEntityManager.persist(deviceEntity);
@@ -52,14 +52,14 @@ class DeviceDaoTest {
 
     @Test
     void findByDeviceId_shouldFind() {
-        Optional<DeviceEntity> deviceEntityOptional = deviceRepository.findByDeviceId(DEVICE_ID);
+        Optional<DeviceEntity> deviceEntityOptional = deviceRepository.findByResearchNumber(DEVICE_ID);
 
         verifyDeviceExistsAndCorrect(deviceEntityOptional);
     }
 
     @Test
     void findByDeviceId_shouldNotFind() {
-        Optional<DeviceEntity> deviceEntityOptional = deviceRepository.findByDeviceId(INVALID);
+        Optional<DeviceEntity> deviceEntityOptional = deviceRepository.findByResearchNumber(INVALID);
 
         verifyDeviceNotExists(deviceEntityOptional);
     }
@@ -101,8 +101,8 @@ class DeviceDaoTest {
 
         DeviceEntity foundEntity = deviceEntityOptional.get();
 
-        assertEquals(DEVICE_ID, foundEntity.getDeviceId());
-        assertEquals(OAUTH_TOKEN, foundEntity.getOauthToken());
+        assertEquals(DEVICE_ID, foundEntity.getResearchNumber());
+        assertEquals(OAUTH_TOKEN, foundEntity.getUserAccessToken());
         assertEquals(REQUEST_TOKEN, foundEntity.getRequestToken());
     }
 }

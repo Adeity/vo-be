@@ -2,6 +2,7 @@ package cz.cvut.fel.pc2e.garminworker.services.sleeps;
 
 import cz.cvut.fel.pc2e.garminworker.model.domain.sleeps.SleepPhaseEnum;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepSummaryDto;
+import cz.cvut.fel.pc2e.garminworker.model.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.OverallSleepScore;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.PhaseOfSleepList;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepLevelTimeRange;
@@ -27,7 +28,7 @@ public class SleepsDtoToEntityConverter {
     public SleepSummary convertDtoToBusinessObject(SleepSummaryDto dto) {
         SleepSummary sleepSummary = new SleepSummary();
         sleepSummary.setOauthToken(dto.getUserId());
-        sleepSummary.setUserAccessToken(dto.getUserAccessToken());
+        sleepSummary.setDevice(new DeviceEntity(dto.getUserAccessToken()));
         sleepSummary.setSummaryId(dto.getSummaryId());
         sleepSummary.setCalendarDate(
                 getCalendarDate(dto.getCalendarDate(), dto.getStartTimeInSeconds())

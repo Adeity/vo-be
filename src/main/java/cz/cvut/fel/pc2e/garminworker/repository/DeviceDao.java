@@ -11,14 +11,16 @@ import java.util.Optional;
 
 @Repository
 public interface DeviceDao extends JpaRepository<DeviceEntity, Integer> {
-    Optional<DeviceEntity> findByDeviceId(String deviceId);
+    Optional<DeviceEntity> findByResearchNumber(String researchNumber);
     Optional<DeviceEntity> findByRequestToken(String requestToken);
-    Optional<DeviceEntity> findByOauthToken(String oauthToken);
-    @Query(value = "SELECT d FROM DeviceEntity d WHERE :oauthToken = d.oauthToken")
-    List<DeviceEntity> findDeviceEntitiesByOauthToken(String oauthToken);
+    Optional<DeviceEntity> findByUserAccessToken(String userAccessToken);
+    @Query(value = "SELECT d FROM DeviceEntity d WHERE :userAccessToken = d.userAccessToken")
+    List<DeviceEntity> findDeviceEntitiesByUserAccessToken(String userAccessToken);
     @Query(value = "SELECT d FROM DeviceEntity d WHERE :userId = d.userId")
     List<DeviceEntity> findDeviceEntitiesByUserId(String userId);
     @Modifying
     @Query(value = "update DeviceEntity d set d.userId = :userId where d.id = :id")
     void updateUserId(int id, String userId);
+	@Query(value = "select d.id from DeviceEntity d where :userAccessToken = d.userAccessToken")
+	Optional<Integer> findDeviceIdByUserAccessToken(String userAccessToken);
 }

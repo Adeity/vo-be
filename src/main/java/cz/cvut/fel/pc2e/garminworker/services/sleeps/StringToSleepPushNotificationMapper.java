@@ -7,7 +7,7 @@ import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SleepsPushNotificationService {
+public class StringToSleepPushNotificationMapper {
     public SleepsPushNotificationDto mapStringToDto(String pBody) throws JsonProcessingException {
 
         ObjectMapper om = new ObjectMapper();

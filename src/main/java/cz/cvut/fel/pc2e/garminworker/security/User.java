@@ -1,5 +1,6 @@
-package cz.cvut.fel.pc2e.garminworker.model.entities;
+package cz.cvut.fel.pc2e.garminworker.security;
 
+import cz.cvut.fel.pc2e.garminworker.model.entities.AbstractEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -103,6 +104,10 @@ public class User extends AbstractEntity {
     public boolean isAdmin() {
         return roleEnum == RoleEnum.ADMIN;
     }
+
+	public boolean isReader() {
+		return roleEnum == RoleEnum.READER;
+	}
 
     @Override
     public String toString() {

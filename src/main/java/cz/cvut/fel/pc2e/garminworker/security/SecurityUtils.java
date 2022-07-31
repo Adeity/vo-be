@@ -1,6 +1,5 @@
 package cz.cvut.fel.pc2e.garminworker.security;
 
-import cz.cvut.fel.pc2e.garminworker.model.entities.User;
 import cz.cvut.fel.pc2e.garminworker.security.model.AuthenticationToken;
 import cz.cvut.fel.pc2e.garminworker.security.model.UserDetails;
 import org.springframework.security.core.context.SecurityContext;

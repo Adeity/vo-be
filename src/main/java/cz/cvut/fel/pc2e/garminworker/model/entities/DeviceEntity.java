@@ -3,11 +3,12 @@ package cz.cvut.fel.pc2e.garminworker.model.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "device")
-public class DeviceEntity {
+public class DeviceEntity implements Serializable {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,11 @@ public class DeviceEntity {
     @Size(max = 255)
     @NotNull
     @Column(
-            name = "device_id",
+            name = "research_number",
             nullable = false,
             unique = true
     )
-    private String deviceId;
+    private String researchNumber;
 
     @Column(
             name = "request_token"
@@ -40,9 +41,10 @@ public class DeviceEntity {
     )
     private String requestTokenVerifier;
     @Column(
-            name = "oauth_token"
+            name = "user_access_token",
+			unique = true
     )
-    private String oauthToken;
+    private String userAccessToken;
     @Column(
             name = "oauth_token_secret"
     )
@@ -59,7 +61,14 @@ public class DeviceEntity {
 
     private boolean allowed = false;
 
-    public Timestamp getLastSyncTime() {
+	public DeviceEntity() {
+	}
+
+	public DeviceEntity(String userAccessToken) {
+		this.userAccessToken = userAccessToken;
+	}
+
+	public Timestamp getLastSyncTime() {
         return lastSyncTime;
     }
 
@@ -67,12 +76,12 @@ public class DeviceEntity {
         this.lastSyncTime = lastSyncTime;
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getResearchNumber() {
+        return researchNumber;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setResearchNumber(String deviceId) {
+        this.researchNumber = deviceId;
     }
 
     public int getId() {
@@ -107,12 +116,12 @@ public class DeviceEntity {
         this.requestTokenVerifier = requestTokenVerifier;
     }
 
-    public String getOauthToken() {
-        return oauthToken;
+    public String getUserAccessToken() {
+        return userAccessToken;
     }
 
-    public void setOauthToken(String oauthToken) {
-        this.oauthToken = oauthToken;
+    public void setUserAccessToken(String oauthToken) {
+        this.userAccessToken = oauthToken;
     }
 
     public String getOauthTokenSecret() {

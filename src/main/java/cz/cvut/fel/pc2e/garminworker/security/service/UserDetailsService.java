@@ -1,7 +1,7 @@
-package cz.cvut.fel.pc2e.garminworker.services.security;
+package cz.cvut.fel.pc2e.garminworker.security.service;
 
 import cz.cvut.fel.pc2e.garminworker.repository.UserDao;
-import cz.cvut.fel.pc2e.garminworker.model.entities.User;
+import cz.cvut.fel.pc2e.garminworker.security.User;
 import cz.cvut.fel.pc2e.garminworker.security.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

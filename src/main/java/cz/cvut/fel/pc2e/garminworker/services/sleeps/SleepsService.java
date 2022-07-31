@@ -73,25 +73,22 @@ public class SleepsService {
             return;
         }
 
-        Optional<DeviceEntity> deviceEntityOpt = deviceRepository.findByOauthToken(sleepSummary.getUserAccessToken());
+		Optional<Integer> deviceId = deviceRepository.findDeviceIdByUserAccessToken(sleepSummary.getDevice().getUserAccessToken());
 
-        deviceEntityOpt.ifPresentOrElse(deviceEntity -> {
-            log.debug("New sleep summary:     {}", sleepSummary);
-            if (existingSummaryOpt.isPresent()) {
-                SleepSummary existingSummary = existingSummaryOpt.get();
-                log.debug("Existing sleep summary:     {}", existingSummary);
-                log.debug("An updated summary came. Going to overwrite it.");
+		if (deviceId.isEmpty()) {
+			log.warn("device id not found");
+			return;
+		}
+		sleepSummary.getDevice().setId(deviceId.get());
+		if (existingSummaryOpt.isPresent()) {
+			SleepSummary existingSummary = existingSummaryOpt.get();
+			log.debug("Existing sleep summary:     {}", existingSummary);
+			log.debug("An updated summary came. Going to overwrite it.");
 
-                sleepSummary.setId(existingSummaryOpt.get().getId());
-            }
+			sleepSummary.setId(existingSummaryOpt.get().getId());
+		}
 
-            this.sleepSummaryDao.save(sleepSummary);
-
-        }, () -> log.error(
-                "Skipping sleep, because device with oAuthToken: {} was not found",
-                sleepSummary.getUserAccessToken()
-                )
-        );
+		this.sleepSummaryDao.save(sleepSummary);
     }
 
 }

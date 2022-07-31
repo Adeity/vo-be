@@ -13,6 +13,6 @@ public interface SleepSummaryDao extends JpaRepository<SleepSummary, Integer> {
     Optional<SleepSummary> findBySummaryId(String deviceId);
     @Query(value = "SELECT s " +
             "FROM SleepSummary s WHERE s.startTimeInSeconds > :timeBoundary " +
-            "ORDER BY s.oauthToken, s.startTimeInSeconds")
+            "ORDER BY s.userAccessToken, s.startTimeInSeconds")
     List<SleepSummary> findAllSorted(Long timeBoundary);
 }
