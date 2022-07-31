@@ -5,7 +5,9 @@ import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsPushNotificationService;
 import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsService;
-import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsXlsExporter;
+import cz.cvut.fel.pc2e.garminworker.xls.EntityToXlsRowDtoConverter;
+import cz.cvut.fel.pc2e.garminworker.xls.XlsFileExporter;
+import cz.cvut.fel.pc2e.garminworker.xls.XlsRowDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -29,15 +32,17 @@ import java.util.List;
 @RequestMapping(value = "/garmin/sleeps")
 public class SleepsController {
     private final SleepsService sleepsService;
-    private final SleepsXlsExporter sleepsXlsExporter;
     private final SleepsPushNotificationService sleepsPushNotificationService;
+	private final XlsFileExporter xlsFileExporter = new XlsFileExporter();
+	private final EntityToXlsRowDtoConverter<SleepSummary> entityToXlsRowDtoConverter;
 
     @Autowired
-    public SleepsController(SleepsService sleepsService, SleepsXlsExporter sleepsXlsExporter, SleepsPushNotificationService sleepsPushNotificationService) {
+    public SleepsController(SleepsService sleepsService, SleepsPushNotificationService sleepsPushNotificationService,
+			EntityToXlsRowDtoConverter<SleepSummary> entityToXlsRowDtoConverter) {
         this.sleepsService = sleepsService;
-        this.sleepsXlsExporter = sleepsXlsExporter;
         this.sleepsPushNotificationService = sleepsPushNotificationService;
-    }
+		this.entityToXlsRowDtoConverter = entityToXlsRowDtoConverter;
+	}
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -50,32 +55,39 @@ public class SleepsController {
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
     public @ResponseBody ResponseEntity<byte[]> export() {
-        File f = sleepsXlsExporter.getSleepsXls(
-                this.findAll(3)
-        );
-        try (
-                InputStream inputStream = new FileInputStream(f)
-                ){
-            String filename = "sleeps_export_" +
-                    LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) +
-                    ".xls";
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .header(
-                            HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment; filename="+filename
-                    )
-                    .body(IOUtils.toByteArray(inputStream));
+		try {
+			List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
+					this.findAll(3)
+			);
+			File f = xlsFileExporter.exportToXlsFile(xlsDtos);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    @GetMapping(value = "/all/{numOfDays}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<SleepSummary> findAll(@PathVariable Integer numOfDays) {
-        return sleepsService.getSleepsFromLastNDays(numOfDays);
+			try (
+					InputStream inputStream = new FileInputStream(f)
+			){
+				String filename = "sleeps_export_" +
+						LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) +
+						".xls";
+				return ResponseEntity.ok()
+						.contentType(MediaType.APPLICATION_OCTET_STREAM)
+						.header(
+								HttpHeaders.CONTENT_DISPOSITION,
+								"attachment; filename="+filename
+						)
+						.body(IOUtils.toByteArray(inputStream));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@GetMapping(value = "/all/{numOfDays}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public List<SleepSummary> findAll(@PathVariable Integer numOfDays) {
+		return sleepsService.getSleepsFromLastNDays(numOfDays);
     }
 
     /**
