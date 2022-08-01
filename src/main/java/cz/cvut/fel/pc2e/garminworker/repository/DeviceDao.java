@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface DeviceDao extends JpaRepository<DeviceEntity, Integer> {
@@ -23,4 +24,6 @@ public interface DeviceDao extends JpaRepository<DeviceEntity, Integer> {
     void updateUserId(int id, String userId);
 	@Query(value = "select d.id from DeviceEntity d where :userAccessToken = d.userAccessToken")
 	Optional<Integer> findDeviceIdByUserAccessToken(String userAccessToken);
+	@Query(value = "select d.researchNumber from DeviceEntity d")
+	Set<String> findAllResearchNumbers();
 }
