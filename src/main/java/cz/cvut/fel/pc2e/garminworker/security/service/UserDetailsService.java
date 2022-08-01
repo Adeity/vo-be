@@ -1,6 +1,6 @@
 package cz.cvut.fel.pc2e.garminworker.security.service;
 
-import cz.cvut.fel.pc2e.garminworker.repository.UserDao;
+import cz.cvut.fel.pc2e.garminworker.security.repository.UserDao;
 import cz.cvut.fel.pc2e.garminworker.security.User;
 import cz.cvut.fel.pc2e.garminworker.security.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,13 @@ import java.util.Optional;
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
+	private final UserPasswordChangerService userPasswordChangerService;
     private final UserDao userDao;
 
     @Autowired
-    public UserDetailsService(UserDao userDao) {
-        this.userDao = userDao;
+    public UserDetailsService(UserPasswordChangerService userPasswordChangerService, UserDao userDao) {
+		this.userPasswordChangerService = userPasswordChangerService;
+		this.userDao = userDao;
     }
 
     @Override
@@ -27,4 +29,8 @@ public class UserDetailsService implements org.springframework.security.core.use
         }
         return new UserDetails(user.get());
     }
+
+	public void changePassword(User user, String oldPassword, String newPassword) {
+		userPasswordChangerService.changePassword(user, oldPassword, newPassword);
+	}
 }
