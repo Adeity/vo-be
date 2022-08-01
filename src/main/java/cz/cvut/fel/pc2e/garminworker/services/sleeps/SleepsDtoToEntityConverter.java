@@ -25,9 +25,9 @@ import java.util.Map;
 public class SleepsDtoToEntityConverter {
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-    public SleepSummary convertDtoToBusinessObject(SleepSummaryDto dto) {
+    public SleepSummary convertDtoToHibernateEntity(SleepSummaryDto dto) {
         SleepSummary sleepSummary = new SleepSummary();
-        sleepSummary.setOauthToken(dto.getUserId());
+		sleepSummary.setUserAccessToken(dto.getUserAccessToken());
         sleepSummary.setDevice(new DeviceEntity(dto.getUserAccessToken()));
         sleepSummary.setSummaryId(dto.getSummaryId());
         sleepSummary.setCalendarDate(

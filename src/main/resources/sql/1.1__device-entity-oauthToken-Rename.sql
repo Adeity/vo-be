@@ -16,6 +16,9 @@ alter table sleeps
 alter table sleeps
 add constraint slps_device_id_FK  foreign key (device_id) references device (id);
 
+alter table sleeps drop column delete_flag;
+alter table sleeps drop column user_id;
+
 DO $$
     DECLARE
         device record;

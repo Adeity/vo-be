@@ -14,12 +14,6 @@ import java.util.List;
 @Component
 public class EntityToXlsRowDtoConverterSleeps implements EntityToXlsRowDtoConverter<SleepSummary> {
 	private final TimeComponent timeComponent = new TimeComponent();
-	private final DeviceService deviceService;
-
-	@Autowired
-	public EntityToXlsRowDtoConverterSleeps(DeviceService deviceService) {
-		this.deviceService = deviceService;
-	}
 
 	@Override public List<XlsRowDto> convertEntitiesToXlsDto(List<SleepSummary> entityList) {
 		List<XlsRowDto> res = new ArrayList<>();

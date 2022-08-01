@@ -4,7 +4,6 @@ import cz.cvut.fel.pc2e.garminworker.repository.DeviceDao;
 import cz.cvut.fel.pc2e.garminworker.repository.SleepSummaryDao;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepSummaryDto;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
-import cz.cvut.fel.pc2e.garminworker.model.entities.DeviceEntity;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.pc2e.garminworker.services.TimeComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,7 @@ public class SleepsService {
         // first check if sleep summary with summaryId already exists
         Optional<SleepSummary> existingSummaryOpt = sleepSummaryDao.findBySummaryId(sleepSummaryDto.getSummaryId());
         // process SleepSummaryDto into SleepSummary business object
-        SleepSummary sleepSummary = sleepsDtoToEntityConverter.convertDtoToBusinessObject(sleepSummaryDto);
+        SleepSummary sleepSummary = sleepsDtoToEntityConverter.convertDtoToHibernateEntity(sleepSummaryDto);
 
         if (sleepSummary.getUserAccessToken() == null) {
             log.warn("Skipping sleep summary, because userAccessToken is missing. sleep: {}", sleepSummary);

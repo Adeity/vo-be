@@ -12,12 +12,6 @@ import java.util.List;
 @Table(name = "sleeps")
 public class SleepSummary extends AbstractEntity {
 
-    @NotNull
-    @Column(
-            name = "user_id"
-    )
-    private String oauthToken;
-
 	@NotNull
 	@Column(name = "user_access_token")
 	private String userAccessToken;
@@ -119,21 +113,7 @@ public class SleepSummary extends AbstractEntity {
 		this.userAccessToken = userAccessToken;
 	}
 
-	@NotNull
-    @Column(
-            name = "delete_flag"
-    )
-    private boolean deleteFlag = false;
-
     public SleepSummary() {
-    }
-
-    public String getOauthToken() {
-        return oauthToken;
-    }
-
-    public void setOauthToken(String userId) {
-        this.oauthToken = userId;
     }
 
 	public DeviceEntity getDevice() {
@@ -272,11 +252,4 @@ public class SleepSummary extends AbstractEntity {
         this.sleepScores = sleepScores;
     }
 
-    public boolean isDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
 }
