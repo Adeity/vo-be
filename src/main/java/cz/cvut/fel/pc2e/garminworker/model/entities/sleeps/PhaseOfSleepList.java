@@ -24,7 +24,6 @@ public class PhaseOfSleepList extends AbstractEntity {
     @Column(
             name = "sleep_phase_enum"
     )
-    @Enumerated(EnumType.STRING)
     private SleepPhaseEnum SleepPhaseEnum;
     @NotNull
     @OneToMany(

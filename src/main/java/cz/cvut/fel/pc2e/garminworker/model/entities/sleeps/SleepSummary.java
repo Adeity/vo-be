@@ -17,7 +17,7 @@ public class SleepSummary extends AbstractEntity {
 	private String userAccessToken;
 
     @NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "device_id",
 			referencedColumnName = "id"

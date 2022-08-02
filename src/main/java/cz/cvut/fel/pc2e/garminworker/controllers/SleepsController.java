@@ -1,6 +1,7 @@
 package cz.cvut.fel.pc2e.garminworker.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepSummaryFilterDto;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.pc2e.garminworker.services.sleeps.StringToSleepPushNotificationMapper;
@@ -50,14 +51,16 @@ public class SleepsController {
         return sleepsService.getSleepSummaryById(id);
     }
 
-    @GetMapping(
+    @PostMapping(
             value = "/export",
+			consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
-    public @ResponseBody ResponseEntity<byte[]> export() {
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_READER')")
+    public @ResponseBody ResponseEntity<byte[]> export(@RequestBody SleepSummaryFilterDto filterDto) {
 		try {
 			List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
-					this.findAll(360)
+					sleepsService.read(filterDto)
 			);
 			File f = xlsFileExporter.exportToXlsFile(xlsDtos);
 
@@ -89,6 +92,12 @@ public class SleepsController {
 	public List<SleepSummary> findAll(@PathVariable Integer numOfDays) {
 		return sleepsService.getSleepsFromLastNDays(numOfDays);
     }
+
+	@PostMapping(value = "/filter", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public List<SleepSummary> filter(@RequestBody SleepSummaryFilterDto filter) {
+		return sleepsService.read(filter);
+	}
 
     /**
      * CREATE - create new SleepSummary entry endpoint

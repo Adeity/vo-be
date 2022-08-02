@@ -3,8 +3,10 @@ package cz.cvut.fel.pc2e.garminworker.services;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -58,4 +60,8 @@ public class TimeComponent {
         String[] split = calendarDate.split("-");
         return split[2] + "." + split[1] + "." + split[0];
     }
+
+	public long convertLocalDateToEpochSeconds(LocalDate date) {
+		return date.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+	}
 }
