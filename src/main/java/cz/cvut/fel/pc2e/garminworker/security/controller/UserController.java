@@ -6,6 +6,7 @@ import cz.cvut.fel.pc2e.garminworker.security.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,10 @@ public class UserController {
 				 )
 				 .getUser();
 		 this.userDetailsService.changePassword(user, passwordChangeDto.getOldPassword(), passwordChangeDto.getNewPassword());
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_READER')")
+	@GetMapping(value = "/check-authorized")
+	public void checkAuthorized() {
 	}
 }
