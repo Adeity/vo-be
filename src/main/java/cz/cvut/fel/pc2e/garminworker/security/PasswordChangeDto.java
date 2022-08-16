@@ -7,6 +7,8 @@ public class PasswordChangeDto {
 	public String oldPassword;
 	@NotNull
 	public String newPassword;
+	@NotNull
+	public String newPasswordRepeated;
 
 	public String getOldPassword() {
 		return oldPassword;
@@ -22,5 +24,13 @@ public class PasswordChangeDto {
 
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
+	}
+
+	public String getNewPasswordRepeated() {
+		return newPasswordRepeated;
+	}
+
+	public void setNewPasswordRepeated(String newPasswordRepeated) {
+		this.newPasswordRepeated = newPasswordRepeated;
 	}
 }

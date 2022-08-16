@@ -31,11 +31,17 @@ public class UserController {
 						  SecurityContextHolder.getContext().getAuthentication().getName()
 				 )
 				 .getUser();
-		 this.userDetailsService.changePassword(user, passwordChangeDto.getOldPassword(), passwordChangeDto.getNewPassword());
+		 this.userDetailsService.changePassword(
+				 user,
+				 passwordChangeDto.getOldPassword(),
+				 passwordChangeDto.getNewPassword(),
+				 passwordChangeDto.getNewPasswordRepeated()
+		 );
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_READER')")
 	@GetMapping(value = "/check-authorized")
-	public void checkAuthorized() {
+	public String checkAuthorized() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 }

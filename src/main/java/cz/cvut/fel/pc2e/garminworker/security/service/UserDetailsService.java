@@ -30,7 +30,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         return new UserDetails(user.get());
     }
 
-	public void changePassword(User user, String oldPassword, String newPassword) {
-		userPasswordChangerService.changePassword(user, oldPassword, newPassword);
+	public void changePassword(User user, String oldPassword, String newPassword, String newPasswordRepeated) {
+		userPasswordChangerService.changePassword(user, oldPassword, newPassword, newPasswordRepeated);
 	}
 }
