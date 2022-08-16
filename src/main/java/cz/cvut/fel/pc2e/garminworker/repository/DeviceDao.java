@@ -26,4 +26,7 @@ public interface DeviceDao extends JpaRepository<DeviceEntity, Integer> {
 	Optional<Integer> findDeviceIdByUserAccessToken(String userAccessToken);
 	@Query(value = "select d.researchNumber from DeviceEntity d")
 	Set<String> findAllResearchNumbers();
+
+	@Query(value = "select d.researchNumber from DeviceEntity d where d.allowed = true and d.oauthTokenSecret is not null")
+	List<String> findAllActiveResearchNumbers();
 }

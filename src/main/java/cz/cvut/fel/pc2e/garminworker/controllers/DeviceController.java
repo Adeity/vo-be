@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -28,7 +29,13 @@ public class DeviceController {
     }
 
 	@GetMapping(value = "/research-numbers")
+	@PreAuthorize("hasRole('ROLE_ADMIN, ROLE_READER')")
 	public Set<String> findAllResearchNumbers() {
 		return service.findAllResearchNumbers();
+	}
+
+	@GetMapping(value = "/active-research-numbers")
+	public List<String> findAllActiveResearchNumbers() {
+		return service.findAllActiveResearchNumbers();
 	}
 }

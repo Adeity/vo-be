@@ -3,6 +3,7 @@ package cz.cvut.fel.pc2e.garminworker.services;
 import cz.cvut.fel.pc2e.garminworker.repository.DeviceDao;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -15,5 +16,9 @@ public class DeviceResearchIdFinderService {
 
 	public Set<String> findAllResearchNumbers() {
 		return dao.findAllResearchNumbers();
+	}
+
+	public List<String> findAllActiveResearchNumbers() {
+		return dao.findAllActiveResearchNumbers();
 	}
 }
