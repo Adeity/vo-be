@@ -34,6 +34,7 @@ public class DeviceController {
 		return service.findAllResearchNumbers();
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_READER')")
 	@GetMapping(value = "/active-research-numbers")
 	public List<String> findAllActiveResearchNumbers() {
 		return service.findAllActiveResearchNumbers();

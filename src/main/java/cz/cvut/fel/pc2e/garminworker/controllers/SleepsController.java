@@ -1,6 +1,7 @@
 package cz.cvut.fel.pc2e.garminworker.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Lists;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepSummaryFilterDto;
 import cz.cvut.fel.pc2e.garminworker.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.pc2e.garminworker.model.entities.sleeps.SleepSummary;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -24,9 +26,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -51,17 +59,32 @@ public class SleepsController {
         return sleepsService.getSleepSummaryById(id);
     }
 
-    @PostMapping(
-            value = "/export",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+    @GetMapping(
+            value = "/export"
+//			consumes = MediaType.APPLICATION_JSON_VALUE,
+//            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_READER')")
-    public @ResponseBody ResponseEntity<byte[]> export(@RequestBody SleepSummaryFilterDto filterDto) {
+    public @ResponseBody ResponseEntity<byte[]> export(@RequestParam("from") Long from, @RequestParam("to") Long to, @RequestParam("researchNumbers") Set<String> researchNumbers) {
 		try {
+			Objects.requireNonNull(from);
+			Objects.requireNonNull(to);
+			Objects.requireNonNull(researchNumbers);
+			if (researchNumbers.isEmpty()) {
+				throw new RuntimeException("Nebyli vybrani vyzkumnici");
+			}
+			SleepSummaryFilterDto filterDto = new SleepSummaryFilterDto();
+			LocalDate dateFrom = Instant.ofEpochMilli(from).atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate dateTo = Instant.ofEpochMilli(to).atZone(ZoneId.systemDefault()).toLocalDate();
+			filterDto.setDateFrom(dateFrom);
+			filterDto.setDateTo(dateTo);
+			filterDto.setResearchIds(researchNumbers.stream().filter(e -> !e.isEmpty()).collect(Collectors.toSet()));
 			List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
 					sleepsService.read(filterDto)
 			);
+			if (xlsDtos.size() == 0) {
+				throw new UsernameNotFoundException("Nebyl nalezen zadny zaznam");
+			}
 			File f = xlsFileExporter.exportToXlsFile(xlsDtos);
 
 			try (

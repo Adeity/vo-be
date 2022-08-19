@@ -26,4 +26,10 @@ public class RestResponseEntityExceptionHandler {
 		logException(e);
 		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, RuntimeException e) {
+		logException(e);
+		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+	}
 }
