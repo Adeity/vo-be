@@ -1,4 +1,10 @@
 alter table device
+    drop column user_access_token;
+
+alter table device drop column new_column;
+alter table device drop column delete_flag;
+
+alter table device
 rename column oauth_token to user_access_token;
 
 alter table device

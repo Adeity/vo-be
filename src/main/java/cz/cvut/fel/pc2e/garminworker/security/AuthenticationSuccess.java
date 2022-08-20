@@ -6,6 +6,7 @@ import cz.cvut.fel.pc2e.garminworker.security.model.UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Writes basic login/logout information into the response.
@@ -38,7 +40,18 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
             LOG.trace("Successfully authenticated user {}", username);
         }
         final LoginStatus loginStatus = new LoginStatus(true, authentication.isAuthenticated(), username, null);
+        addSameSiteCookieAttribute(httpServletResponse);
         mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
+    }
+
+    private void addSameSiteCookieAttribute(HttpServletResponse httpServletResponse) {
+        Collection<String> setCookieHeaders = httpServletResponse.getHeaders(HttpHeaders.SET_COOKIE);
+        for (String header: setCookieHeaders) {
+            httpServletResponse.setHeader(
+                    HttpHeaders.SET_COOKIE,
+                    String.format("%s; %s", header, "SameSite=none")
+            );
+        }
     }
 
     private String getUsername(Authentication authentication) {

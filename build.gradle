@@ -18,6 +18,7 @@ repositories {
 }
 
 bootJar {
+	duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 	classifier = 'boot'
 }
 

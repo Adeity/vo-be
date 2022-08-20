@@ -15,6 +15,7 @@ WORKDIR /app
 COPY ./settings.gradle /app
 COPY ./build.gradle /app
 COPY ./src /app/src
+COPY ./lib /app/lib
 
 # Build
 RUN gradle assemble
