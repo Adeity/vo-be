@@ -19,10 +19,10 @@ public class SleepsSummaryPushProcesserService {
 	private final SleepSummaryDao sleepSummaryDao;
 	private final SleepsDtoToEntityConverter sleepsDtoToEntityConverter;
 
-	public SleepsSummaryPushProcesserService(DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao, SleepsDtoToEntityConverter sleepsDtoToEntityConverter) {
+	public SleepsSummaryPushProcesserService(DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao) {
 		this.deviceRepository = deviceRepository;
 		this.sleepSummaryDao = sleepSummaryDao;
-		this.sleepsDtoToEntityConverter = sleepsDtoToEntityConverter;
+		this.sleepsDtoToEntityConverter = new SleepsDtoToEntityConverter();
 	}
 
 	public void processSleepsPushNotification(SleepsPushNotificationDto sleepsPushNotification) {

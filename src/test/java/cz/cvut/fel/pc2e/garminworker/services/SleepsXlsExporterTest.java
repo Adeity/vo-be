@@ -1,43 +1,38 @@
 package cz.cvut.fel.pc2e.garminworker.services;
 
-import cz.cvut.fel.pc2e.garminworker.services.sleeps.SleepsXlsExporter;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.TestPropertySource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles(value = "test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
+@ExtendWith(MockitoExtension.class)
 class SleepsXlsExporterTest {
-    @Autowired
-    SleepsXlsExporter SleepsXlsExporter;
-    @Autowired
-    TimeComponent timeComponent;
-    @Test
-    public void test_secondsToHours() {
-        int input = 28800;
-        String expectedResult = "08:00:00";
-        String actual = timeComponent.secondsToHourMinuteFormat(input);
+	@InjectMocks
+	TimeComponent timeComponent;
 
-        System.out.printf("Expected: %s, actual: %s", expectedResult, actual);
+	@Test
+	public void test_secondsToHours() {
+		int input = 28800;
+		String expectedResult = "08:00";
+		String actual = timeComponent.secondsToHourMinuteFormat(input);
 
-        assertEquals(expectedResult, actual);
-    }
+		System.out.printf("Expected: %s, actual: %s", expectedResult, actual);
 
-    @Test
-    public void test_unixTimeToHours() {
-        Long input = 1652000000L;
+		assertEquals(expectedResult, actual);
+	}
 
-        String expected = "10:53";
-        String actual = timeComponent.unixTimeToHours(input);
+	@Test
+	public void test_unixTimeToHours() {
+		Long input = 1652000000L;
 
-        assertEquals(expected, actual);
-    }
+		String expected = "10:53";
+		String actual = timeComponent.unixTimeToHours(input);
 
+		assertEquals(expected, actual);
+	}
 
 }
