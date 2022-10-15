@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.repository;
+package cz.cvut.fel.vyzkumodolnosti.repository.sleep;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
 import org.springframework.data.jpa.repository.JpaRepository;

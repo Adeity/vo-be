@@ -6,11 +6,13 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestPropertySource(locations = "classpath:test.properties")
 @ExtendWith(MockitoExtension.class)
-class SleepsXlsExporterTest {
+class TimeComponentTest {
 	@InjectMocks
 	TimeComponent timeComponent;
 
@@ -33,6 +35,16 @@ class SleepsXlsExporterTest {
 		String actual = timeComponent.unixTimeToHours(input);
 
 		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_unixTimeToLocalDate() {
+		Long input = 1652000000L;
+
+		String expected = "2022-05-08";
+		LocalDate actual = timeComponent.unixTimeToLocaLDate(input);
+
+		assertEquals(expected, actual.toString());
 	}
 
 }

@@ -25,6 +25,17 @@ public class TimeComponent {
     }
 
     /**
+     * Converts unix time LocaLDate
+     * !!!does this in system default time offset!!!
+     * @param unix for expamle 16622313
+     * @return for example 10:12
+     */
+    public LocalDate unixTimeToLocaLDate(Long unix) {
+        LocalDate localDate = LocalDate.ofInstant(Instant.ofEpochSecond(unix), ZoneId.systemDefault());
+        return localDate;
+    }
+
+    /**
      * Converts seconds to hh:mm format
      * @param seconds - amount of seconds that must not be larger than one day
      * @return hh:mm format of seconds

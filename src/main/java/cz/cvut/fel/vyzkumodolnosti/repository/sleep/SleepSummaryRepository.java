@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.repository;
+package cz.cvut.fel.vyzkumodolnosti.repository.sleep;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepSummaryFilterDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
@@ -15,35 +15,35 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public class SleepSummaryDao {
+public class SleepSummaryRepository {
 	@PersistenceContext EntityManager em;
 	private final TimeComponent timeComponent;
-	private final SleepSummaryJpaRepository sleepSummaryJpaRepository;
+	private final SleepSummaryJpaRepository jpaRepository;
 
 	@Autowired
-	public SleepSummaryDao(TimeComponent timeComponent, SleepSummaryJpaRepository sleepSummaryJpaRepository) {
+	public SleepSummaryRepository(TimeComponent timeComponent, SleepSummaryJpaRepository jpaRepository) {
 		this.timeComponent = timeComponent;
-		this.sleepSummaryJpaRepository = sleepSummaryJpaRepository;
+		this.jpaRepository = jpaRepository;
 	}
 
 	public Optional<SleepSummary> findBySummaryId(String deviceId) {
-		return sleepSummaryJpaRepository.findBySummaryId(deviceId);
+		return jpaRepository.findBySummaryId(deviceId);
 	}
 
 	public List<SleepSummary> findAllSorted(Long timeBoundary) {
-		return sleepSummaryJpaRepository.findAllSorted(timeBoundary);
+		return jpaRepository.findAllSorted(timeBoundary);
 	}
 
 	public List<SleepSummary> findFilteredByDateAndResearchIds(long fromSeconds, long toSeconds, Set<String> researchIds) {
-		return sleepSummaryJpaRepository.findFilteredByDateAndResearchIds(fromSeconds, toSeconds, researchIds);
+		return jpaRepository.findFilteredByDateAndResearchIds(fromSeconds, toSeconds, researchIds);
 	}
 
 	public void save(SleepSummary sleepSummary) {
-		this.sleepSummaryJpaRepository.save(sleepSummary);
+		this.jpaRepository.save(sleepSummary);
 	}
 
 	public Optional<SleepSummary> findById(Integer id) {
-		return this.sleepSummaryJpaRepository.findById(id);
+		return this.jpaRepository.findById(id);
 	}
 
 	public List<SleepSummary> find(SleepSummaryFilterDto filter) {

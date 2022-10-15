@@ -4,7 +4,7 @@ import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepSummaryDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
-import cz.cvut.fel.vyzkumodolnosti.repository.SleepSummaryDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.sleep.SleepSummaryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.util.Optional;
 @Slf4j
 public class SleepsSummaryPushProcesserService {
 	private final DeviceDao deviceRepository;
-	private final SleepSummaryDao sleepSummaryDao;
+	private final SleepSummaryRepository sleepSummaryRepository;
 	private final SleepsDtoToEntityConverter sleepsDtoToEntityConverter;
 
-	public SleepsSummaryPushProcesserService(DeviceDao deviceRepository, SleepSummaryDao sleepSummaryDao) {
+	public SleepsSummaryPushProcesserService(DeviceDao deviceRepository, SleepSummaryRepository sleepSummaryRepository) {
 		this.deviceRepository = deviceRepository;
-		this.sleepSummaryDao = sleepSummaryDao;
+		this.sleepSummaryRepository = sleepSummaryRepository;
 		this.sleepsDtoToEntityConverter = new SleepsDtoToEntityConverter();
 	}
 
@@ -38,7 +38,7 @@ public class SleepsSummaryPushProcesserService {
 	protected void processSleepSummaryDTO(SleepSummaryDto sleepSummaryDto) {
 		log.debug("Processing sleepSummaryDTO: {} ", sleepSummaryDto);
 		// first check if sleep summary with summaryId already exists
-		Optional<SleepSummary> existingSummaryOpt = sleepSummaryDao.findBySummaryId(sleepSummaryDto.getSummaryId());
+		Optional<SleepSummary> existingSummaryOpt = sleepSummaryRepository.findBySummaryId(sleepSummaryDto.getSummaryId());
 		// process SleepSummaryDto into SleepSummary business object
 		SleepSummary sleepSummary = sleepsDtoToEntityConverter.convertDtoToHibernateEntity(sleepSummaryDto);
 
@@ -66,6 +66,6 @@ public class SleepsSummaryPushProcesserService {
 			sleepSummary.setId(existingSummaryOpt.get().getId());
 		}
 
-		this.sleepSummaryDao.save(sleepSummary);
+		this.sleepSummaryRepository.save(sleepSummary);
 	}
 }
