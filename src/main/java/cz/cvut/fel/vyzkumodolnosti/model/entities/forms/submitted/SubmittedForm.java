@@ -24,7 +24,7 @@ public class SubmittedForm extends AbstractEntity {
 	@NotNull
 	@Column(name = "respondent_identifier")
 	private String respondentIdentifier;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "form")
 	private List<QuestionWithAnswer> questionWithAnswers;
 
 	public String getRespondentIdentifier() {

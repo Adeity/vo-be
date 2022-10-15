@@ -2,6 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions;
 
 import cz.cvut.fel.vyzkumodolnosti.model.domain.forms.QuestionTypeEnum;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.AbstractEntity;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.SubmittedForm;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,11 @@ public class QuestionWithAnswer extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "type", nullable = false)
 	private QuestionTypeEnum type;
+
+	@Column
+	@ManyToOne
+	@JoinColumn(name = "form_id", referencedColumnName = "id")
+	private SubmittedForm form;
 
 	@NotNull
 	@Column(name = "answer", nullable = false)
@@ -62,5 +68,13 @@ public class QuestionWithAnswer extends AbstractEntity {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public SubmittedForm getForm() {
+		return form;
+	}
+
+	public void setForm(SubmittedForm form) {
+		this.form = form;
 	}
 }

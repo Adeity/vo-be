@@ -2,6 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.questions.QuestionWithAnswerDto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class SubmittedFormDto {
 	@NotNull
 	private String respondentIdentifier;
 	@NotNull
-	private List<QuestionWithAnswerDto> questions;
+	private List<@Valid QuestionWithAnswerDto> questions;
 
 	public String getRespondentIdentifier() {
 		return respondentIdentifier;

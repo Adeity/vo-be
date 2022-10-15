@@ -32,4 +32,9 @@ public class RestResponseEntityExceptionHandler {
 		logException(e);
 		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(EntryNotFoundException.class)
+	public ResponseEntity<ErrorInfo> entryNotFound(HttpServletRequest request, RuntimeException e) {
+		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
+	}
 }
