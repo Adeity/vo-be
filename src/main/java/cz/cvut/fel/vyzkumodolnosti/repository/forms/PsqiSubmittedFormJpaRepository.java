@@ -1,7 +1,8 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.forms;
 
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.SubmittedForm;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SubmittedFormJpaRepository extends JpaRepository<SubmittedForm, Integer> {
+public interface PsqiSubmittedFormJpaRepository extends JpaRepository<PsqiSubmittedForm, Integer> {
 }

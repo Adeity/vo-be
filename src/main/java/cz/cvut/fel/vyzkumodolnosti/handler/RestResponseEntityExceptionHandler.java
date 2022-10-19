@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class RestResponseEntityExceptionHandler {
 	private static void logException(RuntimeException ex) {
-//		log.error("Exception caught:", ex);
+		log.error("Exception caught:", ex);
 	}
 
 	private static ErrorInfo errorInfo(HttpServletRequest request, Throwable e) {
@@ -23,15 +23,15 @@ public class RestResponseEntityExceptionHandler {
 
 	@ExceptionHandler(CantUpdatePasswordException.class)
 	public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, CantUpdatePasswordException e) {
-		logException(e);
+//		logException(e);
 		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, RuntimeException e) {
-		logException(e);
-		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
-	}
+//	@ExceptionHandler(RuntimeException.class)
+//	public ResponseEntity<ErrorInfo> validation(HttpServletRequest request, RuntimeException e) {
+//		logException(e);
+//		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+//	}
 
 	@ExceptionHandler(EntryNotFoundException.class)
 	public ResponseEntity<ErrorInfo> entryNotFound(HttpServletRequest request, RuntimeException e) {

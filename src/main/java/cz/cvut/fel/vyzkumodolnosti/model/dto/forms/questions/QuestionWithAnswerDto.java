@@ -6,19 +6,19 @@ import javax.validation.constraints.NotNull;
 
 public class QuestionWithAnswerDto {
 	@NotNull
-	private String questionCode;
+	private String questionDefinitionCode;
 	@NotNull
 	private QuestionTypeEnum type;
 	@NotNull
 	private String answer;
 	private String comment;
 
-	public String getQuestionCode() {
-		return questionCode;
+	public String getQuestionDefinitionCode() {
+		return questionDefinitionCode;
 	}
 
-	public void setQuestionCode(String questionCode) {
-		this.questionCode = questionCode;
+	public void setQuestionDefinitionCode(String questionDefinitionCode) {
+		this.questionDefinitionCode = questionDefinitionCode;
 	}
 
 	public QuestionTypeEnum getType() {

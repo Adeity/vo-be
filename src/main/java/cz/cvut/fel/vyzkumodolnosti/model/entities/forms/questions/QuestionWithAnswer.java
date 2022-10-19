@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "question_with_answer")
 public class QuestionWithAnswer extends AbstractEntity {
-	@Column
 	@ManyToOne
 	@JoinColumn(name = "question_definition_id", referencedColumnName = "code")
 	private QuestionDefinition questionDefinition;
@@ -26,7 +25,6 @@ public class QuestionWithAnswer extends AbstractEntity {
 	@Column(name = "type", nullable = false)
 	private QuestionTypeEnum type;
 
-	@Column
 	@ManyToOne
 	@JoinColumn(name = "form_id", referencedColumnName = "id")
 	private SubmittedForm form;

@@ -13,7 +13,7 @@ public class QuestionWithAnswerMapper {
 		QuestionWithAnswer questionWithAnswer = new QuestionWithAnswer();
 
 		QuestionDefinition definition = new QuestionDefinition();
-		definition.setCode(dto.getQuestionCode());
+		definition.setCode(dto.getQuestionDefinitionCode());
 		questionWithAnswer.setQuestionDefinition(definition);
 
 		questionWithAnswer.setType(dto.getType());
