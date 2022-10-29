@@ -11,8 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +24,25 @@ import java.util.List;
 @DiscriminatorColumn(name = "form_type", discriminatorType = DiscriminatorType.STRING)
 public class SubmittedForm extends AbstractEntity {
 	@NotNull
+	@Column(name = "created")
+	private LocalDate created;
+	@NotNull
 	@Column(name = "respondent_identifier")
 	private String respondentIdentifier;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "form")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "form", orphanRemoval = true)
 	private List<QuestionWithAnswer> questionWithAnswers;
+
+	@PrePersist
+	public void setCreatedPrePersist() {
+		this.created = LocalDate.now();
+	}
+	public LocalDate getCreated() {
+		return created;
+	}
+
+	public void setCreated(LocalDate created) {
+		this.created = created;
+	}
 
 	public String getRespondentIdentifier() {
 		return respondentIdentifier;

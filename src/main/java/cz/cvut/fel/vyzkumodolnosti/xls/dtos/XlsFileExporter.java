@@ -1,5 +1,6 @@
-package cz.cvut.fel.vyzkumodolnosti.xls;
+package cz.cvut.fel.vyzkumodolnosti.xls.dtos;
 
+import cz.cvut.fel.vyzkumodolnosti.xls.dtos.row.XlsRowDto;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;

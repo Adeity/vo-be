@@ -26,4 +26,22 @@ public class PsqiEvaluationMapper {
 
 		return evaluation;
 	}
+
+	public static PsqiEvaluationDto mapDtoToEntity(PsqiEvaluation entity) {
+		PsqiEvaluationDto dto = new PsqiEvaluationDto();
+
+		dto.setAverageLaydownTime(entity.getAverageLaydownTime());
+		dto.setMinutesToFallAsleep(entity.getMinutesToFallAsleep());
+		dto.setAverageTimeOfGettingUp(entity.getAverageTimeOfGettingUp());
+		dto.setPsqidurat(entity.getPsqidurat());
+		dto.setPsqidistb(entity.getPsqidistb());
+		dto.setPsqilaten(entity.getPsqilaten());
+		dto.setPsqidaydys(entity.getPsqidaydys());
+		dto.setPsqihse(entity.getPsqihse());
+		dto.setPsqislpqual(entity.getPsqislpqual());
+		dto.setPsqimeds(entity.getPsqimeds());
+		dto.setPsqitotal(entity.getPsqitotal());
+
+		return dto;
+	}
 }

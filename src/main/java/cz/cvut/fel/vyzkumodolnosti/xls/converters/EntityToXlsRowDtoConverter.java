@@ -1,4 +1,6 @@
-package cz.cvut.fel.vyzkumodolnosti.xls;
+package cz.cvut.fel.vyzkumodolnosti.xls.converters;
+
+import cz.cvut.fel.vyzkumodolnosti.xls.dtos.row.XlsRowDto;
 
 import java.util.List;
 

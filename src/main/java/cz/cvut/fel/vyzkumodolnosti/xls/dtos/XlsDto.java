@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.xls;
+package cz.cvut.fel.vyzkumodolnosti.xls.dtos;
 
 public class XlsDto {
 	private String name;

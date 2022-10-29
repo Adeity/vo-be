@@ -7,6 +7,9 @@ import cz.cvut.fel.vyzkumodolnosti.services.forms.mapper.PsqiSubmittedFormDtoEnt
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PsqiSubmittedFormService {
 	private final PsqiSubmittedFormRepository psqiRepository;
@@ -23,6 +26,24 @@ public class PsqiSubmittedFormService {
 
 	public PsqiSubmittedForm findById(Integer id) {
 		return psqiRepository.findById(id);
+	}
+
+	public List<PsqiSubmittedFormDto> findAll() {
+		List<PsqiSubmittedForm> forms = this.psqiRepository.findAll();
+		List<PsqiSubmittedFormDto> dtos = forms.stream().map(PsqiSubmittedFormDtoEntityMapper::mapEntityToDto).collect(Collectors.toList());
+		return dtos;
+	}
+
+	public List<PsqiSubmittedFormDto> findAllSortedByTime() {
+		List<PsqiSubmittedForm> forms = this.psqiRepository.findAllSortedByTime();
+		List<PsqiSubmittedFormDto> dtos = forms.stream().map(PsqiSubmittedFormDtoEntityMapper::mapEntityToDto).collect(Collectors.toList());
+		return dtos;
+	}
+
+	public List<PsqiSubmittedFormDto> findAllSortedByRespondentAndTime() {
+		List<PsqiSubmittedForm> forms = this.psqiRepository.findAllSortedByRespondentAndTime();
+		List<PsqiSubmittedFormDto> dtos = forms.stream().map(PsqiSubmittedFormDtoEntityMapper::mapEntityToDto).collect(Collectors.toList());
+		return dtos;
 	}
 
 }

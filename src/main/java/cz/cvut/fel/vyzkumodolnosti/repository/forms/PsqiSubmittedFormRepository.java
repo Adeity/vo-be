@@ -1,12 +1,12 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.forms;
 
 import cz.cvut.fel.vyzkumodolnosti.handler.EntryNotFoundException;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.QuestionWithAnswer;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
 import cz.cvut.fel.vyzkumodolnosti.repository.forms.questions.QuestionDefinitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +32,17 @@ public class PsqiSubmittedFormRepository {
 			throw new EntryNotFoundException("Formular s id = " + id + " nebyl nalezen.");
 		}
 		return this.psqiJpaRepository.findById(id).get();
+	}
+
+	public List<PsqiSubmittedForm> findAll() {
+		return psqiJpaRepository.findAll();
+	}
+
+	public List<PsqiSubmittedForm> findAllSortedByTime() {
+		return psqiJpaRepository.findAllSortedByTime();
+	}
+
+	public List<PsqiSubmittedForm> findAllSortedByRespondentAndTime() {
+		return psqiJpaRepository.findAllSortedByRespondentAndTime();
 	}
 }

@@ -1,7 +1,9 @@
-package cz.cvut.fel.vyzkumodolnosti.xls;
+package cz.cvut.fel.vyzkumodolnosti.xls.converters;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
 import cz.cvut.fel.vyzkumodolnosti.services.TimeComponent;
+import cz.cvut.fel.vyzkumodolnosti.xls.dtos.row.SleepsXlsRowDto;
+import cz.cvut.fel.vyzkumodolnosti.xls.dtos.row.XlsRowDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

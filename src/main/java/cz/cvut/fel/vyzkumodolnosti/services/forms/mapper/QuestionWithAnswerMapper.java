@@ -23,4 +23,14 @@ public class QuestionWithAnswerMapper {
 
 		return questionWithAnswer;
 	}
+
+	public static QuestionWithAnswerDto mapEntityToDto(QuestionWithAnswer entity) {
+		QuestionWithAnswerDto dto = new QuestionWithAnswerDto();
+		dto.setQuestionDefinitionCode(entity.getQuestionDefinition().getCode());
+		dto.setType(entity.getType());
+		dto.setAnswer(entity.getAnswer());
+		dto.setComment(entity.getComment());
+
+		return dto;
+	}
 }

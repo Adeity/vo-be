@@ -1,9 +1,11 @@
 package cz.cvut.fel.vyzkumodolnosti.services.forms.mapper;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.SubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.SubmittedForm;
 
-public class PsqiSubmittedFormDtoEntityMapper {
+public class PsqiSubmittedFormDtoEntityMapper extends SubmittedFormDtoEntityMapper{
 	private PsqiSubmittedFormDtoEntityMapper() {
 	}
 
@@ -19,6 +21,10 @@ public class PsqiSubmittedFormDtoEntityMapper {
 	}
 
 	public static PsqiSubmittedFormDto mapEntityToDto(PsqiSubmittedForm entity) {
-		return null;
+		SubmittedFormDtoEntityMapper mapper = new SubmittedFormDtoEntityMapper();
+		PsqiSubmittedFormDto dto = new PsqiSubmittedFormDto();
+		mapper.mapSubmittedFormAttributes(dto, entity);
+		dto.setEvaluation(PsqiEvaluationMapper.mapDtoToEntity(entity.getEvaluation()));
+		return dto;
 	}
 }

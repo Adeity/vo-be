@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 @Entity
 @DiscriminatorValue("psqi")
 public class PsqiSubmittedForm extends SubmittedForm {
-	@OneToOne(mappedBy = "submittedForm", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "submittedForm", cascade = CascadeType.ALL, orphanRemoval = true)
 	private PsqiEvaluation evaluation;
 
 	public PsqiEvaluation getEvaluation() {
