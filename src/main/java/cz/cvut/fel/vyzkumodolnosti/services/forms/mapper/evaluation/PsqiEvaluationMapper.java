@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.services.forms.mapper;
+package cz.cvut.fel.vyzkumodolnosti.services.forms.mapper.evaluation;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.PsqiEvaluationDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;

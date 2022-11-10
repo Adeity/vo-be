@@ -1,7 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.AbstractEntity;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.QuestionWithAnswer;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.Answer;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +30,7 @@ public class SubmittedForm extends AbstractEntity {
 	@Column(name = "respondent_identifier")
 	private String respondentIdentifier;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "form", orphanRemoval = true)
-	private List<QuestionWithAnswer> questionWithAnswers;
+	private List<Answer> answers;
 
 	@PrePersist
 	public void setCreatedPrePersist() {
@@ -52,14 +52,14 @@ public class SubmittedForm extends AbstractEntity {
 		this.respondentIdentifier = respondentIdentifier;
 	}
 
-	public List<QuestionWithAnswer> getQuestionWithAnswers() {
-		if (questionWithAnswers == null){
-			questionWithAnswers = new ArrayList<>();
+	public List<Answer> getQuestionWithAnswers() {
+		if (answers == null){
+			answers = new ArrayList<>();
 		}
-		return questionWithAnswers;
+		return answers;
 	}
 
-	public void setQuestionWithAnswers(List<QuestionWithAnswer> questionWithAnswers) {
-		this.questionWithAnswers = questionWithAnswers;
+	public void setQuestionWithAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 }

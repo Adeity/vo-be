@@ -4,29 +4,19 @@ import cz.cvut.fel.vyzkumodolnosti.model.domain.forms.QuestionTypeEnum;
 
 import javax.validation.constraints.NotNull;
 
-public class QuestionWithAnswerDto {
+public class AnswerDto {
 	@NotNull
-	private String questionDefinitionCode;
-	@NotNull
-	private QuestionTypeEnum type;
+	private String questionCode;
 	@NotNull
 	private String answer;
 	private String comment;
 
-	public String getQuestionDefinitionCode() {
-		return questionDefinitionCode;
+	public String getQuestionCode() {
+		return questionCode;
 	}
 
-	public void setQuestionDefinitionCode(String questionDefinitionCode) {
-		this.questionDefinitionCode = questionDefinitionCode;
-	}
-
-	public QuestionTypeEnum getType() {
-		return type;
-	}
-
-	public void setType(QuestionTypeEnum type) {
-		this.type = type;
+	public void setQuestionCode(String questionCode) {
+		this.questionCode = questionCode;
 	}
 
 	public String getAnswer() {

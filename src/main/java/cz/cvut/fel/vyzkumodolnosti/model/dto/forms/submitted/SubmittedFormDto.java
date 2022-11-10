@@ -1,6 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted;
 
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.questions.QuestionWithAnswerDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.questions.AnswerDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -14,7 +14,7 @@ public class SubmittedFormDto {
 	@NotNull
 	private String respondentIdentifier;
 	@NotNull
-	private List<@Valid QuestionWithAnswerDto> questions;
+	private List<@Valid AnswerDto> questions;
 
 	public int getId() {
 		return id;
@@ -40,14 +40,14 @@ public class SubmittedFormDto {
 		this.respondentIdentifier = respondentIdentifier;
 	}
 
-	public List<QuestionWithAnswerDto> getQuestions() {
+	public List<AnswerDto> getQuestions() {
 		if (questions == null) {
 			questions = new ArrayList<>();
 		}
 		return questions;
 	}
 
-	public void setQuestions(List<QuestionWithAnswerDto> questions) {
+	public void setQuestions(List<AnswerDto> questions) {
 		this.questions = questions;
 	}
 }

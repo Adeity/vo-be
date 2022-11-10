@@ -22,7 +22,7 @@ public class PsqiSubmittedFormRepository {
 	}
 
 	public void save(PsqiSubmittedForm submittedForm) {
-		questionDefinitionRepository.addQuestionDefinitionToQuestionWithAnswer(submittedForm.getQuestionWithAnswers());
+		questionDefinitionRepository.linkQuestionEntitiesToAnswers(submittedForm.getQuestionWithAnswers());
 		this.psqiJpaRepository.save(submittedForm);
 	}
 
@@ -31,6 +31,7 @@ public class PsqiSubmittedFormRepository {
 		if (e.isEmpty()) {
 			throw new EntryNotFoundException("Formular s id = " + id + " nebyl nalezen.");
 		}
+		//noinspection OptionalGetWithoutIsPresent
 		return this.psqiJpaRepository.findById(id).get();
 	}
 
