@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.repository.forms;
+package cz.cvut.fel.vyzkumodolnosti.repository.forms.psqi;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.SubmittedForm;

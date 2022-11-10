@@ -2,7 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.forms.submitted;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.PsqiSubmittedFormRepository;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.psqi.PsqiSubmittedFormRepository;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.mapper.PsqiSubmittedFormDtoEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,7 @@
-package cz.cvut.fel.vyzkumodolnosti.repository.forms;
+package cz.cvut.fel.vyzkumodolnosti.repository.forms.psqi;
 
 import cz.cvut.fel.vyzkumodolnosti.handler.EntryNotFoundException;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.questions.QuestionDefinitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,18 +10,15 @@ import java.util.Optional;
 
 @Repository
 public class PsqiSubmittedFormRepository {
-	private final QuestionDefinitionRepository questionDefinitionRepository;
 
 	private final PsqiSubmittedFormJpaRepository psqiJpaRepository;
 
 	@Autowired
-	public PsqiSubmittedFormRepository(QuestionDefinitionRepository questionDefinitionRepository, PsqiSubmittedFormJpaRepository psqiJpaRepository) {
-		this.questionDefinitionRepository = questionDefinitionRepository;
+	public PsqiSubmittedFormRepository(PsqiSubmittedFormJpaRepository psqiJpaRepository) {
 		this.psqiJpaRepository = psqiJpaRepository;
 	}
 
 	public void save(PsqiSubmittedForm submittedForm) {
-		questionDefinitionRepository.linkQuestionEntitiesToAnswers(submittedForm.getQuestionWithAnswers());
 		this.psqiJpaRepository.save(submittedForm);
 	}
 
