@@ -2,7 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.forms.submitted;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.psqi.PsqiSubmittedFormRepository;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.psqi.PsqiSubmittedFormJpaRepository;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.mapper.PsqiSubmittedFormDtoEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class PsqiSubmittedFormService {
-	private final PsqiSubmittedFormRepository psqiRepository;
+	private final PsqiSubmittedFormJpaRepository psqiRepository;
 
 	@Autowired
-	public PsqiSubmittedFormService(PsqiSubmittedFormRepository psqiRepository) {
+	public PsqiSubmittedFormService(PsqiSubmittedFormJpaRepository psqiRepository) {
 		this.psqiRepository = psqiRepository;
 	}
 
@@ -25,7 +25,8 @@ public class PsqiSubmittedFormService {
 	}
 
 	public PsqiSubmittedForm findById(Integer id) {
-		return psqiRepository.findById(id);
+//		return psqiRepository.findById(id);
+		return null;
 	}
 
 	public List<PsqiSubmittedFormDto> findAll() {
