@@ -57,7 +57,7 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
 
     public void save(LifeSatisfactionSubmittedFormDto dto) {
         LifeSatisfactionSubmittedForm entity = (LifeSatisfactionSubmittedForm) formMapper.mapDtoToEntity(dto);
-        entity.setEvaluation(evaluator.evaluate(dto.getVariablesDto()));
+        entity.setEvaluation(evaluator.evaluate(dto.getComputationVariables()));
         lifesatRepository.save(entity);
     }
 }

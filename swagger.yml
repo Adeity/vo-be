@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  version: '1'
+  title: Keycloak
+  description: ''
+servers:
+  - description: dev
+    url: http://keycloak-http.ftmo-idp-keycloak-dev.svc.cluster.local/auth/realms/FTMO-Global/ftmo-api
+paths:
+
+  /form-submit/psqi:
+    post:
+      summary: Submit PSQI Form
+      tags:
+        - form-submit
+      requestBody:
+        description: Psqi Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PsqiSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /form-submit/life-satisfaction:
+    post:
+      summary: Submit Life Satisfaction Form
+      tags:
+        - form-submit
+      requestBody:
+        description: Life Satisfaction Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifeSatisfactionSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+
+components:
+  schemas:
+    SubmittedFormInput:
+      type: object
+      properties:
+        respondentIdentifier:
+          type: string
+          example: "Josef Cap"
+          nullable: false
+        researchNumber:
+          type: string
+          example: "pi2_2ei"
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerInput'
+
+    PsqiSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+
+    LifeSatisfactionSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            zdr:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            prz:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            fin:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            vol:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            man:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            det:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            vlo:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            sex:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            pzp:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            byd:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+
+    LifeSatisfactionComponentInputArray:
+      type: array
+      items:
+        type: integer
+      example: [1, 2, 2, 7, 3, 5, 3]
+      minLength: 7
+      maxLength: 7
+
+    AnswerInput:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          example: "22:00"
+        note:
+          type: string
+          nullable: true
+          example: "Otazce uplne nerozumim"
+        questionCode:
+          type: string
+          example: "lifesat_10"
+          nullable: false

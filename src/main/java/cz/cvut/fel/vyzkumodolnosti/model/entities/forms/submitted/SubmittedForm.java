@@ -20,6 +20,8 @@ public class SubmittedForm extends AbstractEntity {
     @NotNull
     @Column(name = "respondent_identifier")
     private String respondentIdentifier;
+    @Column(name = "research_number")
+    private String researchNumber;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "form", orphanRemoval = true)
     private List<Answer> answers;
 
@@ -44,14 +46,22 @@ public class SubmittedForm extends AbstractEntity {
         this.respondentIdentifier = respondentIdentifier;
     }
 
-    public List<Answer> getQuestionWithAnswers() {
+    public String getResearchNumber() {
+        return researchNumber;
+    }
+
+    public void setResearchNumber(String researchNumber) {
+        this.researchNumber = researchNumber;
+    }
+
+    public List<Answer> getAnswers() {
         if (answers == null) {
             answers = new ArrayList<>();
         }
         return answers;
     }
 
-    public void setQuestionWithAnswers(List<Answer> answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 }

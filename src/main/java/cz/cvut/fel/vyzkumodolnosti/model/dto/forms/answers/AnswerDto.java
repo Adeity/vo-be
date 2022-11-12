@@ -6,8 +6,8 @@ public class AnswerDto {
     @NotNull
     private String questionCode;
     @NotNull
-    private String answer;
-    private String comment;
+    private String value;
+    private String note;
 
     public String getQuestionCode() {
         return questionCode;
@@ -17,19 +17,19 @@ public class AnswerDto {
         this.questionCode = questionCode;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getValue() {
+        return value;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String getComment() {
-        return comment;
+    public String getNote() {
+        return note;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setNote(String note) {
+        this.note = note;
     }
 }

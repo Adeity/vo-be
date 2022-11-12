@@ -1,17 +1,20 @@
 package cz.cvut.fel.vyzkumodolnosti.controllers;
 
+import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorModel;
+import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorResponse;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.LifeSatisfactionSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MctqSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MeqSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.impl.SubmittedFormWriteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/form-submit")
@@ -29,17 +32,27 @@ public class FormSubmitController {
     }
 
     @PostMapping(value = "/mctq")
-    public void submitPsqi(@Valid @RequestBody MctqSubmittedFormDto dto) {
+    public void submitMctq(@Valid @RequestBody MctqSubmittedFormDto dto) {
         writeService.save(dto);
     }
 
     @PostMapping(value = "/meq")
-    public void submitPsqi(@Valid @RequestBody MeqSubmittedFormDto dto) {
+    public void submitMeq(@Valid @RequestBody MeqSubmittedFormDto dto) {
         writeService.save(dto);
     }
 
     @PostMapping(value = "/lifesat")
-    public void submitPsqi(@Valid @RequestBody LifeSatisfactionSubmittedFormDto dto) {
+    public void submitLifeSatisfaction(@Valid @RequestBody LifeSatisfactionSubmittedFormDto dto) {
         writeService.save(dto);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleException(MethodArgumentNotValidException exception) {
+        List<ErrorModel> errorMessages = exception.getBindingResult().getFieldErrors().stream()
+                .map(err -> new ErrorModel(err.getField(), err.getRejectedValue(), err.getDefaultMessage()))
+                .distinct()
+                .collect(Collectors.toList());
+        return new ErrorResponse().builder().errorMessage(errorMessages).build();
     }
 }

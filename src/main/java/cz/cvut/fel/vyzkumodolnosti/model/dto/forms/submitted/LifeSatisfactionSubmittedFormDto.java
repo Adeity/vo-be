@@ -9,13 +9,13 @@ public class LifeSatisfactionSubmittedFormDto extends SubmittedFormDto {
 
     @NotNull
     @Valid
-    private LifeSatisfactionComputationVariablesDto variablesDto;
+    private LifeSatisfactionComputationVariablesDto computationVariables;
 
-    public LifeSatisfactionComputationVariablesDto getVariablesDto() {
-        return variablesDto;
+    public LifeSatisfactionComputationVariablesDto getComputationVariables() {
+        return computationVariables;
     }
 
-    public void setVariablesDto(LifeSatisfactionComputationVariablesDto variablesDto) {
-        this.variablesDto = variablesDto;
+    public void setComputationVariables(LifeSatisfactionComputationVariablesDto computationVariables) {
+        this.computationVariables = computationVariables;
     }
 }

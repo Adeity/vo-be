@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "question", indexes = @Index(columnList = "code"))
 public class Question extends AbstractEntity {
     @NotNull
-    @Column(name = "code", columnDefinition = "text", unique = true)
+    @Column(name = "code", unique = true)
     private String code;
     @NotNull
-    @Column(name = "text", columnDefinition = "text")
-    private String text;
+    @Column(name = "value", columnDefinition = "text")
+    private String value;
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
@@ -28,12 +28,12 @@ public class Question extends AbstractEntity {
         this.code = code;
     }
 
-    public String getText() {
-        return text;
+    public String getValue() {
+        return value;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setValue(String text) {
+        this.value = text;
     }
 
     public QuestionTypeEnum getType() {

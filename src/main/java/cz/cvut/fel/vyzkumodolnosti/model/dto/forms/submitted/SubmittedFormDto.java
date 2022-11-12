@@ -13,6 +13,7 @@ public class SubmittedFormDto {
     private LocalDate created;
     @NotNull
     private String respondentIdentifier;
+    private String researchNumber;
     @NotNull
     private List<@Valid AnswerDto> answers;
 
@@ -38,6 +39,14 @@ public class SubmittedFormDto {
 
     public void setRespondentIdentifier(String respondentIdentifier) {
         this.respondentIdentifier = respondentIdentifier;
+    }
+
+    public String getResearchNumber() {
+        return researchNumber;
+    }
+
+    public void setResearchNumber(String researchNumber) {
+        this.researchNumber = researchNumber;
     }
 
     public List<AnswerDto> getAnswers() {
