@@ -10,14 +10,14 @@ import javax.persistence.OneToOne;
 @Entity
 @DiscriminatorValue("life_satisfaction")
 public class LifeSatisfactionSubmittedForm extends SubmittedForm {
-	@OneToOne(mappedBy = "submittedForm", cascade = CascadeType.ALL, orphanRemoval = true)
-	private LifeSatisfactionEvaluation evaluation;
+    @OneToOne(mappedBy = "submittedForm", cascade = CascadeType.ALL, orphanRemoval = true)
+    private LifeSatisfactionEvaluation evaluation;
 
-	public LifeSatisfactionEvaluation getEvaluation() {
-		return evaluation;
-	}
+    public LifeSatisfactionEvaluation getEvaluation() {
+        return evaluation;
+    }
 
-	public void setEvaluation(LifeSatisfactionEvaluation evaluation) {
-		this.evaluation = evaluation;
-	}
+    public void setEvaluation(LifeSatisfactionEvaluation evaluation) {
+        this.evaluation = evaluation;
+    }
 }

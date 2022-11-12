@@ -9,38 +9,38 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "question", indexes = @Index(columnList = "code"))
 public class Question extends AbstractEntity {
-	@NotNull
-	@Column(name = "code", columnDefinition = "text", unique = true)
-	private String code;
-	@NotNull
-	@Column(name = "text", columnDefinition = "text")
-	private String text;
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name = "type", nullable = false)
-	private QuestionTypeEnum type;
+    @NotNull
+    @Column(name = "code", columnDefinition = "text", unique = true)
+    private String code;
+    @NotNull
+    @Column(name = "text", columnDefinition = "text")
+    private String text;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private QuestionTypeEnum type;
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public QuestionTypeEnum getType() {
-		return type;
-	}
+    public QuestionTypeEnum getType() {
+        return type;
+    }
 
-	public void setType(QuestionTypeEnum type) {
-		this.type = type;
-	}
+    public void setType(QuestionTypeEnum type) {
+        this.type = type;
+    }
 }

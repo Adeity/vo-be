@@ -1,19 +1,21 @@
 package cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted;
 
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.LifeSatisfactionEvaluationDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.LifeSatisfactionComputationVariablesDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class LifeSatisfactionSubmittedFormDto extends SubmittedFormDto {
-	@NotNull @Valid
-	private LifeSatisfactionEvaluationDto valuation;
 
-	public LifeSatisfactionEvaluationDto getValuation() {
-		return valuation;
-	}
+    @NotNull
+    @Valid
+    private LifeSatisfactionComputationVariablesDto variablesDto;
 
-	public void setValuation(LifeSatisfactionEvaluationDto valuation) {
-		this.valuation = valuation;
-	}
+    public LifeSatisfactionComputationVariablesDto getVariablesDto() {
+        return variablesDto;
+    }
+
+    public void setVariablesDto(LifeSatisfactionComputationVariablesDto variablesDto) {
+        this.variablesDto = variablesDto;
+    }
 }

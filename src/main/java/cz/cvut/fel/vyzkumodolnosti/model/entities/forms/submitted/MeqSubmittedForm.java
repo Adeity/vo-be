@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @DiscriminatorValue("meq")
-public class MeqSubmittedForm extends SubmittedForm{
+public class MeqSubmittedForm extends SubmittedForm {
     @OneToOne(mappedBy = "submittedForm", cascade = CascadeType.ALL, orphanRemoval = true)
     private MeqEvaluation evaluation;
 
