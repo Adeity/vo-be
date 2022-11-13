@@ -36,8 +36,6 @@ public class OauthController {
     private String AUTHORIZE_URL;
     @Value("${garmin.api.access.url}")
     private String ACCESS_URL;
-    @Value("${adminui.url}")
-    private String ADMIN_UI_URL;
 
     public OauthController(DeviceDao deviceRepository) {
         this.deviceRepository = deviceRepository;
@@ -96,16 +94,15 @@ public class OauthController {
         String authURL = authorizeUrl.buildAuthority();
         String relURL = authorizeUrl.buildRelativeUrl() + oath_callback;
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL+relURL)).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + relURL)).build();
         //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
     }
 
     /**
-     *
      * Processes the response of the oauth flow - stores the oauth token and its verifier in local DB and redirects user back to the admin UI
      *
      * @param requestToken oauth token of the device
-     * @param verifier verifier of the oauth token
+     * @param verifier     verifier of the oauth token
      * @return redirect to admin UI
      * @throws IOException if occurs in request processing
      */
@@ -149,7 +146,7 @@ public class OauthController {
         String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
         String relURL = "thanks.html";
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL+relURL)).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + relURL)).build();
         //return "redirect" + "https://vyzkumodolnosti.felk.cvut.cz/" + "thanks.html";
         //return "redirect:" + ADMIN_UI_URL;
     }
@@ -157,6 +154,7 @@ public class OauthController {
     /**
      * Check whether the device is already authorized
      * If so, throws the 404 Bad Request exception
+     *
      * @param hwId of the device
      * @return device entity if exists of the unauthorized device
      */

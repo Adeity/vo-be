@@ -12,7 +12,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public class SleepSummaryRepository {
@@ -30,20 +29,9 @@ public class SleepSummaryRepository {
 		return jpaRepository.findBySummaryId(deviceId);
 	}
 
-	public List<SleepSummary> findAllSorted(Long timeBoundary) {
-		return jpaRepository.findAllSorted(timeBoundary);
-	}
-
-	public List<SleepSummary> findFilteredByDateAndResearchIds(long fromSeconds, long toSeconds, Set<String> researchIds) {
-		return jpaRepository.findFilteredByDateAndResearchIds(fromSeconds, toSeconds, researchIds);
-	}
 
 	public void save(SleepSummary sleepSummary) {
 		this.jpaRepository.save(sleepSummary);
-	}
-
-	public Optional<SleepSummary> findById(Integer id) {
-		return this.jpaRepository.findById(id);
 	}
 
 	public List<SleepSummary> find(SleepSummaryFilterDto filter) {

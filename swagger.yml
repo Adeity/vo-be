@@ -23,6 +23,36 @@ paths:
         '204':
           description: The resource was created successfuly.
 
+  /form-submit/meq:
+    post:
+      summary: Submit MEQ Form
+      tags:
+        - form-submit
+      requestBody:
+        description: MEQ Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeqSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /form-submit/mctq:
+    post:
+      summary: Submit MCTQ Form
+      tags:
+        - form-submit
+      requestBody:
+        description: MCTQ Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MctqSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
   /form-submit/life-satisfaction:
     post:
       summary: Submit Life Satisfaction Form
@@ -52,8 +82,97 @@ paths:
         200:
           description: Sleep Push Notification Received
 
+  /garmin/sleeps/export:
+    get:
+      summary: Export sleep summaries to xls
+      tags:
+        - garmin-sleeps
+      parameters:
+        - in: path
+          name: from
+          required: true
+          schema:
+            type: integer
+            example: 1657670400000
+          description: From date in epoch time in seconds
+        - in: path
+          name: to
+          required: true
+          schema:
+            type: integer
+            example: 1657929600000
+          description: To date in epoch time in seconds
+        - in: path
+          name: researchNumbers
+          required: true
+          schema:
+            $ref: '#/components/schemas/ResearchNumberArray'
+      responses:
+        200:
+          description: Sleep Push Notification Received
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /garmin/oauthCallback:
+    get:
+      summary: Callback url for oauth server
+      tags:
+        - garmin-oauth-flow
+      parameters:
+        - in: path
+          name: oauth_token
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: oauth_verifier
+          required: true
+          schema:
+            type: string
+      responses:
+        302:
+          description: User was authorized
+
+
+  /garmin/authorize:
+    get:
+      summary: Start oauth flow
+      tags:
+        - garmin-oauth-flow
+      parameters:
+        - in: path
+          name: device_id
+          required: true
+          schema:
+            type: string
+          description: Device id
+      responses:
+        302:
+          description: Started oauth flow
+
+  /device/active-research-numbers:
+    get:
+      tags:
+        - device
+      responses:
+        200:
+          description: Return array of research numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResearchNumberArray'
+
 components:
   schemas:
+    ResearchNumberArray:
+      type: array
+      items:
+        type: string
+      example: [ "TestNemo", "smeki" ]
+
     SubmittedFormInput:
       type: object
       properties:
@@ -70,6 +189,26 @@ components:
             $ref: '#/components/schemas/AnswerInput'
 
     PsqiSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            jestenevim:
+              type: string
+
+    MeqSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            jestenevim:
+              type: string
+
+    MctqSubmittedFormInput:
       allOf:
         - $ref: '#/components/schemas/SubmittedFormInput'
       properties:

@@ -41,7 +41,7 @@ public class FormSubmitController {
         writeService.save(dto);
     }
 
-    @PostMapping(value = "/lifesat")
+    @PostMapping(value = "/life-satisfaction")
     public void submitLifeSatisfaction(@Valid @RequestBody LifeSatisfactionSubmittedFormDto dto) {
         writeService.save(dto);
     }
