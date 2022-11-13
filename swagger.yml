@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
   version: '1'
-  title: Keycloak
+  title: Ghdata
   description: ''
 servers:
   - description: dev
-    url: http://keycloak-http.ftmo-idp-keycloak-dev.svc.cluster.local/auth/realms/FTMO-Global/ftmo-api
+    url: localhost
 paths:
 
   /form-submit/psqi:
@@ -38,6 +38,19 @@ paths:
         '204':
           description: The resource was created successfuly.
 
+  /garmin/sleeps:
+    post:
+      summary: Receive push notification from Garmin server with
+      tags:
+        - garmin-sleeps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SleepPushSummary'
+      responses:
+        200:
+          description: Sleep Push Notification Received
 
 components:
   schemas:
@@ -63,6 +76,8 @@ components:
         computationVariables:
           type: object
           properties:
+            jestenevim:
+              type: string
 
     LifeSatisfactionSubmittedFormInput:
       allOf:
@@ -96,7 +111,7 @@ components:
       type: array
       items:
         type: integer
-      example: [1, 2, 2, 7, 3, 5, 3]
+      example: [ 1, 2, 2, 7, 3, 5, 3 ]
       minLength: 7
       maxLength: 7
 
@@ -115,3 +130,58 @@ components:
           type: string
           example: "lifesat_10"
           nullable: false
+
+    SleepPushSummary:
+      type: object
+      properties:
+        summaryId:
+          type: string
+          example: "eooa"
+        calendarDate:
+          type: string
+          example: "2025-01-29"
+        durationInSeconds:
+          type: integer
+          example: 28260
+        startTimeInSeconds:
+          type: integer
+          example: 1611840660;
+        startTimeOffsetInSeconds:
+          type: integer
+          example: 32400
+        unmeasurableSleepInSeconds:
+          type: integer
+          example: 0
+        deepSleepDurationInSeconds:
+          type: integer
+          example: 0
+        lightSleepDurationInSeconds:
+          type: integer
+          example: 0
+        remSleepInSeconds:
+          type: integer
+          example: 0
+        awakeDurationInSeconds:
+          type: integer
+          example: 0
+        validation:
+          type: string
+          enum:
+            - "MANUAL"
+            - "DEVICE"
+            - "OFF_WRIST"
+            - "AUTO_TENTATIVE"
+            - "AUTO_FINAL"
+            - "AUTO_MANUAL"
+            - "ENHANCED_TENTATIVE"
+            - "ENHANCED_FINAL"
+          example: "ENHANCED_FINAL"
+        timeOffsetSleepSpo2:
+          type: object
+          example: { }
+        timeOffsetSleepRespiration:
+          type: object
+          example: { }
+        userAccessToken:
+          type: string
+          example: "0da2a8c8-1da6-494d-b716-ebf4db0f0792"
