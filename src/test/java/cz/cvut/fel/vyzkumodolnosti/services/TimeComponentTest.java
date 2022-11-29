@@ -47,4 +47,24 @@ class TimeComponentTest {
 		assertEquals(expected, actual.toString());
 	}
 
+	@Test
+	public void test_hhmmToSeconds1() {
+		String input = "23:10";
+
+		int expected = 83400;
+		int actual = timeComponent.hourMinuteFormatToSeconds(input);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_hhmmToSeconds2() {
+		String input = "01:10";
+
+		int expected = 4200;
+		int actual = timeComponent.hourMinuteFormatToSeconds(input);
+
+		assertEquals(expected, actual);
+	}
+
 }

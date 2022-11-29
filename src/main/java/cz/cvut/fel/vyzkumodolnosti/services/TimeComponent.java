@@ -52,6 +52,17 @@ public class TimeComponent {
         return p2s + ":" + p3s;
     }
 
+    public Integer hourMinuteFormatToSeconds(String hourMinute) {
+        String[] splitted = hourMinute.split(":");
+        String hoursStr = splitted[0];
+        String minutesStr = splitted[1];
+
+        int hours = Integer.parseInt(hoursStr);
+        int minutes = Integer.parseInt(minutesStr);
+
+        return (hours * 3600) + (minutes * 60);
+    }
+
     /**
      * @param numOfDays - int value of amount of days
      * @return current time in epoch minus numOfDays in epoch
