@@ -9,15 +9,47 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluati
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
-import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
-@Service
 public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEvaluator {
     @Override
     public PsqiEvaluation evaluate(PsqiComputationVariablesDto variablesDto) {
-        throw new RuntimeException("Not yet implemented!");
+        PsqiComputator computator = new PsqiComputator();
+        PsqiEvaluation evaluation = new PsqiEvaluation();
+
+        evaluation.setAverageLaydownTime(variablesDto.getQ1());
+        evaluation.setMinutesToFallAsleep(variablesDto.getQ2());
+        evaluation.setAverageTimeOfGettingUp(variablesDto.getQ3());
+        evaluation.setPsqidurat(computator.calculatePsqiDurat(variablesDto.getQ4()));
+        evaluation.setPsqidistb(computator.calculatePsqidistb(
+                variablesDto.getQ5bScore(),
+                variablesDto.getQ5cScore(),
+                variablesDto.getQ5dScore(),
+                variablesDto.getQ5eScore(),
+                variablesDto.getQ5fScore(),
+                variablesDto.getQ5gScore(),
+                variablesDto.getQ5hScore(),
+                variablesDto.getQ5iScore(),
+                variablesDto.getQ5jScore()));
+        evaluation.setPsqilaten(computator.calculatePsqilaten(variablesDto.getQ2(), variablesDto.getQ5aScore()));
+        evaluation.setPsqidaydys(computator.calculatePsqidaydys(variablesDto.getQ8Score(), variablesDto.getQ9Score()));
+        evaluation.setPsqihse(computator.calculatePsqihse(
+                variablesDto.getQ1(),
+                variablesDto.getQ3(),
+                variablesDto.getQ4()));
+        evaluation.setPsqislpqual(variablesDto.getQ6Score());
+        evaluation.setPsqimeds(variablesDto.getQ7Score());
+        evaluation.setPsqitotal(
+                evaluation.getPsqidurat() +
+                        evaluation.getPsqidistb() +
+                        evaluation.getPsqilaten() +
+                        evaluation.getPsqidaydys() +
+                        evaluation.getPsqihse() +
+                        evaluation.getPsqislpqual() +
+                        evaluation.getPsqimeds());
+
+        return evaluation;
     }
 
     @Override

@@ -20,8 +20,8 @@ public class SleepSummaryRepository {
 	private final SleepSummaryJpaRepository jpaRepository;
 
 	@Autowired
-	public SleepSummaryRepository(TimeComponent timeComponent, SleepSummaryJpaRepository jpaRepository) {
-		this.timeComponent = timeComponent;
+	public SleepSummaryRepository(SleepSummaryJpaRepository jpaRepository) {
+		this.timeComponent = new TimeComponent();
 		this.jpaRepository = jpaRepository;
 	}
 

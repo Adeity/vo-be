@@ -34,7 +34,7 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
         this.mctqRepository = mctqRepository;
         this.lifesatRepository = lifesatRepository;
         this.formMapper = formMapper;
-        this.evaluator = evaluator;
+        this.evaluator = new ComputationVariablesEvaluatorImpl();
     }
 
     public void save(PsqiSubmittedFormDto dto) {

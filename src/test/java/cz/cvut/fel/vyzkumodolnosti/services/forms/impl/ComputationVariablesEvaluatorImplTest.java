@@ -1,8 +1,11 @@
 package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.LifeSatisfactionComputationVariablesDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.PsqiComputationVariablesDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.LifeSatisfactionEvaluation;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -63,6 +66,84 @@ class ComputationVariablesEvaluatorImplTest {
     }
 
     @Test
-    void testEvaluate2() {
+    void test_psqi_1() {
+        PsqiComputationVariablesDto computationVariablesDto = new PsqiComputationVariablesDto();
+        computationVariablesDto.setQ1("22:15");
+        computationVariablesDto.setQ2(10);
+        computationVariablesDto.setQ3("6:30");
+        computationVariablesDto.setQ4(7.00);
+        computationVariablesDto.setQ5aScore(1);
+        computationVariablesDto.setQ5bScore(2);
+        computationVariablesDto.setQ5cScore(0);
+        computationVariablesDto.setQ5dScore(0);
+        computationVariablesDto.setQ5eScore(0);
+        computationVariablesDto.setQ5fScore(1);
+        computationVariablesDto.setQ5gScore(1);
+        computationVariablesDto.setQ5hScore(1);
+        computationVariablesDto.setQ5iScore(0);
+        computationVariablesDto.setQ5jScore(2);
+        computationVariablesDto.setQ6Score(1);
+        computationVariablesDto.setQ7Score(0);
+        computationVariablesDto.setQ8Score(1);
+        computationVariablesDto.setQ9Score(0);
+
+        PsqiEvaluation evaluationExpected = new PsqiEvaluation();
+
+        evaluationExpected.setAverageLaydownTime("22:15");
+        evaluationExpected.setMinutesToFallAsleep(10);
+        evaluationExpected.setAverageTimeOfGettingUp("6:30");
+        evaluationExpected.setPsqidurat(0);
+        evaluationExpected.setPsqidistb(1);
+        evaluationExpected.setPsqilaten(1);
+        evaluationExpected.setPsqidaydys(1);
+        evaluationExpected.setPsqihse(1);
+        evaluationExpected.setPsqislpqual(1);
+        evaluationExpected.setPsqimeds(0);
+        evaluationExpected.setPsqitotal(5);
+
+        PsqiEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
+
+        assertEquals(evaluationExpected, evaluationActual);
+    }
+
+    @Test
+    void test_psqi_2() {
+        PsqiComputationVariablesDto computationVariablesDto = new PsqiComputationVariablesDto();
+        computationVariablesDto.setQ1("22:30");
+        computationVariablesDto.setQ2(10);
+        computationVariablesDto.setQ3("6:30");
+        computationVariablesDto.setQ4(5.50);
+        computationVariablesDto.setQ5aScore(0);
+        computationVariablesDto.setQ5bScore(3);
+        computationVariablesDto.setQ5cScore(0);
+        computationVariablesDto.setQ5dScore(0);
+        computationVariablesDto.setQ5eScore(0);
+        computationVariablesDto.setQ5fScore(0);
+        computationVariablesDto.setQ5gScore(0);
+        computationVariablesDto.setQ5hScore(1);
+        computationVariablesDto.setQ5iScore(0);
+        computationVariablesDto.setQ5jScore(3);
+        computationVariablesDto.setQ6Score(2);
+        computationVariablesDto.setQ7Score(0);
+        computationVariablesDto.setQ8Score(2);
+        computationVariablesDto.setQ9Score(1);
+
+        PsqiEvaluation evaluationExpected = new PsqiEvaluation();
+
+        evaluationExpected.setAverageLaydownTime("22:30");
+        evaluationExpected.setMinutesToFallAsleep(10);
+        evaluationExpected.setAverageTimeOfGettingUp("6:30");
+        evaluationExpected.setPsqidurat(2);
+        evaluationExpected.setPsqidistb(1);
+        evaluationExpected.setPsqilaten(0);
+        evaluationExpected.setPsqidaydys(2);
+        evaluationExpected.setPsqihse(2);
+        evaluationExpected.setPsqislpqual(2);
+        evaluationExpected.setPsqimeds(0);
+        evaluationExpected.setPsqitotal(9);
+
+        PsqiEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
+
+        assertEquals(evaluationExpected, evaluationActual);
     }
 }

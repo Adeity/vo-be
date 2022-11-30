@@ -1,7 +1,5 @@
 package cz.cvut.fel.vyzkumodolnosti.services;
 
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,12 +7,12 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-@Component
 public class TimeComponent {
 
     /**
      * Converts unix time to hh:mm format
      * !!!does this in system default time offset!!!
+     *
      * @param unix for expamle 16622313
      * @return for example 10:12
      */
@@ -27,6 +25,7 @@ public class TimeComponent {
     /**
      * Converts unix time LocaLDate
      * !!!does this in system default time offset!!!
+     *
      * @param unix for expamle 16622313
      * @return for example 10:12
      */
@@ -37,13 +36,14 @@ public class TimeComponent {
 
     /**
      * Converts seconds to hh:mm format
+     *
      * @param seconds - amount of seconds that must not be larger than one day
      * @return hh:mm format of seconds
      */
     public String secondsToHourMinuteFormat(Integer seconds) {
-		if (seconds == null) {
-			return "00:00";
-		}
+        if (seconds == null) {
+            return "00:00";
+        }
         int p2 = seconds / 60;
         int p3 = p2 % 60;
         p2 = p2 / 60;
@@ -61,6 +61,27 @@ public class TimeComponent {
         int minutes = Integer.parseInt(minutesStr);
 
         return (hours * 3600) + (minutes * 60);
+    }
+
+    /**
+     * @param gnt good night time in hh:mm format
+     * @param gmt good morning tiem in hh:mm format
+     * @return hours of difference between gnt and gmt
+     */
+    public Double calculateDiffBetweenGntAndGmt(String gnt, String gmt) {
+        Integer gntInSeconds = this.hourMinuteFormatToSeconds(gnt);
+        Integer gmtInSeconds = this.hourMinuteFormatToSeconds(gmt);
+
+        Integer fullDayInSeconds = 86400;
+
+        if (gntInSeconds < gmtInSeconds) {
+            return this.secondsToHours(gmtInSeconds - gntInSeconds);
+        }
+        return secondsToHours((fullDayInSeconds - gntInSeconds) + gmtInSeconds);
+    }
+
+    private Double secondsToHours(Integer seconds) {
+        return seconds.doubleValue() / 3600;
     }
 
     /**
@@ -83,7 +104,7 @@ public class TimeComponent {
         return split[2] + "." + split[1] + "." + split[0];
     }
 
-	public long convertLocalDateToEpochSeconds(LocalDate date) {
-		return date.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
-	}
+    public long convertLocalDateToEpochSeconds(LocalDate date) {
+        return date.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+    }
 }

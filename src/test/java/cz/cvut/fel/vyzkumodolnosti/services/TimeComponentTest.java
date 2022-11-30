@@ -67,4 +67,40 @@ class TimeComponentTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void test_calculateDiffBetweenGntAndGmt1() {
+		String gnt = "22:00";
+		String gmt = "6:00";
+
+		Double expected = 8.00;
+
+		Double actual = timeComponent.calculateDiffBetweenGntAndGmt(gnt, gmt);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_calculateDiffBetweenGntAndGmt2() {
+		String gnt = "01:30";
+		String gmt = "6:00";
+
+		Double expected = 4.50;
+
+		Double actual = timeComponent.calculateDiffBetweenGntAndGmt(gnt, gmt);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_calculateDiffBetweenGntAndGmt3() {
+		String gnt = "01:15";
+		String gmt = "00:00";
+
+		Double expected = 22.75;
+
+		Double actual = timeComponent.calculateDiffBetweenGntAndGmt(gnt, gmt);
+
+		assertEquals(expected, actual);
+	}
+
 }

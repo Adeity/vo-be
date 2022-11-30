@@ -5,6 +5,7 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedF
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "psqi_evaluation")
@@ -141,5 +142,18 @@ public class PsqiEvaluation extends AbstractEntity {
 
     public void setPsqitotal(Integer psqitotal) {
         this.psqitotal = psqitotal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PsqiEvaluation that = (PsqiEvaluation) o;
+        return averageLaydownTime.equals(that.averageLaydownTime) && minutesToFallAsleep.equals(that.minutesToFallAsleep) && averageTimeOfGettingUp.equals(that.averageTimeOfGettingUp) && psqidurat.equals(that.psqidurat) && psqidistb.equals(that.psqidistb) && psqilaten.equals(that.psqilaten) && psqidaydys.equals(that.psqidaydys) && psqihse.equals(that.psqihse) && psqislpqual.equals(that.psqislpqual) && psqimeds.equals(that.psqimeds) && psqitotal.equals(that.psqitotal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(averageLaydownTime, minutesToFallAsleep, averageTimeOfGettingUp, psqidurat, psqidistb, psqilaten, psqidaydys, psqihse, psqislpqual, psqimeds, psqitotal);
     }
 }
