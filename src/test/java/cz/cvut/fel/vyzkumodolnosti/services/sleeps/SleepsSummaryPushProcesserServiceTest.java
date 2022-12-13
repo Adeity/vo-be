@@ -3,7 +3,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.sleeps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.fel.vyzkumodolnosti.JsonDataHolder;
 import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
-import cz.cvut.fel.vyzkumodolnosti.repository.SleepSummaryDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.sleep.SleepSummaryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +24,7 @@ class SleepsSummaryPushProcesserServiceTest {
 	@Mock
 	DeviceDao deviceDao;
 	@Mock
-	SleepSummaryDao sleepSummaryDao;
+	SleepSummaryRepository sleepSummaryRepository;
 	@InjectMocks
 	SleepsSummaryPushProcesserService service;
 
@@ -45,7 +45,7 @@ class SleepsSummaryPushProcesserServiceTest {
 			e.printStackTrace();
 		}
 
-		verify(sleepSummaryDao, times(2)).save(Mockito.any());
+		verify(sleepSummaryRepository, times(2)).save(Mockito.any());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ class SleepsSummaryPushProcesserServiceTest {
 			e.printStackTrace();
 		}
 
-		verify(sleepSummaryDao, times(0)).save(Mockito.any());
+		verify(sleepSummaryRepository, times(0)).save(Mockito.any());
 	}
 
 	@Test
@@ -71,7 +71,7 @@ class SleepsSummaryPushProcesserServiceTest {
 			e.printStackTrace();
 		}
 
-		verify(sleepSummaryDao, times(0)).save(Mockito.any());
+		verify(sleepSummaryRepository, times(0)).save(Mockito.any());
 	}
 
 }

@@ -11,6 +11,9 @@ public class SleepSummaryFilterDto {
 	private LocalDate dateTo;
 	private Set<String> researchIds;
 
+	public SleepSummaryFilterDto() {
+	}
+
 	public SleepSummaryFilterDto(Long from, Long to, Set<String> researchNumbers) {
 		LocalDate dateFrom = Instant.ofEpochMilli(from).atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate dateTo = Instant.ofEpochMilli(to).atZone(ZoneId.systemDefault()).toLocalDate();
