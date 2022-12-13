@@ -9,9 +9,11 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluati
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@Service
 public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEvaluator {
     @Override
     public PsqiEvaluation evaluate(PsqiComputationVariablesDto variablesDto) {
@@ -88,12 +90,12 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
         return evaluation;
     }
 
-    private Integer sumNInts(Integer... e) {
-        return Arrays.stream(e).reduce(0, Integer::sum);
-    }
-
     @Override
     public MeqEvaluation evaluate(MeqComputationVariablesDto variablesDto) {
         throw new RuntimeException("Not yet implemented!");
+    }
+
+    private Integer sumNInts(Integer... e) {
+        return Arrays.stream(e).reduce(0, Integer::sum);
     }
 }
