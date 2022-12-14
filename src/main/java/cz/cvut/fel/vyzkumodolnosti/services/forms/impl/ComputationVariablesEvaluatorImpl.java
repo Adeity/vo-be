@@ -56,7 +56,9 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
 
     @Override
     public MctqEvaluation evaluate(MctqComputationVariablesDto variablesDto) {
-        throw new RuntimeException("Not yet implemented!");
+        MctqEvaluation evaluation = new MctqEvaluation();
+
+        return evaluation;
     }
 
     @Override

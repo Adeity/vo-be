@@ -14,6 +14,8 @@ public class MctqEvaluation extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "mctq_submitted_form_id", referencedColumnName = "id")
     private MctqSubmittedForm submittedForm;
+
+    // Computed variables workdays
     @NotNull
     @Column(name = "sqw")
     private Double SQw;
@@ -29,6 +31,25 @@ public class MctqEvaluation extends AbstractEntity {
     @NotNull
     @Column(name = "msw")
     private Double MSW;
+
+    // Computed variables work-free days
+    @NotNull
+    @Column(name = "sqf")
+    private Double SQf;
+    @NotNull
+    @Column(name = "guf")
+    private Double GUf;
+    @NotNull
+    @Column(name = "sdf")
+    private Double SDf;
+    @NotNull
+    @Column(name = "tbtf")
+    private Double TBTf;
+    @NotNull
+    @Column(name = "msf")
+    private Double MSF;
+
+    // Computed variables combining workdays and work-free days
     @NotNull
     @Column(name = "sdweek")
     private Double SDweek;
@@ -94,6 +115,46 @@ public class MctqEvaluation extends AbstractEntity {
 
     public void setMSW(Double MSW) {
         this.MSW = MSW;
+    }
+
+    public Double getSQf() {
+        return SQf;
+    }
+
+    public void setSQf(Double SQf) {
+        this.SQf = SQf;
+    }
+
+    public Double getGUf() {
+        return GUf;
+    }
+
+    public void setGUf(Double GUf) {
+        this.GUf = GUf;
+    }
+
+    public Double getSDf() {
+        return SDf;
+    }
+
+    public void setSDf(Double SDf) {
+        this.SDf = SDf;
+    }
+
+    public Double getTBTf() {
+        return TBTf;
+    }
+
+    public void setTBTf(Double TBTf) {
+        this.TBTf = TBTf;
+    }
+
+    public Double getMSF() {
+        return MSF;
+    }
+
+    public void setMSF(Double MSF) {
+        this.MSF = MSF;
     }
 
     public Double getSDweek() {

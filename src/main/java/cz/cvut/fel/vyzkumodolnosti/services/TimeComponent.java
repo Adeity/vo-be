@@ -63,6 +63,10 @@ public class TimeComponent {
         return (hours * 3600) + (minutes * 60);
     }
 
+    public Integer minutesToSeconds(Integer minutes) {
+        return minutes * 60;
+    }
+
     /**
      * @param gnt good night time in hh:mm format
      * @param gmt good morning tiem in hh:mm format
