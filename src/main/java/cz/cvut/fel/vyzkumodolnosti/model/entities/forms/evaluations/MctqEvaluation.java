@@ -17,57 +17,57 @@ public class MctqEvaluation extends AbstractEntity {
 
     // Computed variables workdays
     @NotNull
-    @Column(name = "sqw")
-    private Double SQw;
+    @Column(name = "sow")
+    private String SOw;
     @NotNull
     @Column(name = "guw")
-    private Double GUw;
+    private String GUw;
     @NotNull
     @Column(name = "sdw")
-    private Double SDw;
+    private String SDw;
     @NotNull
     @Column(name = "tbtw")
-    private Double TBTw;
+    private String TBTw;
     @NotNull
     @Column(name = "msw")
-    private Double MSW;
+    private String MSW;
 
     // Computed variables work-free days
     @NotNull
-    @Column(name = "sqf")
-    private Double SQf;
+    @Column(name = "sof")
+    private String SOf;
     @NotNull
     @Column(name = "guf")
-    private Double GUf;
+    private String GUf;
     @NotNull
     @Column(name = "sdf")
-    private Double SDf;
+    private String SDf;
     @NotNull
     @Column(name = "tbtf")
-    private Double TBTf;
+    private String TBTf;
     @NotNull
     @Column(name = "msf")
-    private Double MSF;
+    private String MSF;
 
     // Computed variables combining workdays and work-free days
     @NotNull
     @Column(name = "sdweek")
-    private Double SDweek;
+    private String SDweek;
     @NotNull
     @Column(name = "msfsc")
-    private Double MSFsc;
+    private String MSFsc;
     @NotNull
     @Column(name = "slossweek")
-    private Double SLossweek;
+    private String SLossweek;
     @NotNull
     @Column(name = "sjlrel")
-    private Double SJLrel;
+    private String SJLrel;
     @NotNull
     @Column(name = "sjl")
-    private Double SJL;
+    private String SJL;
     @NotNull
     @Column(name = "leweek")
-    private Double LEweek;
+    private String LEweek;
 
     public MctqSubmittedForm getSubmittedForm() {
         return submittedForm;
@@ -77,131 +77,131 @@ public class MctqEvaluation extends AbstractEntity {
         this.submittedForm = submittedForm;
     }
 
-    public Double getSQw() {
-        return SQw;
+    public String getSOw() {
+        return SOw;
     }
 
-    public void setSQw(Double SQw) {
-        this.SQw = SQw;
+    public void setSOw(String SOw) {
+        this.SOw = SOw;
     }
 
-    public Double getGUw() {
+    public String getGUw() {
         return GUw;
     }
 
-    public void setGUw(Double GUw) {
+    public void setGUw(String GUw) {
         this.GUw = GUw;
     }
 
-    public Double getSDw() {
+    public String getSDw() {
         return SDw;
     }
 
-    public void setSDw(Double SDw) {
+    public void setSDw(String SDw) {
         this.SDw = SDw;
     }
 
-    public Double getTBTw() {
+    public String getTBTw() {
         return TBTw;
     }
 
-    public void setTBTw(Double TBTw) {
+    public void setTBTw(String TBTw) {
         this.TBTw = TBTw;
     }
 
-    public Double getMSW() {
+    public String getMSW() {
         return MSW;
     }
 
-    public void setMSW(Double MSW) {
+    public void setMSW(String MSW) {
         this.MSW = MSW;
     }
 
-    public Double getSQf() {
-        return SQf;
+    public String getSOf() {
+        return SOf;
     }
 
-    public void setSQf(Double SQf) {
-        this.SQf = SQf;
+    public void setSOf(String SOf) {
+        this.SOf = SOf;
     }
 
-    public Double getGUf() {
+    public String getGUf() {
         return GUf;
     }
 
-    public void setGUf(Double GUf) {
+    public void setGUf(String GUf) {
         this.GUf = GUf;
     }
 
-    public Double getSDf() {
+    public String getSDf() {
         return SDf;
     }
 
-    public void setSDf(Double SDf) {
+    public void setSDf(String SDf) {
         this.SDf = SDf;
     }
 
-    public Double getTBTf() {
+    public String getTBTf() {
         return TBTf;
     }
 
-    public void setTBTf(Double TBTf) {
+    public void setTBTf(String TBTf) {
         this.TBTf = TBTf;
     }
 
-    public Double getMSF() {
+    public String getMSF() {
         return MSF;
     }
 
-    public void setMSF(Double MSF) {
+    public void setMSF(String MSF) {
         this.MSF = MSF;
     }
 
-    public Double getSDweek() {
+    public String getSDweek() {
         return SDweek;
     }
 
-    public void setSDweek(Double SDweek) {
+    public void setSDweek(String SDweek) {
         this.SDweek = SDweek;
     }
 
-    public Double getMSFsc() {
+    public String getMSFsc() {
         return MSFsc;
     }
 
-    public void setMSFsc(Double MSFsc) {
+    public void setMSFsc(String MSFsc) {
         this.MSFsc = MSFsc;
     }
 
-    public Double getSLossweek() {
+    public String getSLossweek() {
         return SLossweek;
     }
 
-    public void setSLossweek(Double SLossweek) {
+    public void setSLossweek(String SLossweek) {
         this.SLossweek = SLossweek;
     }
 
-    public Double getSJLrel() {
+    public String getSJLrel() {
         return SJLrel;
     }
 
-    public void setSJLrel(Double SJLrel) {
+    public void setSJLrel(String SJLrel) {
         this.SJLrel = SJLrel;
     }
 
-    public Double getSJL() {
+    public String getSJL() {
         return SJL;
     }
 
-    public void setSJL(Double SJL) {
+    public void setSJL(String SJL) {
         this.SJL = SJL;
     }
 
-    public Double getLEweek() {
+    public String getLEweek() {
         return LEweek;
     }
 
-    public void setLEweek(Double LEweek) {
+    public void setLEweek(String LEweek) {
         this.LEweek = LEweek;
     }
 }

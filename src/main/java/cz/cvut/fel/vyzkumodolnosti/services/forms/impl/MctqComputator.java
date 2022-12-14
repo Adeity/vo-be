@@ -65,12 +65,10 @@ public class MctqComputator {
                         (timeComponent.hourMinuteFormatToSeconds(SDf) / 2));
     }
 
-    public String calculateSDweek(String SDw, String WD, String SDf, String FD) {
+    public String calculateSDweek(String SDw, Integer WD, String SDf, Integer FD) {
         Integer SDwseconds = timeComponent.hourMinuteFormatToSeconds(SDw);
-        Integer WDseconds = timeComponent.hourMinuteFormatToSeconds(WD);
         Integer SDfseconds = timeComponent.hourMinuteFormatToSeconds(SDf);
-        Integer FDseconds = timeComponent.hourMinuteFormatToSeconds(FD);
-        Integer resSeconds = ((SDwseconds * WDseconds) * (SDfseconds + FDseconds)) / 7;
+        Integer resSeconds = ((SDwseconds * WD) * (SDfseconds + FD)) / 7;
         return timeComponent.secondsToHourMinuteFormat(resSeconds);
     }
 

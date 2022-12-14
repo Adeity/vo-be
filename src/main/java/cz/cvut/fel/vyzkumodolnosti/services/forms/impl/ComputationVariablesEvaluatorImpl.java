@@ -57,6 +57,44 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     @Override
     public MctqEvaluation evaluate(MctqComputationVariablesDto variablesDto) {
         MctqEvaluation evaluation = new MctqEvaluation();
+        MctqComputator computator = new MctqComputator();
+
+        evaluation.setSOw(computator.calculateSOw(variablesDto.getSPrepw(), variablesDto.getSLatw()));
+        evaluation.setGUw(computator.calculateGUw(variablesDto.getSEw(), variablesDto.getSIw()));
+        evaluation.setSDw(computator.calculateSDw(variablesDto.getSEw(), evaluation.getSOw()));
+        evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBTw()));
+        evaluation.setMSW(computator.calculateMSW(evaluation.getGUw(), evaluation.getSDw()));
+
+        evaluation.setSOf(computator.calculateSOf(variablesDto.getSPrepf(), variablesDto.getSLatf()));
+        evaluation.setGUf(computator.calculateGUf(variablesDto.getSEf(), variablesDto.getSIf()));
+        evaluation.setSDf(computator.calculateSDf(variablesDto.getSEf(), evaluation.getSOf()));
+        evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBTf()));
+        evaluation.setMSF(computator.calculateMSF(evaluation.getGUf(), evaluation.getSDf()));
+
+        evaluation.setSDweek(computator.calculateSDweek(
+                evaluation.getSDw(),
+                variablesDto.getWD(),
+                evaluation.getSDf(),
+                variablesDto.getFD()));
+        evaluation.setMSFsc(computator.calculateMSFsc(
+                variablesDto.getAlarmf(),
+                evaluation.getSDf(),
+                evaluation.getSDw(),
+                evaluation.getMSF(),
+                evaluation.getSDweek()));
+        evaluation.setSLossweek(computator.calculateSLossweek(
+                evaluation.getSDweek(),
+                evaluation.getSDw(),
+                evaluation.getSDf(),
+                variablesDto.getWD(),
+                variablesDto.getFD()));
+        evaluation.setSJLrel(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
+        evaluation.setSJL(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
+        evaluation.setLEweek(computator.calculateLEweek(
+                variablesDto.getLEw(),
+                variablesDto.getWD(),
+                variablesDto.getFD(),
+                variablesDto.getLEf()));
 
         return evaluation;
     }
