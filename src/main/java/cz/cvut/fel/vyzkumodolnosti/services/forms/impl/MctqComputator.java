@@ -18,20 +18,16 @@ public class MctqComputator {
     }
 
     public String calculateSDw(String SEw, String SOw) {
-        return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(SEw) -
-                        timeComponent.hourMinuteFormatToSeconds(SOw));
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(SOw, SEw);
     }
 
     public String calculateTBTw(String GUw, String BTw) {
-        return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(GUw) -
-                        timeComponent.hourMinuteFormatToSeconds(BTw));
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(BTw, GUw);
     }
 
-    public String calculateMSW(String GUw, String SDw) {
+    public String calculateMSW(String SOw, String SDw) {
         return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(GUw) -
+                timeComponent.hourMinuteFormatToSeconds(SOw) +
                         (timeComponent.hourMinuteFormatToSeconds(SDw) / 2));
     }
 
@@ -48,27 +44,23 @@ public class MctqComputator {
     }
 
     public String calculateSDf(String SEf, String SOf) {
-        return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(SEf) -
-                        timeComponent.hourMinuteFormatToSeconds(SOf));
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(SOf, SEf);
     }
 
     public String calculateTBTf(String GUf, String BTf) {
-        return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(GUf) -
-                        timeComponent.hourMinuteFormatToSeconds(BTf));
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(BTf, GUf);
     }
 
-    public String calculateMSF(String GUf, String SDf) {
+    public String calculateMSF(String SOf, String SDf) {
         return timeComponent.secondsToHourMinuteFormat(
-                timeComponent.hourMinuteFormatToSeconds(GUf) -
+                timeComponent.hourMinuteFormatToSeconds(SOf) +
                         (timeComponent.hourMinuteFormatToSeconds(SDf) / 2));
     }
 
     public String calculateSDweek(String SDw, Integer WD, String SDf, Integer FD) {
         Integer SDwseconds = timeComponent.hourMinuteFormatToSeconds(SDw);
         Integer SDfseconds = timeComponent.hourMinuteFormatToSeconds(SDf);
-        Integer resSeconds = ((SDwseconds * WD) * (SDfseconds + FD)) / 7;
+        Integer resSeconds = ((SDwseconds * WD) + (SDfseconds * FD)) / 7;
         return timeComponent.secondsToHourMinuteFormat(resSeconds);
     }
 
@@ -86,7 +78,7 @@ public class MctqComputator {
         Integer MSFseconds = timeComponent.hourMinuteFormatToSeconds(MSF);
         Integer SDweeksecnods = timeComponent.hourMinuteFormatToSeconds(SDweek);
 
-        Integer resSeconds = MSFseconds - (SDfseconds - SDweeksecnods) / 2;
+        Integer resSeconds = MSFseconds - ((SDfseconds - SDweeksecnods) / 2);
 
         return timeComponent.secondsToHourMinuteFormat(resSeconds);
     }

@@ -47,6 +47,9 @@ public class TimeComponent {
         int p2 = seconds / 60;
         int p3 = p2 % 60;
         p2 = p2 / 60;
+        if (p2 >= 24) {
+            p2 -= 24;
+        }
         String p2s = p2 < 10 ? "0" + p2 : String.valueOf(p2);
         String p3s = p3 < 10 ? "0" + p3 : String.valueOf(p3);
         return p2s + ":" + p3s;
@@ -82,6 +85,23 @@ public class TimeComponent {
             return this.secondsToHours(gmtInSeconds - gntInSeconds);
         }
         return secondsToHours((fullDayInSeconds - gntInSeconds) + gmtInSeconds);
+    }
+
+    /**
+     * @param gnt good night time in hh:mm format
+     * @param gmt good morning tiem in hh:mm format
+     * @return hours of difference between gnt and gmt
+     */
+    public String calculateDiffBetweenGntAndGmtHhMmFormat(String gnt, String gmt) {
+        Integer gntInSeconds = this.hourMinuteFormatToSeconds(gnt);
+        Integer gmtInSeconds = this.hourMinuteFormatToSeconds(gmt);
+
+        Integer fullDayInSeconds = 86400;
+
+        if (gntInSeconds < gmtInSeconds) {
+            return this.secondsToHourMinuteFormat(gmtInSeconds - gntInSeconds);
+        }
+        return this.secondsToHourMinuteFormat((fullDayInSeconds - gntInSeconds) + gmtInSeconds);
     }
 
     private Double secondsToHours(Integer seconds) {

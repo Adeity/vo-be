@@ -5,6 +5,7 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.MctqSubmittedF
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "mctq_evaluation")
@@ -203,5 +204,13 @@ public class MctqEvaluation extends AbstractEntity {
 
     public void setLEweek(String LEweek) {
         this.LEweek = LEweek;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MctqEvaluation that = (MctqEvaluation) o;
+        return SOw.equals(that.SOw) && GUw.equals(that.GUw) && SDw.equals(that.SDw) && TBTw.equals(that.TBTw) && MSW.equals(that.MSW) && SOf.equals(that.SOf) && GUf.equals(that.GUf) && SDf.equals(that.SDf) && TBTf.equals(that.TBTf) && MSF.equals(that.MSF) && SDweek.equals(that.SDweek) && Objects.equals(MSFsc, that.MSFsc) && SLossweek.equals(that.SLossweek) && SJLrel.equals(that.SJLrel) && SJL.equals(that.SJL) && LEweek.equals(that.LEweek);
     }
 }

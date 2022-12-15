@@ -63,13 +63,13 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
         evaluation.setGUw(computator.calculateGUw(variablesDto.getSEw(), variablesDto.getSIw()));
         evaluation.setSDw(computator.calculateSDw(variablesDto.getSEw(), evaluation.getSOw()));
         evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBTw()));
-        evaluation.setMSW(computator.calculateMSW(evaluation.getGUw(), evaluation.getSDw()));
+        evaluation.setMSW(computator.calculateMSW(evaluation.getSOw(), evaluation.getSDw()));
 
         evaluation.setSOf(computator.calculateSOf(variablesDto.getSPrepf(), variablesDto.getSLatf()));
         evaluation.setGUf(computator.calculateGUf(variablesDto.getSEf(), variablesDto.getSIf()));
         evaluation.setSDf(computator.calculateSDf(variablesDto.getSEf(), evaluation.getSOf()));
         evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBTf()));
-        evaluation.setMSF(computator.calculateMSF(evaluation.getGUf(), evaluation.getSDf()));
+        evaluation.setMSF(computator.calculateMSF(evaluation.getSOf(), evaluation.getSDf()));
 
         evaluation.setSDweek(computator.calculateSDweek(
                 evaluation.getSDw(),
@@ -89,7 +89,7 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                 variablesDto.getWD(),
                 variablesDto.getFD()));
         evaluation.setSJLrel(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
-        evaluation.setSJL(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
+        evaluation.setSJL(computator.calculateSJL(evaluation.getMSF(), evaluation.getMSW()));
         evaluation.setLEweek(computator.calculateLEweek(
                 variablesDto.getLEw(),
                 variablesDto.getWD(),
