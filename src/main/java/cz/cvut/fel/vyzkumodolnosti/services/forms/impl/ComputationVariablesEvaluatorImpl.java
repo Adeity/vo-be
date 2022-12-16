@@ -1,13 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.LifeSatisfactionComputationVariablesDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.MctqComputationVariablesDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.MeqComputationVariablesDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.PsqiComputationVariablesDto;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.LifeSatisfactionEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.*;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.*;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
 import org.springframework.stereotype.Service;
 
@@ -132,7 +126,40 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
 
     @Override
     public MeqEvaluation evaluate(MeqComputationVariablesDto variablesDto) {
-        throw new RuntimeException("Not yet implemented!");
+        MeqComputator computator = new MeqComputator();
+        Integer q1 = computator.calculateQ1(variablesDto.getQ1());
+        Integer q2 = computator.calculateQ2(variablesDto.getQ2());
+        Integer q3 = variablesDto.getQ3();
+        Integer q4 = variablesDto.getQ4();
+        Integer q5 = variablesDto.getQ5();
+        Integer q6 = variablesDto.getQ6();
+        Integer q7 = variablesDto.getQ7();
+        Integer q8 = variablesDto.getQ8();
+        Integer q9 = variablesDto.getQ9();
+        Integer q10 = computator.calculateQ10(variablesDto.getQ10());
+        Integer q11 = variablesDto.getQ11();
+        Integer q12 = variablesDto.getQ12();
+        Integer q13 = variablesDto.getQ13();
+        Integer q14 = variablesDto.getQ14();
+        Integer q15 = variablesDto.getQ15();
+        Integer q16 = variablesDto.getQ16();
+        Integer q17 = computator.calculateQ17(variablesDto.getQ17());
+        Integer q18 = computator.calculateQ18(variablesDto.getQ18());
+        Integer q19 = variablesDto.getQ19();
+
+        Integer sum = sumNInts(
+                q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19);
+
+        MeqEvaluation evaluation = new MeqEvaluation();
+        evaluation.setMeqValue(sum);
+        return evaluation;
+    }
+
+    @Override
+    public PssEvaluation evaluate(PssComputationVariablesDto variablesDto) {
+        PssEvaluation evaluation = new PssEvaluation();
+
+        return evaluation;
     }
 
     private Integer sumNInts(Integer... e) {

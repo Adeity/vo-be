@@ -1,17 +1,8 @@
 package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.LifeSatisfactionSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MctqSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MeqSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.LifeSatisfactionSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.MctqSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.MeqSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.PsqiSubmittedForm;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.LifeSatisfactionSubmittedFormJpaRepository;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.MctqSubmittedFormJpaRepository;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.MeqSubmittedFormJpaRepository;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.PsqiSubmittedFormJpaRepository;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.*;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.*;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.*;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.SubmittedFormMapper;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.SubmittedFormWriteService;
@@ -24,16 +15,18 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
     private final MeqSubmittedFormJpaRepository meqRepository;
     private final MctqSubmittedFormJpaRepository mctqRepository;
     private final LifeSatisfactionSubmittedFormJpaRepository lifesatRepository;
+    private final PssSubmittedFormRepository pssRepository;
     private final SubmittedFormMapper formMapper;
     private final ComputationVariablesEvaluator evaluator;
 
     @Autowired
-    public SubmittedFormWriteServiceImpl(PsqiSubmittedFormJpaRepository psqiRepository, MeqSubmittedFormJpaRepository meqRepository, MctqSubmittedFormJpaRepository mctqRepository, LifeSatisfactionSubmittedFormJpaRepository lifesatRepository, SubmittedFormMapper formMapper, ComputationVariablesEvaluator evaluator) {
+    public SubmittedFormWriteServiceImpl(PsqiSubmittedFormJpaRepository psqiRepository, MeqSubmittedFormJpaRepository meqRepository, MctqSubmittedFormJpaRepository mctqRepository, LifeSatisfactionSubmittedFormJpaRepository lifesatRepository, SubmittedFormMapper formMapper, PssSubmittedFormRepository pssRepository) {
         this.psqiRepository = psqiRepository;
         this.meqRepository = meqRepository;
         this.mctqRepository = mctqRepository;
         this.lifesatRepository = lifesatRepository;
         this.formMapper = formMapper;
+        this.pssRepository = pssRepository;
         this.evaluator = new ComputationVariablesEvaluatorImpl();
     }
 
@@ -53,6 +46,12 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
         MeqSubmittedForm entity = (MeqSubmittedForm) formMapper.mapDtoToEntity(dto);
         entity.setEvaluation(evaluator.evaluate(dto.getVariablesDto()));
         meqRepository.save(entity);
+    }
+
+    public void save(PssSubmittedFormDto dto) {
+        PssSubmittedForm entity = (PssSubmittedForm) formMapper.mapDtoToEntity(dto);
+        entity.setEvaluation(evaluator.evaluate(dto.getVariablesDto()));
+        pssRepository.save(entity);
     }
 
     public void save(LifeSatisfactionSubmittedFormDto dto) {

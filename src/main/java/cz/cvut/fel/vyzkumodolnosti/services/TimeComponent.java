@@ -66,6 +66,17 @@ public class TimeComponent {
         return (hours * 3600) + (minutes * 60);
     }
 
+    public Double hourMinuteFormatToHours(String hourMinute) {
+        String[] splitted = hourMinute.split(":");
+        String hoursStr = splitted[0];
+        String minutesStr = splitted[1];
+
+        double hours = Double.parseDouble(hoursStr);
+        double minutes = Double.parseDouble(minutesStr);
+
+        return (hours) + (minutes / 60);
+    }
+
     public Integer minutesToSeconds(Integer minutes) {
         return minutes * 60;
     }

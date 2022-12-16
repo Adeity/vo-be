@@ -195,8 +195,60 @@ components:
         computationVariables:
           type: object
           properties:
-            jestenevim:
+            q1:
               type: string
+              example: "22:30"
+            q2:
+              type: integer
+              example: 10
+            q3:
+              type: integer
+              example: "06:30"
+            q4:
+              type: integer
+              example: 5.5
+            q5aScore:
+              type: integer
+              example: 0
+            q5bScore:
+              type: integer
+              example: 3
+            q5cScore:
+              type: integer
+              example: 0
+            q5dScore:
+              type: integer
+              example: 0
+            q5eScore:
+              type: integer
+              example: 0
+            q5fScore:
+              type: integer
+              example: 0
+            q5gScore:
+              type: integer
+              example: 0
+            q5hScore:
+              type: integer
+              example: 0
+            q5iScore:
+              type: integer
+              example: 0
+            q5jScore:
+              type: integer
+              example: 3
+            q6Score:
+              type: integer
+              example: 2
+            q7Score:
+              type: integer
+              example: 0
+            q8Score:
+              type: integer
+              example: 2
+            q9Score:
+              type: integer
+              example: 1
 
     MeqSubmittedFormInput:
       allOf:
@@ -205,8 +257,63 @@ components:
         computationVariables:
           type: object
           properties:
-            jestenevim:
+            q1:
               type: string
+              example: ""
+            q2:
+              type: string
+              example: ""
+            q3:
+              type: integer
+              example: 0
+            q4:
+              type: integer
+              example: 0
+            q5:
+              type: integer
+              example: 0
+            q6:
+              type: integer
+              example: 0
+            q7:
+              type: integer
+              example: 0
+            q8:
+              type: integer
+              example: 0
+            q9:
+              type: integer
+              example: 0
+            q10:
+              type: string
+              example: ""
+            q11:
+              type: integer
+              example: 0
+            q12:
+              type: integer
+              example: 0
+            q13:
+              type: integer
+              example: 0
+            q14:
+              type: integer
+              example: 0
+            q15:
+              type: integer
+              example: 0
+            q16:
+              type: integer
+              example: 0
+            q17:
+              type: string
+              example: ""
+            q18:
+              type: string
+              example: ""
+            q19:
+              type: integer
+              example: 0
 
     MctqSubmittedFormInput:
       allOf:
@@ -215,8 +322,54 @@ components:
         computationVariables:
           type: object
           properties:
-            jestenevim:
+            BTw:
               type: string
+              example: "21:15"
+            Sprepw:
+              type: string
+              example: "21:30"
+            SLatw:
+              type: integer
+              example: 15
+            SEw:
+              type: string
+              example: "4:45"
+            Alarmw:
+              type: boolean
+              example: true
+            SIw:
+              type: integer
+              example: 0
+            WD:
+              type: integer
+              example: 5
+            LEw:
+              type: string
+              example: "02:30"
+            BTf:
+              type: string
+              example: "22:00"
+            Sprepf:
+              type: string
+              example: "22:30"
+            SLatf:
+              type: integer
+              example: 30
+            SEf:
+              type: string
+              example: "08:00"
+            Alarmf:
+              type: boolean
+              example: false
+            SIf:
+              type: integer
+              example: 10
+            FD:
+              type: integer
+              example: 2
+            LEf:
+              type: string
+              example: "06:00"
 
     LifeSatisfactionSubmittedFormInput:
       allOf:
@@ -245,6 +398,14 @@ components:
               $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
             byd:
               $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+
+    PerceivedStressScaleFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        jesteNevim:
+          type: integer
+          example: 0
 
     LifeSatisfactionComponentInputArray:
       type: array

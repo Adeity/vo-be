@@ -2,10 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.controllers;
 
 import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorModel;
 import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorResponse;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.LifeSatisfactionSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MctqSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.MeqSubmittedFormDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.PsqiSubmittedFormDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.*;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.impl.SubmittedFormWriteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +40,11 @@ public class FormSubmitController {
 
     @PostMapping(value = "/life-satisfaction")
     public void submitLifeSatisfaction(@Valid @RequestBody LifeSatisfactionSubmittedFormDto dto) {
+        writeService.save(dto);
+    }
+
+    @PostMapping(value = "/pss")
+    public void submitMeq(@Valid @RequestBody PssSubmittedFormDto dto) {
         writeService.save(dto);
     }
 
