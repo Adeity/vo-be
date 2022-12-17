@@ -308,6 +308,7 @@ components:
             q17:
               type: string
               example: ""
+              description: "This is the upper interval value from the 5 hour interval answer."
             q18:
               type: string
               example: ""

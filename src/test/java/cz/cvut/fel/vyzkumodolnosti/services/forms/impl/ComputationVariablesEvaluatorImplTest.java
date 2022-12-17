@@ -2,9 +2,11 @@ package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.LifeSatisfactionComputationVariablesDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.MctqComputationVariablesDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.MeqComputationVariablesDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.PsqiComputationVariablesDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.LifeSatisfactionEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluation;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
 import org.junit.jupiter.api.Assertions;
@@ -259,5 +261,37 @@ class ComputationVariablesEvaluatorImplTest {
         Assertions.assertEquals(evaluationExpected.getSJLrel(), evaluationActual.getSJLrel());
         Assertions.assertEquals(evaluationExpected.getSJL(), evaluationActual.getSJL());
         Assertions.assertEquals(evaluationExpected.getLEweek(), evaluationActual.getLEweek());
+    }
+
+    @Test
+    void test_meq_1() {
+        MeqComputationVariablesDto computationVariablesDto = new MeqComputationVariablesDto();
+        computationVariablesDto.setQ1("06:00"); // 5
+        computationVariablesDto.setQ2("22:00"); // 4
+        computationVariablesDto.setQ3(2);
+        computationVariablesDto.setQ4(4);
+        computationVariablesDto.setQ5(3);
+        computationVariablesDto.setQ6(2);
+        computationVariablesDto.setQ7(3);
+        computationVariablesDto.setQ8(4);
+        computationVariablesDto.setQ9(4);
+        computationVariablesDto.setQ10("21:30"); // 4
+        computationVariablesDto.setQ11(6);
+        computationVariablesDto.setQ12(3);
+        computationVariablesDto.setQ13(1);
+        computationVariablesDto.setQ14(3);
+        computationVariablesDto.setQ15(1);
+        computationVariablesDto.setQ16(1);
+        computationVariablesDto.setQ17("14:00"); // 2
+        computationVariablesDto.setQ18("19:00"); // 2
+        computationVariablesDto.setQ19(6);
+
+        MeqEvaluation meqEvaluationExpected = new MeqEvaluation();
+        meqEvaluationExpected.setMeqValue(60);
+
+        MeqEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
+
+        Assertions.assertEquals(meqEvaluationExpected.getMeqValue(), evaluationActual.getMeqValue());
+
     }
 }
