@@ -14,6 +14,18 @@ public class PssEvaluation extends AbstractEntity {
     @JoinColumn(name = "pss_submitted_form_id", referencedColumnName = "id")
     private PssSubmittedForm submittedForm;
 
+    @NotNull
+    @Column(name = "pss_sum", nullable = false)
+    private Integer pssSum;
+
+    @NotNull
+    @Column(name = "pss_neg", nullable = false)
+    private Integer pssNeg;
+
+    @NotNull
+    @Column(name = "pss_Pos", nullable = false)
+    private Integer pssPos;
+
 
     public PssSubmittedForm getSubmittedForm() {
         return submittedForm;
@@ -23,4 +35,28 @@ public class PssEvaluation extends AbstractEntity {
         this.submittedForm = submittedForm;
     }
 
+
+    public Integer getPssSum() {
+        return pssSum;
+    }
+
+    public void setPssSum(Integer pssSum) {
+        this.pssSum = pssSum;
+    }
+
+    public Integer getPssNeg() {
+        return pssNeg;
+    }
+
+    public void setPssNeg(Integer pssNeg) {
+        this.pssNeg = pssNeg;
+    }
+
+    public Integer getPssPos() {
+        return pssPos;
+    }
+
+    public void setPssPos(Integer pssPos) {
+        this.pssPos = pssPos;
+    }
 }
