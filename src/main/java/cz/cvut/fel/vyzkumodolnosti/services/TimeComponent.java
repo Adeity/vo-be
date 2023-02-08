@@ -1,5 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.services;
 
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +9,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class TimeComponent {
 
     /**
@@ -47,6 +50,9 @@ public class TimeComponent {
         int p2 = seconds / 60;
         int p3 = p2 % 60;
         p2 = p2 / 60;
+        if (p2 >= 24) {
+            p2 -= 24;
+        }
         String p2s = p2 < 10 ? "0" + p2 : String.valueOf(p2);
         String p3s = p3 < 10 ? "0" + p3 : String.valueOf(p3);
         return p2s + ":" + p3s;
@@ -61,6 +67,21 @@ public class TimeComponent {
         int minutes = Integer.parseInt(minutesStr);
 
         return (hours * 3600) + (minutes * 60);
+    }
+
+    public Double hourMinuteFormatToHours(String hourMinute) {
+        String[] splitted = hourMinute.split(":");
+        String hoursStr = splitted[0];
+        String minutesStr = splitted[1];
+
+        double hours = Double.parseDouble(hoursStr);
+        double minutes = Double.parseDouble(minutesStr);
+
+        return (hours) + (minutes / 60);
+    }
+
+    public Integer minutesToSeconds(Integer minutes) {
+        return minutes * 60;
     }
 
     /**
@@ -78,6 +99,23 @@ public class TimeComponent {
             return this.secondsToHours(gmtInSeconds - gntInSeconds);
         }
         return secondsToHours((fullDayInSeconds - gntInSeconds) + gmtInSeconds);
+    }
+
+    /**
+     * @param gnt good night time in hh:mm format
+     * @param gmt good morning tiem in hh:mm format
+     * @return hours of difference between gnt and gmt
+     */
+    public String calculateDiffBetweenGntAndGmtHhMmFormat(String gnt, String gmt) {
+        Integer gntInSeconds = this.hourMinuteFormatToSeconds(gnt);
+        Integer gmtInSeconds = this.hourMinuteFormatToSeconds(gmt);
+
+        Integer fullDayInSeconds = 86400;
+
+        if (gntInSeconds < gmtInSeconds) {
+            return this.secondsToHourMinuteFormat(gmtInSeconds - gntInSeconds);
+        }
+        return this.secondsToHourMinuteFormat((fullDayInSeconds - gntInSeconds) + gmtInSeconds);
     }
 
     private Double secondsToHours(Integer seconds) {
