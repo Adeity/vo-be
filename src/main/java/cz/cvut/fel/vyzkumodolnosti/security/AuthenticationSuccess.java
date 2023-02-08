@@ -6,6 +6,7 @@ import cz.cvut.fel.vyzkumodolnosti.security.model.UserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -27,6 +28,9 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
 
     private final ObjectMapper mapper;
 
+    @Value("${localdev}")
+    private Boolean LOCAL_DEV;
+
     @Autowired
     public AuthenticationSuccess(ObjectMapper mapper) {
         this.mapper = mapper;
@@ -40,7 +44,9 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
             LOG.trace("Successfully authenticated user {}", username);
         }
         final LoginStatus loginStatus = new LoginStatus(true, authentication.isAuthenticated(), username, null);
-        addSameSiteCookieAttribute(httpServletResponse);
+        if (LOCAL_DEV.equals(Boolean.FALSE)) {
+            addSameSiteCookieAttribute(httpServletResponse);
+        }
         mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
     }
 
