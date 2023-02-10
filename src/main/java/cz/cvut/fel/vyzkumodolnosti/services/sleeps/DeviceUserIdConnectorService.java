@@ -1,7 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.services.sleeps;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.DeviceEntity;
-import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
 import cz.cvut.fel.vyzkumodolnosti.services.DeviceGarminApiCommunicatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class DeviceUserIdConnectorService {
 	private final DeviceGarminApiCommunicatorService deviceGarminApiCommunicatorService;
-	private final DeviceDao dao;
+	private final DeviceRepository dao;
 
 	@Autowired
-	public DeviceUserIdConnectorService(DeviceGarminApiCommunicatorService deviceGarminApiCommunicatorService, DeviceDao dao) {
+	public DeviceUserIdConnectorService(DeviceGarminApiCommunicatorService deviceGarminApiCommunicatorService, DeviceRepository dao) {
 		this.deviceGarminApiCommunicatorService = deviceGarminApiCommunicatorService;
 		this.dao = dao;
 	}

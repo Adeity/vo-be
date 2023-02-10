@@ -1,74 +1,68 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities;
 
+import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "device")
 public class DeviceEntity implements Serializable {
+    @OneToMany(mappedBy = "device", fetch = FetchType.LAZY)
+    List<SleepSummary> sleepSummaries;
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(
-            name = "id",
-            nullable = false,
-            unique = true
-    )
+    @Column(name = "id", nullable = false, unique = true)
     private int id;
 
     @Size(max = 255)
     @NotNull
-    @Column(
-            name = "research_number",
-            nullable = false,
-            unique = true
-    )
+    @Column(name = "research_number", nullable = false, unique = true)
     private String researchNumber;
 
-    @Column(
-            name = "request_token"
-    )
+    @Column(name = "request_token")
     private String requestToken;
-    @Column(
-            name = "request_token_secret"
-    )
+    @Column(name = "request_token_secret")
     private String requestTokenSecret;
-    @Column(
-            name = "request_token_verifier"
-    )
+    @Column(name = "request_token_verifier")
     private String requestTokenVerifier;
-    @Column(
-            name = "user_access_token",
-			unique = true
-    )
+    @Column(name = "user_access_token", unique = true)
     private String userAccessToken;
-    @Column(
-            name = "oauth_token_secret"
-    )
+    @Column(name = "oauth_token_secret")
     private String oauthTokenSecret;
 
-    @Column(
-            name = "last_sync_time"
-    )
+    @Column(name = "last_sync_time")
     private Timestamp lastSyncTime;
-    @Column(
-            name = "user_id"
-    )
+    @Column(name = "user_id")
     private String userId;
 
-    private boolean allowed = false;
+    @Column(name = "allowed")
+    private Boolean allowed = false;
+    @Column(name = "deregistration_time")
+    private LocalDate deregistrationTime;
 
-	public DeviceEntity() {
-	}
+    public DeviceEntity() {
+    }
 
-	public DeviceEntity(String userAccessToken) {
-		this.userAccessToken = userAccessToken;
-	}
+    public List<SleepSummary> getSleepSummaries() {
+        if (sleepSummaries == null) {
+            sleepSummaries = new ArrayList<>();
+        }
+        return sleepSummaries;
+    }
 
-	public Timestamp getLastSyncTime() {
+    public DeviceEntity(String userAccessToken) {
+        this.userAccessToken = userAccessToken;
+    }
+
+    public Timestamp getLastSyncTime() {
         return lastSyncTime;
     }
 
@@ -146,5 +140,21 @@ public class DeviceEntity implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Boolean getAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(Boolean allowed) {
+        this.allowed = allowed;
+    }
+
+    public LocalDate getDeregistrationTime() {
+        return deregistrationTime;
+    }
+
+    public void setDeregistrationTime(LocalDate deregistrationTime) {
+        this.deregistrationTime = deregistrationTime;
     }
 }

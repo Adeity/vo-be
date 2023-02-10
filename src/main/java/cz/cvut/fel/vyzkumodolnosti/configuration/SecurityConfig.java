@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * tady je potreba zamenit akorat tento radek pod timto
          */
         if (LOCAL_DEV.equals(Boolean.TRUE)) {
-            configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3001"));
+            configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3000"));
         } else {
             configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app"));
         }

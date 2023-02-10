@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.cvut.fel.vyzkumodolnosti.handler.EntryNotFoundException;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepSummaryFilterDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
@@ -56,7 +57,7 @@ public class SleepsController {
             List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
                     sleepsService.read(filterDto));
             if (xlsDtos.size() == 0) {
-                throw new UsernameNotFoundException("Nebyl nalezen zadny zaznam");
+                throw new EntryNotFoundException("Nebyl nalezen žádný záznam.");
             }
             File f = xlsFileExporter.exportToXlsFile(xlsDtos);
             try (
