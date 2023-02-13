@@ -139,10 +139,7 @@ public class OauthController {
         String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
         var alreadyExists = deviceRepository.existsByUserAccessToken(accessTokenResponse.token);
         var isTheSameEntity = deviceRepository.existsByUserAccessTokenAndId(accessTokenResponse.token, deviceEntity.getId());
-        System.out.println("alrready exists: " + alreadyExists);
-        System.out.println("is the same entity: " + isTheSameEntity);
         if (alreadyExists && !isTheSameEntity) {
-            System.out.println("");
             return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + "alreadyRegistered.html")).build();
         }
 
