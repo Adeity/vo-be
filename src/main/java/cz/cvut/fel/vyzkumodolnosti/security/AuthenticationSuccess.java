@@ -40,7 +40,7 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
             LOG.trace("Successfully authenticated user {}", username);
         }
         final LoginStatus loginStatus = new LoginStatus(true, authentication.isAuthenticated(), username, null);
-        addSameSiteCookieAttribute(httpServletResponse);
+//        addSameSiteCookieAttribute(httpServletResponse);
         mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
     }
 

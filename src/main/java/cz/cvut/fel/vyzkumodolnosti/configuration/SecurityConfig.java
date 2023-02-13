@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app"));
+		configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app", "http://localhost:3000/"));
 		configuration.setAllowedMethods(ImmutableList.of("HEAD",
 				"GET", "POST", "PUT", "DELETE", "PATCH"));
 		// setAllowCredentials(true) is important, otherwise:
