@@ -65,7 +65,7 @@
                 researchNumberInvalidFeedback.innerText = "Výzkumné číslo musí být ve formátu šesti alfanumerických znaků oddělených podtržítkem. Např. AB3_C3A."
                 return;
             }
-            const baseUrl = "http://localhost:8080"
+            const baseUrl = ""
             const url = baseUrl + "/garmin/authorize?device_id=" + researchNumberInput.value
             fetch(url, {
                 method: "GET",
