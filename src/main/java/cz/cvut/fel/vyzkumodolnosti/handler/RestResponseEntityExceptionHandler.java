@@ -2,6 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.handler;
 
 import cz.cvut.fel.vyzkumodolnosti.security.exception.CantUpdatePasswordException;
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,5 +37,15 @@ public class RestResponseEntityExceptionHandler {
 	@ExceptionHandler(EntryNotFoundException.class)
 	public ResponseEntity<ErrorInfo> entryNotFound(HttpServletRequest request, RuntimeException e) {
 		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(ResearchNumberRegisteredException.class)
+	public ResponseEntity<ErrorInfo> eresearchNumberRegistered(HttpServletRequest request, RuntimeException e) {
+		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(PSQLException.class)
+	public ResponseEntity<ErrorInfo> idk(HttpServletRequest request, PSQLException e) {
+		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
 	}
 }

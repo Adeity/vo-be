@@ -3,16 +3,18 @@ package cz.cvut.fel.vyzkumodolnosti.controllers;
 import com.google.api.client.auth.oauth.*;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import cz.cvut.fel.vyzkumodolnosti.handler.RedirectUrl;
+import cz.cvut.fel.vyzkumodolnosti.handler.ResearchNumberRegisteredException;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.DeviceEntity;
-import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -21,11 +23,11 @@ import java.net.URI;
 import java.util.Optional;
 
 @Slf4j
-@Controller
+@RestController
 public class OauthController {
 
     private static final HttpTransport TRANSPORT = new NetHttpTransport();
-    private final DeviceDao deviceRepository;
+    private final DeviceRepository deviceRepository;
     @Value("${garmin.consumer.key}")
     private String CONSUMER_KEY;
     @Value("${garmin.consumer.secret}")
@@ -37,7 +39,7 @@ public class OauthController {
     @Value("${garmin.api.access.url}")
     private String ACCESS_URL;
 
-    public OauthController(DeviceDao deviceRepository) {
+    public OauthController(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
     }
 
@@ -49,7 +51,7 @@ public class OauthController {
      * @throws IOException if occurs in request processing
      */
     @GetMapping("/garmin/authorize")
-    public ResponseEntity<Serializable> authorizeNewDevice(@RequestParam(name = "device_id") String deviceId) throws IOException {
+    public RedirectUrl authorizeNewDevice(@RequestParam(name = "device_id") String deviceId) throws IOException {
         // check whether the device is not already authorized
         Optional<DeviceEntity> deviceEntityOpt = getDeviceAndCheckNotAuthorized(deviceId);
 
@@ -94,8 +96,7 @@ public class OauthController {
         String authURL = authorizeUrl.buildAuthority();
         String relURL = authorizeUrl.buildRelativeUrl() + oath_callback;
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + relURL)).build();
-        //return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authorizeUrl.build())).build();
+        return new RedirectUrl(authURL + relURL);
     }
 
     /**
@@ -117,8 +118,8 @@ public class OauthController {
         });
 
         deviceEntity.setRequestTokenVerifier(verifier);
-        // saving in case of error will occur during next phase
-        deviceRepository.save(deviceEntity);
+//        // saving in case of error will occur during next phase
+//        deviceRepository.save(deviceEntity);
 
         OAuthHmacSigner signer = new OAuthHmacSigner();
         signer.clientSharedSecret = CONSUMER_SECRET;
@@ -135,15 +136,22 @@ public class OauthController {
         OAuthCredentialsResponse accessTokenResponse = accessToken.execute();
         log.info("Successfully received access token for device with deviceId: {}", deviceEntity.getResearchNumber());
 
+        String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
+        var alreadyExists = deviceRepository.existsByUserAccessToken(accessTokenResponse.token);
+        var isTheSameEntity = deviceRepository.existsByUserAccessTokenAndId(accessTokenResponse.token, deviceEntity.getId());
+        if (alreadyExists && !isTheSameEntity) {
+            return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + "alreadyRegistered.html")).build();
+        }
+
         deviceEntity.setUserAccessToken(accessTokenResponse.token);
         deviceEntity.setOauthTokenSecret(accessTokenResponse.tokenSecret);
         deviceEntity.setAllowed(true);
+        deviceEntity.setDeregistrationTime(null);
         deviceRepository.save(deviceEntity);
 
         log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getResearchNumber(), accessTokenResponse.token);
         log.debug("deviceId: {}    - access_token_secret = {}", deviceEntity.getResearchNumber(), accessTokenResponse.tokenSecret);
 
-        String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
         String relURL = "thanks.html";
 
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(authURL + relURL)).build();
@@ -163,7 +171,7 @@ public class OauthController {
 
         if (deviceEntity.isPresent() && deviceEntity.get().getUserAccessToken() != null) {
             log.warn("Device with deviceId {} already authorized", hwId);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Device already authorized");
+            throw new ResearchNumberRegisteredException("Výzkumné číslo " + hwId + " již registrováno.");
         }
         return deviceEntity;
     }

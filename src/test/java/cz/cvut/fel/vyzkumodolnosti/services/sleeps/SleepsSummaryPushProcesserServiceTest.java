@@ -2,7 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.sleeps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.cvut.fel.vyzkumodolnosti.JsonDataHolder;
-import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
 import cz.cvut.fel.vyzkumodolnosti.repository.sleep.SleepSummaryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class SleepsSummaryPushProcesserServiceTest {
 	@Mock
-	DeviceDao deviceDao;
+	DeviceRepository deviceDao;
 	@Mock
 	SleepSummaryRepository sleepSummaryRepository;
 	@InjectMocks

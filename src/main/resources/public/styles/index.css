@@ -1,136 +1,63 @@
-.logo{
-    width: 6rem;
+body {
+    display: flex;
+    /*background-color: #f2f2f2;*/
+    flex-direction: column;
+    height: 100vh;
+
+}
+body * {
+    background-color: white;
+}
+main {
+    flex-grow: 1;
 }
 
 .cvut-logo {
-    background-image: url("../images/logo_cvut_en.svg") ;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    max-height: 5rem;
 }
 
-a.cvut-logo {
-    min-width: 8rem;
-}
-
-
-input[type=text] {
-    min-width: 300px;
-    width: 30%; /* Full width */
-    padding: 12px; /* Some padding */
-    border: 1px solid #ccc; /* Gray border */
-    border-radius: 4px; /* Rounded borders */
-    box-sizing: border-box; /* Make sure that padding and width stays in place */
-    margin-top: 6px; /* Add a top margin */
-    margin-bottom: 16px; /* Bottom margin */
-}
-
-input[type=submit] {
-    background-color: gray;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* When moving the mouse over the submit button, add a darker green color */
-input[type=submit]:hover {
-    background-color: darkcyan;
-    color: black;
-}
-
-/* Add a background color and some padding around the form */
-.container {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
+#instructions {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#instructions img {
+    max-width: 20rem;
 }
 
-.welcome {
-    text-align: center;
+#research_number_form {
+    width: 100%;
 }
 
-.register_link_button {
-    width: 300px;
-    color: white;
-    background-color: black;
-    text-align: center;
-    padding: 12px 20px;
-    border-radius: 0px;
-    border-style: solid;
-    border-width: medium;
-    cursor: pointer;
+@media (min-width: 576px) {
+    #research_number_form {
+        width: 100%;
+    }
 }
 
-.register_link_button a {
-    color: white;
-    text-decoration: none;
+@media (min-width: 768px) {
+    #research_number_form {
+        width: 75%;
+    }
+
 }
 
-.register_link_button:hover {
-    background-color: green;
-    color: black;
-    border-style: solid;
+@media (min-width: 992px) {
+
+    #research_number_form {
+        width:50%;
+    }
 }
 
-.garmin_logo {
-    padding: 40px 10px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media (min-width: 1200px) {
+
 }
 
-#Garmin_logo {
-    padding: 0px;
-    margin: 10px;
+@media (min-width: 1400px) {
+
 }
 
-.highlight {
-    font-size: 1.5em;
-    font-weight: bold;
-}
+#researchNumberInvalidFeedback .invalid-feedback {
 
-#steps_instructions img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
-
-form p {
-    text-align: justify;
-}
-
-.form-input-material {
-    margin: 30px;
-    border: black;
-    border-style: solid;
-    border-width: 2px;
-    width: fit-content;
-    padding: 8px 20px;
-}
-
-#thanks_box {
-    font-size: 3em;
-    text-align: center;
-    margin-top: 15%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#thanks_box p {
-    justify-content: flex-end;
-}
-
-#thank_page {
-    height: 100%;
-    position: relative;
-}
-
-#thank_page body, #thank_page .container {
-    height: 100%;
-}
-

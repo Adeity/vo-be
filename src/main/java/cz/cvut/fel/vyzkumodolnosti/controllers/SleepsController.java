@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.cvut.fel.vyzkumodolnosti.handler.EntryNotFoundException;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepSummaryFilterDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -54,6 +56,9 @@ public class SleepsController {
             SleepSummaryFilterDto filterDto = new SleepSummaryFilterDto(from, to, researchNumbers);
             List<XlsRowDto> xlsDtos = entityToXlsRowDtoConverter.convertEntitiesToXlsDto(
                     sleepsService.read(filterDto));
+            if (xlsDtos.size() == 0) {
+                throw new EntryNotFoundException("Nebyl nalezen žádný záznam.");
+            }
             File f = xlsFileExporter.exportToXlsFile(xlsDtos);
             try (
                     InputStream inputStream = new FileInputStream(f)

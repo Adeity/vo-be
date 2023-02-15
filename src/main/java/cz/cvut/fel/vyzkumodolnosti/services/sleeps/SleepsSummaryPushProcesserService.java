@@ -3,7 +3,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.sleeps;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepSummaryDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.sleeps.SleepsPushNotificationDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.sleeps.SleepSummary;
-import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
 import cz.cvut.fel.vyzkumodolnosti.repository.sleep.SleepSummaryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class SleepsSummaryPushProcesserService {
-	private final DeviceDao deviceRepository;
+	private final DeviceRepository deviceRepository;
 	private final SleepSummaryRepository sleepSummaryRepository;
 	private final SleepsDtoToEntityConverter sleepsDtoToEntityConverter;
 
-	public SleepsSummaryPushProcesserService(DeviceDao deviceRepository, SleepSummaryRepository sleepSummaryRepository) {
+	public SleepsSummaryPushProcesserService(DeviceRepository deviceRepository, SleepSummaryRepository sleepSummaryRepository) {
 		this.deviceRepository = deviceRepository;
 		this.sleepSummaryRepository = sleepSummaryRepository;
 		this.sleepsDtoToEntityConverter = new SleepsDtoToEntityConverter();

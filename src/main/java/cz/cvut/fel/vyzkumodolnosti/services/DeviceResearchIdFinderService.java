@@ -1,6 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.services;
 
-import cz.cvut.fel.vyzkumodolnosti.repository.DeviceDao;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.Set;
 
 @Service
 public class DeviceResearchIdFinderService {
-	private final DeviceDao dao;
+	private final DeviceRepository dao;
 
-	public DeviceResearchIdFinderService(DeviceDao dao) {
+	public DeviceResearchIdFinderService(DeviceRepository dao) {
 		this.dao = dao;
 	}
 

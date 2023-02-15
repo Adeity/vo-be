@@ -3,6 +3,7 @@ package cz.cvut.fel.vyzkumodolnosti.configuration;
 import com.google.common.collect.ImmutableList;
 import cz.cvut.fel.vyzkumodolnosti.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             SecurityConstants.SESSION_COOKIE_NAME,
             SecurityConstants.REMEMBER_ME_COOKIE_NAME
     };
+
+    @Value("${localdev}")
+    private Boolean LOCAL_DEV;
 
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -81,7 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app", "http://localhost:3000/"));
+        /**
+         * tady je potreba zamenit akorat tento radek pod timto
+         */
+        if (LOCAL_DEV.equals(Boolean.TRUE)) {
+            configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3000"));
+        } else {
+            configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app"));
+        }
 		configuration.setAllowedMethods(ImmutableList.of("HEAD",
 				"GET", "POST", "PUT", "DELETE", "PATCH"));
 		// setAllowCredentials(true) is important, otherwise:

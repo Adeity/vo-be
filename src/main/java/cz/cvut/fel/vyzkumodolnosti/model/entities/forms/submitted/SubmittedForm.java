@@ -36,6 +36,7 @@ public class SubmittedForm extends AbstractEntity {
 
     public void setCreated(LocalDate created) {
         this.created = created;
+        setCreatedPrePersist();
     }
 
     public String getRespondentIdentifier() {
