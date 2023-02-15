@@ -1,0 +1,488 @@
+openapi: 3.0.3
+info:
+  version: '1'
+  title: Ghdata
+  description: ''
+servers:
+  - description: dev
+    url: localhost
+paths:
+
+  /form-submit/psqi:
+    post:
+      summary: Submit PSQI Form
+      tags:
+        - form-submit
+      requestBody:
+        description: Psqi Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PsqiSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /form-submit/meq:
+    post:
+      summary: Submit MEQ Form
+      tags:
+        - form-submit
+      requestBody:
+        description: MEQ Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeqSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /form-submit/mctq:
+    post:
+      summary: Submit MCTQ Form
+      tags:
+        - form-submit
+      requestBody:
+        description: MCTQ Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MctqSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /form-submit/life-satisfaction:
+    post:
+      summary: Submit Life Satisfaction Form
+      tags:
+        - form-submit
+      requestBody:
+        description: Life Satisfaction Submitted Form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifeSatisfactionSubmittedFormInput'
+      responses:
+        '204':
+          description: The resource was created successfuly.
+
+  /garmin/sleeps:
+    post:
+      summary: Receive push notification from Garmin server with
+      tags:
+        - garmin-sleeps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SleepPushSummary'
+      responses:
+        200:
+          description: Sleep Push Notification Received
+
+  /garmin/sleeps/export:
+    get:
+      summary: Export sleep summaries to xls
+      tags:
+        - garmin-sleeps
+      parameters:
+        - in: path
+          name: from
+          required: true
+          schema:
+            type: integer
+            example: 1657670400000
+          description: From date in epoch time in seconds
+        - in: path
+          name: to
+          required: true
+          schema:
+            type: integer
+            example: 1657929600000
+          description: To date in epoch time in seconds
+        - in: path
+          name: researchNumbers
+          required: true
+          schema:
+            $ref: '#/components/schemas/ResearchNumberArray'
+      responses:
+        200:
+          description: Sleep Push Notification Received
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+
+  /garmin/oauthCallback:
+    get:
+      summary: Callback url for oauth server
+      tags:
+        - garmin-oauth-flow
+      parameters:
+        - in: path
+          name: oauth_token
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: oauth_verifier
+          required: true
+          schema:
+            type: string
+      responses:
+        302:
+          description: User was authorized
+
+
+  /garmin/authorize:
+    get:
+      summary: Start oauth flow
+      tags:
+        - garmin-oauth-flow
+      parameters:
+        - in: path
+          name: device_id
+          required: true
+          schema:
+            type: string
+          description: Device id
+      responses:
+        302:
+          description: Started oauth flow
+
+  /device/active-research-numbers:
+    get:
+      tags:
+        - device
+      responses:
+        200:
+          description: Return array of research numbers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResearchNumberArray'
+
+components:
+  schemas:
+    ResearchNumberArray:
+      type: array
+      items:
+        type: string
+      example: [ "TestNemo", "smeki" ]
+
+    SubmittedFormInput:
+      type: object
+      properties:
+        respondentIdentifier:
+          type: string
+          example: "Josef Cap"
+          nullable: false
+        researchNumber:
+          type: string
+          example: "pi2_2ei"
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerInput'
+
+    PsqiSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            q1:
+              type: string
+              example: "22:30"
+            q2:
+              type: integer
+              example: 10
+            q3:
+              type: integer
+              example: "06:30"
+            q4:
+              type: integer
+              example: 5.5
+            q5aScore:
+              type: integer
+              example: 0
+            q5bScore:
+              type: integer
+              example: 3
+            q5cScore:
+              type: integer
+              example: 0
+            q5dScore:
+              type: integer
+              example: 0
+            q5eScore:
+              type: integer
+              example: 0
+            q5fScore:
+              type: integer
+              example: 0
+            q5gScore:
+              type: integer
+              example: 0
+            q5hScore:
+              type: integer
+              example: 0
+            q5iScore:
+              type: integer
+              example: 0
+            q5jScore:
+              type: integer
+              example: 3
+            q6Score:
+              type: integer
+              example: 2
+            q7Score:
+              type: integer
+              example: 0
+            q8Score:
+              type: integer
+              example: 2
+            q9Score:
+              type: integer
+              example: 1
+
+    MeqSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            q1:
+              type: string
+              example: ""
+            q2:
+              type: string
+              example: ""
+            q3:
+              type: integer
+              example: 0
+            q4:
+              type: integer
+              example: 0
+            q5:
+              type: integer
+              example: 0
+            q6:
+              type: integer
+              example: 0
+            q7:
+              type: integer
+              example: 0
+            q8:
+              type: integer
+              example: 0
+            q9:
+              type: integer
+              example: 0
+            q10:
+              type: string
+              example: ""
+            q11:
+              type: integer
+              example: 0
+            q12:
+              type: integer
+              example: 0
+            q13:
+              type: integer
+              example: 0
+            q14:
+              type: integer
+              example: 0
+            q15:
+              type: integer
+              example: 0
+            q16:
+              type: integer
+              example: 0
+            q17:
+              type: string
+              example: ""
+              description: "This is the upper interval value from the 5 hour interval answer."
+            q18:
+              type: string
+              example: ""
+            q19:
+              type: integer
+              example: 0
+
+    MctqSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            BTw:
+              type: string
+              example: "21:15"
+            Sprepw:
+              type: string
+              example: "21:30"
+            SLatw:
+              type: integer
+              example: 15
+            SEw:
+              type: string
+              example: "4:45"
+            Alarmw:
+              type: boolean
+              example: true
+            SIw:
+              type: integer
+              example: 0
+            WD:
+              type: integer
+              example: 5
+            LEw:
+              type: string
+              example: "02:30"
+            BTf:
+              type: string
+              example: "22:00"
+            Sprepf:
+              type: string
+              example: "22:30"
+            SLatf:
+              type: integer
+              example: 30
+            SEf:
+              type: string
+              example: "08:00"
+            Alarmf:
+              type: boolean
+              example: false
+            SIf:
+              type: integer
+              example: 10
+            FD:
+              type: integer
+              example: 2
+            LEf:
+              type: string
+              example: "06:00"
+
+    LifeSatisfactionSubmittedFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        computationVariables:
+          type: object
+          properties:
+            zdr:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            prz:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            fin:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            vol:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            man:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            det:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            vlo:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            sex:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            pzp:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+            byd:
+              $ref: '#/components/schemas/LifeSatisfactionComponentInputArray'
+
+    PerceivedStressScaleFormInput:
+      allOf:
+        - $ref: '#/components/schemas/SubmittedFormInput'
+      properties:
+        jesteNevim:
+          type: integer
+          example: 0
+
+    LifeSatisfactionComponentInputArray:
+      type: array
+      items:
+        type: integer
+      example: [ 1, 2, 2, 7, 3, 5, 3 ]
+      minLength: 7
+      maxLength: 7
+
+    AnswerInput:
+      type: object
+      properties:
+        value:
+          type: string
+          nullable: false
+          example: "22:00"
+        note:
+          type: string
+          nullable: true
+          example: "Otazce uplne nerozumim"
+        questionCode:
+          type: string
+          example: "lifesat_10"
+          nullable: false
+
+    SleepPushSummary:
+      type: object
+      properties:
+        summaryId:
+          type: string
+          example: "eooa"
+        calendarDate:
+          type: string
+          example: "2025-01-29"
+        durationInSeconds:
+          type: integer
+          example: 28260
+        startTimeInSeconds:
+          type: integer
+          example: 1611840660;
+        startTimeOffsetInSeconds:
+          type: integer
+          example: 32400
+        unmeasurableSleepInSeconds:
+          type: integer
+          example: 0
+        deepSleepDurationInSeconds:
+          type: integer
+          example: 0
+        lightSleepDurationInSeconds:
+          type: integer
+          example: 0
+        remSleepInSeconds:
+          type: integer
+          example: 0
+        awakeDurationInSeconds:
+          type: integer
+          example: 0
+        validation:
+          type: string
+          enum:
+            - "MANUAL"
+            - "DEVICE"
+            - "OFF_WRIST"
+            - "AUTO_TENTATIVE"
+            - "AUTO_FINAL"
+            - "AUTO_MANUAL"
+            - "ENHANCED_TENTATIVE"
+            - "ENHANCED_FINAL"
+          example: "ENHANCED_FINAL"
+        timeOffsetSleepSpo2:
+          type: object
+          example: { }
+        timeOffsetSleepRespiration:
+          type: object
+          example: { }
+        userAccessToken:
+          type: string
+          example: "0da2a8c8-1da6-494d-b716-ebf4db0f0792"
