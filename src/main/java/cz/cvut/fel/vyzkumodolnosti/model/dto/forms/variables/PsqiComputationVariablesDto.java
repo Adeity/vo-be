@@ -23,13 +23,13 @@ public class PsqiComputationVariablesDto {
     private int q8Score;
     private int q9Score;
     // O volných dnech chodím spát v (HH:MM): (1)
-    private String SOf;
+    private String freeDaysGnt;
     // O volných dnech vstávám  v (HH:MM): (2)
-    private String GUf;
+    private String freeDaysGmt;
     // V pracovních dnech chodím spát v (HH:MM): (3)
-    private String SOw;
+    private String workDaysGnt;
     // V pracovních dnech vstávám v (HH:MM): (4)
-    private String GUw;
+    private String workDaysGmt;
 
     public String getQ1() {
         return q1;
@@ -175,35 +175,35 @@ public class PsqiComputationVariablesDto {
         this.q9Score = q9Score;
     }
 
-    public String getSOf() {
-        return SOf;
+    public String getFreeDaysGnt() {
+        return freeDaysGnt;
     }
 
-    public void setSOf(String SOf) {
-        this.SOf = SOf;
+    public void setFreeDaysGnt(String freeDaysGnt) {
+        this.freeDaysGnt = freeDaysGnt;
     }
 
-    public String getGUf() {
-        return GUf;
+    public String getFreeDaysGmt() {
+        return freeDaysGmt;
     }
 
-    public void setGUf(String GUf) {
-        this.GUf = GUf;
+    public void setFreeDaysGmt(String freeDaysGmt) {
+        this.freeDaysGmt = freeDaysGmt;
     }
 
-    public String getSOw() {
-        return SOw;
+    public String getWorkDaysGnt() {
+        return workDaysGnt;
     }
 
-    public void setSOw(String SOw) {
-        this.SOw = SOw;
+    public void setWorkDaysGnt(String workDaysGnt) {
+        this.workDaysGnt = workDaysGnt;
     }
 
-    public String getGUw() {
-        return GUw;
+    public String getWorkDaysGmt() {
+        return workDaysGmt;
     }
 
-    public void setGUw(String GUw) {
-        this.GUw = GUw;
+    public void setWorkDaysGmt(String workDaysGmt) {
+        this.workDaysGmt = workDaysGmt;
     }
 }

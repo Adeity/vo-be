@@ -44,7 +44,15 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                         evaluation.getPsqihse() +
                         evaluation.getPsqislpqual() +
                         evaluation.getPsqimeds());
-        evaluation.setSleeL
+        evaluation.setSleepDurationFreeDays(computator.calculateSleepDurationFreeDays(
+                variablesDto.getFreeDaysGnt(), variablesDto.getFreeDaysGmt()));
+        evaluation.setSleepDurationWorkDays(computator.calculateSleepDurationWorkDays(
+                variablesDto.getWorkDaysGnt(), variablesDto.getWorkDaysGmt()));
+        evaluation.setMidSleepFreeDays(computator.calculateMidSleepFreeDays(
+                variablesDto.getFreeDaysGnt(), evaluation.getSleepDurationFreeDays()));
+        evaluation.setMidSleepWorkDays(computator.calculateMidSleepWorkDays(
+                variablesDto.getWorkDaysGnt(), evaluation.getSleepDurationWorkDays()));
+        evaluation.setSJL(computator.calculateSJL(evaluation.getMidSleepFreeDays(), evaluation.getMidSleepWorkDays()));
 
         return evaluation;
     }

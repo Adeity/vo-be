@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class ComputationVariablesEvaluatorImplTest {
@@ -131,6 +132,10 @@ class ComputationVariablesEvaluatorImplTest {
         computationVariablesDto.setQ7Score(0);
         computationVariablesDto.setQ8Score(2);
         computationVariablesDto.setQ9Score(1);
+        computationVariablesDto.setWorkDaysGnt("21:45");
+        computationVariablesDto.setWorkDaysGmt("04:45");
+        computationVariablesDto.setFreeDaysGnt("23:00");
+        computationVariablesDto.setFreeDaysGmt("08:10");
 
         PsqiEvaluation evaluationExpected = new PsqiEvaluation();
 
@@ -145,10 +150,31 @@ class ComputationVariablesEvaluatorImplTest {
         evaluationExpected.setPsqislpqual(2);
         evaluationExpected.setPsqimeds(0);
         evaluationExpected.setPsqitotal(9);
+        evaluationExpected.setMidSleepWorkDays("01:15");
+        evaluationExpected.setMidSleepFreeDays("03:35");
+        evaluationExpected.setSleepDurationWorkDays("07:00");
+        evaluationExpected.setSleepDurationFreeDays("09:10");
+        evaluationExpected.setSJL("02:15");
 
         PsqiEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
 
-        assertEquals(evaluationExpected, evaluationActual);
+        Assertions.assertEquals(evaluationExpected.getAverageLaydownTime(), evaluationActual.getAverageLaydownTime());
+        Assertions.assertEquals(evaluationExpected.getMinutesToFallAsleep(), evaluationActual.getMinutesToFallAsleep());
+        Assertions.assertEquals(evaluationExpected.getAverageTimeOfGettingUp(), evaluationActual.getAverageTimeOfGettingUp());
+        Assertions.assertEquals(evaluationExpected.getPsqidurat(), evaluationActual.getPsqidurat());
+        Assertions.assertEquals(evaluationExpected.getPsqidistb(), evaluationActual.getPsqidistb());
+        Assertions.assertEquals(evaluationExpected.getPsqilaten(), evaluationActual.getPsqilaten());
+        Assertions.assertEquals(evaluationExpected.getPsqidaydys(), evaluationActual.getPsqidaydys());
+        Assertions.assertEquals(evaluationExpected.getPsqihse(), evaluationActual.getPsqihse());
+        Assertions.assertEquals(evaluationExpected.getPsqislpqual(), evaluationActual.getPsqislpqual());
+        Assertions.assertEquals(evaluationExpected.getPsqimeds(), evaluationActual.getPsqimeds());
+        Assertions.assertEquals(evaluationExpected.getPsqitotal(), evaluationActual.getPsqitotal());
+        Assertions.assertEquals(evaluationExpected.getMidSleepFreeDays(), evaluationActual.getMidSleepFreeDays());
+        Assertions.assertEquals(evaluationExpected.getMidSleepWorkDays(), evaluationActual.getMidSleepWorkDays());
+        Assertions.assertEquals(evaluationExpected.getSleepDurationFreeDays(), evaluationActual.getSleepDurationFreeDays());
+        Assertions.assertEquals(evaluationExpected.getSleepDurationWorkDays(), evaluationActual.getSleepDurationWorkDays());
+
+//        assertTrue(evaluationExpected.equals(evaluationActual));
     }
 
     @Test

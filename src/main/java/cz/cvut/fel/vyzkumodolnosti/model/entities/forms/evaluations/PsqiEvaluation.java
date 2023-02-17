@@ -47,15 +47,15 @@ public class PsqiEvaluation extends AbstractEntity {
     @NotNull
     @Column(name = "psqitotal", nullable = false)
     private Integer psqitotal;
-    // (a) Délka spánku o volných dnech:
-    private String SDf;
-    // (b) Délka spánku v pracovních dnech:
-    private String SDw;
-    // (c) Střed spánku o volných dnech: (SOf + SDf/2)
-    private String MSF;
-    // (d) Střed spánku v pracovních dnech: (SOw + SDw/2)
-    private String MSW;
-    // (e) Sociální JetLag:  Střed spánku volné dny - střed spánku pracovní dny = HH:MM (v absl.hodnotě).
+    @Column(name = "sleep_duration_free_days", nullable = false) // (a) Délka spánku o volných dnech:
+    private String sleepDurationFreeDays;
+    @Column(name = "sleep_duration_work_days", nullable = false) // (b) Délka spánku v pracovních dnech:
+    private String sleepDurationWorkDays;
+    @Column(name = "mid_sleep_free_days", nullable = false) // (c) Střed spánku o volných dnech: (SOf + SDf/2)
+    private String midSleepFreeDays;
+    @Column(name = "mid_sleep_work_days", nullable = false) // (d) Střed spánku v pracovních dnech: (SOw + SDw/2)
+    private String midSleepWorkDays;
+    @Column(name = "sjl", nullable = false) // (e) Sociální JetLag:  Střed spánku volné dny - střed spánku pracovní dny = HH:MM (v absl.hodnotě).
     private String SJL;
 
     public PsqiSubmittedForm getSubmittedForm() {
@@ -154,36 +154,36 @@ public class PsqiEvaluation extends AbstractEntity {
         this.psqitotal = psqitotal;
     }
 
-    public String getSDf() {
-        return SDf;
+    public String getSleepDurationFreeDays() {
+        return sleepDurationFreeDays;
     }
 
-    public void setSDf(String SDf) {
-        this.SDf = SDf;
+    public void setSleepDurationFreeDays(String sleepDurationFreeDays) {
+        this.sleepDurationFreeDays = sleepDurationFreeDays;
     }
 
-    public String getSDw() {
-        return SDw;
+    public String getSleepDurationWorkDays() {
+        return sleepDurationWorkDays;
     }
 
-    public void setSDw(String SDw) {
-        this.SDw = SDw;
+    public void setSleepDurationWorkDays(String sleepDurationWorkDays) {
+        this.sleepDurationWorkDays = sleepDurationWorkDays;
     }
 
-    public String getMSF() {
-        return MSF;
+    public String getMidSleepFreeDays() {
+        return midSleepFreeDays;
     }
 
-    public void setMSF(String MSF) {
-        this.MSF = MSF;
+    public void setMidSleepFreeDays(String midSleepFreeDays) {
+        this.midSleepFreeDays = midSleepFreeDays;
     }
 
-    public String getMSW() {
-        return MSW;
+    public String getMidSleepWorkDays() {
+        return midSleepWorkDays;
     }
 
-    public void setMSW(String MSW) {
-        this.MSW = MSW;
+    public void setMidSleepWorkDays(String midSleepWorkDays) {
+        this.midSleepWorkDays = midSleepWorkDays;
     }
 
     public String getSJL() {
@@ -199,7 +199,7 @@ public class PsqiEvaluation extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PsqiEvaluation that = (PsqiEvaluation) o;
-        return averageLaydownTime.equals(that.averageLaydownTime) && minutesToFallAsleep.equals(that.minutesToFallAsleep) && averageTimeOfGettingUp.equals(that.averageTimeOfGettingUp) && psqidurat.equals(that.psqidurat) && psqidistb.equals(that.psqidistb) && psqilaten.equals(that.psqilaten) && psqidaydys.equals(that.psqidaydys) && psqihse.equals(that.psqihse) && psqislpqual.equals(that.psqislpqual) && psqimeds.equals(that.psqimeds) && psqitotal.equals(that.psqitotal);
+        return Objects.equals(averageLaydownTime, that.averageLaydownTime) && Objects.equals(minutesToFallAsleep, that.minutesToFallAsleep) && Objects.equals(averageTimeOfGettingUp, that.averageTimeOfGettingUp) && Objects.equals(psqidurat, that.psqidurat) && Objects.equals(psqidistb, that.psqidistb) && Objects.equals(psqilaten, that.psqilaten) && Objects.equals(psqidaydys, that.psqidaydys) && Objects.equals(psqihse, that.psqihse) && Objects.equals(psqislpqual, that.psqislpqual) && Objects.equals(psqimeds, that.psqimeds) && Objects.equals(psqitotal, that.psqitotal) && Objects.equals(sleepDurationFreeDays, that.sleepDurationFreeDays) && Objects.equals(sleepDurationWorkDays, that.sleepDurationWorkDays) && Objects.equals(midSleepFreeDays, that.midSleepFreeDays) && Objects.equals(midSleepWorkDays, that.midSleepWorkDays) && Objects.equals(SJL, that.SJL);
     }
 
     @Override

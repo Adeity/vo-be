@@ -90,4 +90,29 @@ public class PsqiComputator {
         Double hoursBetweneGntGmt = timeComponent.calculateDiffBetweenGntAndGmt(gnt, gmt);
         return Precision.round((actualHoursOfSleep / hoursBetweneGntGmt) * 100, 2);
     }
+
+    public String calculateSleepDurationFreeDays(String gnt, String gmt) {
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(gnt, gmt);
+    }
+
+    public String calculateSleepDurationWorkDays(String gnt, String gmt) {
+        return timeComponent.calculateDiffBetweenGntAndGmtHhMmFormat(gnt, gmt);
+    }
+
+    public String calculateMidSleepFreeDays(String gnt, String duration) {
+        return timeComponent.secondsToHourMinuteFormat(
+                timeComponent.hourMinuteFormatToSeconds(gnt) +
+                        (timeComponent.hourMinuteFormatToSeconds(duration) / 2));
+    }
+
+    public String calculateMidSleepWorkDays(String gnt, String duration) {
+        return timeComponent.secondsToHourMinuteFormat(
+                timeComponent.hourMinuteFormatToSeconds(gnt) +
+                        (timeComponent.hourMinuteFormatToSeconds(duration) / 2));
+    }
+
+    public String calculateSJL(String msf, String msw) {
+        int resSeconds = Math.abs(timeComponent.hourMinuteFormatToSeconds(msf) - timeComponent.hourMinuteFormatToSeconds(msw));
+        return timeComponent.secondsToHourMinuteFormat(resSeconds);
+    }
 }
