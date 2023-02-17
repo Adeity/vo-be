@@ -22,6 +22,14 @@ public class PsqiComputationVariablesDto {
     private int q7Score;
     private int q8Score;
     private int q9Score;
+    // O volných dnech chodím spát v (HH:MM): (1)
+    private String SOf;
+    // O volných dnech vstávám  v (HH:MM): (2)
+    private String GUf;
+    // V pracovních dnech chodím spát v (HH:MM): (3)
+    private String SOw;
+    // V pracovních dnech vstávám v (HH:MM): (4)
+    private String GUw;
 
     public String getQ1() {
         return q1;
@@ -165,5 +173,37 @@ public class PsqiComputationVariablesDto {
 
     public void setQ9Score(int q9Score) {
         this.q9Score = q9Score;
+    }
+
+    public String getSOf() {
+        return SOf;
+    }
+
+    public void setSOf(String SOf) {
+        this.SOf = SOf;
+    }
+
+    public String getGUf() {
+        return GUf;
+    }
+
+    public void setGUf(String GUf) {
+        this.GUf = GUf;
+    }
+
+    public String getSOw() {
+        return SOw;
+    }
+
+    public void setSOw(String SOw) {
+        this.SOw = SOw;
+    }
+
+    public String getGUw() {
+        return GUw;
+    }
+
+    public void setGUw(String GUw) {
+        this.GUw = GUw;
     }
 }

@@ -47,6 +47,16 @@ public class PsqiEvaluation extends AbstractEntity {
     @NotNull
     @Column(name = "psqitotal", nullable = false)
     private Integer psqitotal;
+    // (a) Délka spánku o volných dnech:
+    private String SDf;
+    // (b) Délka spánku v pracovních dnech:
+    private String SDw;
+    // (c) Střed spánku o volných dnech: (SOf + SDf/2)
+    private String MSF;
+    // (d) Střed spánku v pracovních dnech: (SOw + SDw/2)
+    private String MSW;
+    // (e) Sociální JetLag:  Střed spánku volné dny - střed spánku pracovní dny = HH:MM (v absl.hodnotě).
+    private String SJL;
 
     public PsqiSubmittedForm getSubmittedForm() {
         return submittedForm;
@@ -142,6 +152,46 @@ public class PsqiEvaluation extends AbstractEntity {
 
     public void setPsqitotal(Integer psqitotal) {
         this.psqitotal = psqitotal;
+    }
+
+    public String getSDf() {
+        return SDf;
+    }
+
+    public void setSDf(String SDf) {
+        this.SDf = SDf;
+    }
+
+    public String getSDw() {
+        return SDw;
+    }
+
+    public void setSDw(String SDw) {
+        this.SDw = SDw;
+    }
+
+    public String getMSF() {
+        return MSF;
+    }
+
+    public void setMSF(String MSF) {
+        this.MSF = MSF;
+    }
+
+    public String getMSW() {
+        return MSW;
+    }
+
+    public void setMSW(String MSW) {
+        this.MSW = MSW;
+    }
+
+    public String getSJL() {
+        return SJL;
+    }
+
+    public void setSJL(String SJL) {
+        this.SJL = SJL;
     }
 
     @Override
