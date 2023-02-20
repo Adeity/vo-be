@@ -9,13 +9,13 @@ public class MctqSubmittedFormDto extends SubmittedFormDto {
 
     @NotNull
     @Valid
-    private MctqComputationVariablesDto variablesDto;
+    private MctqComputationVariablesDto computationVariables;
 
-    public MctqComputationVariablesDto getVariablesDto() {
-        return variablesDto;
+    public MctqComputationVariablesDto getComputationVariables() {
+        return computationVariables;
     }
 
-    public void setVariablesDto(MctqComputationVariablesDto variablesDto) {
-        this.variablesDto = variablesDto;
+    public void setComputationVariables(MctqComputationVariablesDto computationVariables) {
+        this.computationVariables = computationVariables;
     }
 }

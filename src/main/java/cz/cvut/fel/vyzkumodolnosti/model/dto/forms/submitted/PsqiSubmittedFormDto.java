@@ -9,13 +9,13 @@ import javax.validation.constraints.NotNull;
 public class PsqiSubmittedFormDto extends SubmittedFormDto {
     @NotNull
     @Valid
-    private PsqiComputationVariablesDto variablesDto;
+    private PsqiComputationVariablesDto computationVariables;
 
-    public PsqiComputationVariablesDto getVariablesDto() {
-        return variablesDto;
+    public PsqiComputationVariablesDto getComputationVariables() {
+        return computationVariables;
     }
 
     public void setVariables(PsqiComputationVariablesDto variables) {
-        this.variablesDto = variables;
+        this.computationVariables = variables;
     }
 }

@@ -1,24 +1,19 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions;
 
-import cz.cvut.fel.vyzkumodolnosti.model.domain.forms.QuestionTypeEnum;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "question", indexes = @Index(columnList = "code"))
+@Table(name = "question")
 public class Question extends AbstractEntity {
     @NotNull
     @Column(name = "code", unique = true)
     private String code;
     @NotNull
-    @Column(name = "value", columnDefinition = "text")
-    private String value;
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private QuestionTypeEnum type;
+    @Column(name = "label", columnDefinition = "text")
+    private String label;
 
     public String getCode() {
         return code;
@@ -28,19 +23,19 @@ public class Question extends AbstractEntity {
         this.code = code;
     }
 
-    public String getValue() {
-        return value;
+    public String getLabel() {
+        return label;
     }
 
-    public void setValue(String text) {
-        this.value = text;
+    public void setLabel(String text) {
+        this.label = text;
     }
 
-    public QuestionTypeEnum getType() {
-        return type;
-    }
-
-    public void setType(QuestionTypeEnum type) {
-        this.type = type;
+    @Override
+    public String toString() {
+        return "Question["+this.getId()+"]{" +
+                "code='" + code + '\'' +
+                ", label='" + label + '\'' +
+                '}';
     }
 }
