@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.model.dto.forms;
 
+
 import javax.validation.constraints.NotNull;
 
 public class AnswerDto {

@@ -421,4 +421,292 @@ public class LifeSatisfactionComputationVariablesDto {
     public Boolean getHasKids() {
         return hasKids;
     }
+
+    public void setHealthQ0(Integer healthQ0) {
+        this.healthQ0 = healthQ0;
+    }
+
+    public void setHealthQ1(Integer healthQ1) {
+        this.healthQ1 = healthQ1;
+    }
+
+    public void setHealthQ2(Integer healthQ2) {
+        this.healthQ2 = healthQ2;
+    }
+
+    public void setHealthQ3(Integer healthQ3) {
+        this.healthQ3 = healthQ3;
+    }
+
+    public void setHealthQ4(Integer healthQ4) {
+        this.healthQ4 = healthQ4;
+    }
+
+    public void setHealthQ5(Integer healthQ5) {
+        this.healthQ5 = healthQ5;
+    }
+
+    public void setHealthQ6(Integer healthQ6) {
+        this.healthQ6 = healthQ6;
+    }
+
+    public void setWorkQ0(Integer workQ0) {
+        this.workQ0 = workQ0;
+    }
+
+    public void setWorkQ1(Integer workQ1) {
+        this.workQ1 = workQ1;
+    }
+
+    public void setWorkQ2(Integer workQ2) {
+        this.workQ2 = workQ2;
+    }
+
+    public void setWorkQ3(Integer workQ3) {
+        this.workQ3 = workQ3;
+    }
+
+    public void setWorkQ4(Integer workQ4) {
+        this.workQ4 = workQ4;
+    }
+
+    public void setWorkQ5(Integer workQ5) {
+        this.workQ5 = workQ5;
+    }
+
+    public void setWorkQ6(Integer workQ6) {
+        this.workQ6 = workQ6;
+    }
+
+    public void setFinancesQ0(Integer financesQ0) {
+        this.financesQ0 = financesQ0;
+    }
+
+    public void setFinancesQ1(Integer financesQ1) {
+        this.financesQ1 = financesQ1;
+    }
+
+    public void setFinancesQ2(Integer financesQ2) {
+        this.financesQ2 = financesQ2;
+    }
+
+    public void setFinancesQ3(Integer financesQ3) {
+        this.financesQ3 = financesQ3;
+    }
+
+    public void setFinancesQ4(Integer financesQ4) {
+        this.financesQ4 = financesQ4;
+    }
+
+    public void setFinancesQ5(Integer financesQ5) {
+        this.financesQ5 = financesQ5;
+    }
+
+    public void setFinancesQ6(Integer financesQ6) {
+        this.financesQ6 = financesQ6;
+    }
+
+    public void setFreeTimeQ0(Integer freeTimeQ0) {
+        this.freeTimeQ0 = freeTimeQ0;
+    }
+
+    public void setFreeTimeQ1(Integer freeTimeQ1) {
+        this.freeTimeQ1 = freeTimeQ1;
+    }
+
+    public void setFreeTimeQ2(Integer freeTimeQ2) {
+        this.freeTimeQ2 = freeTimeQ2;
+    }
+
+    public void setFreeTimeQ3(Integer freeTimeQ3) {
+        this.freeTimeQ3 = freeTimeQ3;
+    }
+
+    public void setFreeTimeQ4(Integer freeTimeQ4) {
+        this.freeTimeQ4 = freeTimeQ4;
+    }
+
+    public void setFreeTimeQ5(Integer freeTimeQ5) {
+        this.freeTimeQ5 = freeTimeQ5;
+    }
+
+    public void setFreeTimeQ6(Integer freeTimeQ6) {
+        this.freeTimeQ6 = freeTimeQ6;
+    }
+
+    public void setPartnershipQ0(Integer partnershipQ0) {
+        this.partnershipQ0 = partnershipQ0;
+    }
+
+    public void setPartnershipQ1(Integer partnershipQ1) {
+        this.partnershipQ1 = partnershipQ1;
+    }
+
+    public void setPartnershipQ2(Integer partnershipQ2) {
+        this.partnershipQ2 = partnershipQ2;
+    }
+
+    public void setPartnershipQ3(Integer partnershipQ3) {
+        this.partnershipQ3 = partnershipQ3;
+    }
+
+    public void setPartnershipQ4(Integer partnershipQ4) {
+        this.partnershipQ4 = partnershipQ4;
+    }
+
+    public void setPartnershipQ5(Integer partnershipQ5) {
+        this.partnershipQ5 = partnershipQ5;
+    }
+
+    public void setPartnershipQ6(Integer partnershipQ6) {
+        this.partnershipQ6 = partnershipQ6;
+    }
+
+    public void setChildrenQ0(Integer childrenQ0) {
+        this.childrenQ0 = childrenQ0;
+    }
+
+    public void setChildrenQ1(Integer childrenQ1) {
+        this.childrenQ1 = childrenQ1;
+    }
+
+    public void setChildrenQ2(Integer childrenQ2) {
+        this.childrenQ2 = childrenQ2;
+    }
+
+    public void setChildrenQ3(Integer childrenQ3) {
+        this.childrenQ3 = childrenQ3;
+    }
+
+    public void setChildrenQ4(Integer childrenQ4) {
+        this.childrenQ4 = childrenQ4;
+    }
+
+    public void setChildrenQ5(Integer childrenQ5) {
+        this.childrenQ5 = childrenQ5;
+    }
+
+    public void setChildrenQ6(Integer childrenQ6) {
+        this.childrenQ6 = childrenQ6;
+    }
+
+    public void setPersonalityQ0(Integer personalityQ0) {
+        this.personalityQ0 = personalityQ0;
+    }
+
+    public void setPersonalityQ1(Integer personalityQ1) {
+        this.personalityQ1 = personalityQ1;
+    }
+
+    public void setPersonalityQ2(Integer personalityQ2) {
+        this.personalityQ2 = personalityQ2;
+    }
+
+    public void setPersonalityQ3(Integer personalityQ3) {
+        this.personalityQ3 = personalityQ3;
+    }
+
+    public void setPersonalityQ4(Integer personalityQ4) {
+        this.personalityQ4 = personalityQ4;
+    }
+
+    public void setPersonalityQ5(Integer personalityQ5) {
+        this.personalityQ5 = personalityQ5;
+    }
+
+    public void setPersonalityQ6(Integer personalityQ6) {
+        this.personalityQ6 = personalityQ6;
+    }
+
+    public void setSexualityQ0(Integer sexualityQ0) {
+        this.sexualityQ0 = sexualityQ0;
+    }
+
+    public void setSexualityQ1(Integer sexualityQ1) {
+        this.sexualityQ1 = sexualityQ1;
+    }
+
+    public void setSexualityQ2(Integer sexualityQ2) {
+        this.sexualityQ2 = sexualityQ2;
+    }
+
+    public void setSexualityQ3(Integer sexualityQ3) {
+        this.sexualityQ3 = sexualityQ3;
+    }
+
+    public void setSexualityQ4(Integer sexualityQ4) {
+        this.sexualityQ4 = sexualityQ4;
+    }
+
+    public void setSexualityQ5(Integer sexualityQ5) {
+        this.sexualityQ5 = sexualityQ5;
+    }
+
+    public void setSexualityQ6(Integer sexualityQ6) {
+        this.sexualityQ6 = sexualityQ6;
+    }
+
+    public void setFriendsQ0(Integer friendsQ0) {
+        this.friendsQ0 = friendsQ0;
+    }
+
+    public void setFriendsQ1(Integer friendsQ1) {
+        this.friendsQ1 = friendsQ1;
+    }
+
+    public void setFriendsQ2(Integer friendsQ2) {
+        this.friendsQ2 = friendsQ2;
+    }
+
+    public void setFriendsQ3(Integer friendsQ3) {
+        this.friendsQ3 = friendsQ3;
+    }
+
+    public void setFriendsQ4(Integer friendsQ4) {
+        this.friendsQ4 = friendsQ4;
+    }
+
+    public void setFriendsQ5(Integer friendsQ5) {
+        this.friendsQ5 = friendsQ5;
+    }
+
+    public void setFriendsQ6(Integer friendsQ6) {
+        this.friendsQ6 = friendsQ6;
+    }
+
+    public void setHabitationQ0(Integer habitationQ0) {
+        this.habitationQ0 = habitationQ0;
+    }
+
+    public void setHabitationQ1(Integer habitationQ1) {
+        this.habitationQ1 = habitationQ1;
+    }
+
+    public void setHabitationQ2(Integer habitationQ2) {
+        this.habitationQ2 = habitationQ2;
+    }
+
+    public void setHabitationQ3(Integer habitationQ3) {
+        this.habitationQ3 = habitationQ3;
+    }
+
+    public void setHabitationQ4(Integer habitationQ4) {
+        this.habitationQ4 = habitationQ4;
+    }
+
+    public void setHabitationQ5(Integer habitationQ5) {
+        this.habitationQ5 = habitationQ5;
+    }
+
+    public void setHabitationQ6(Integer habitationQ6) {
+        this.habitationQ6 = habitationQ6;
+    }
+
+    public void setHasPartner(Boolean hasPartner) {
+        this.hasPartner = hasPartner;
+    }
+
+    public void setHasKids(Boolean hasKids) {
+        this.hasKids = hasKids;
+    }
 }

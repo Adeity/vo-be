@@ -7,6 +7,7 @@ import cz.cvut.fel.vyzkumodolnosti.services.forms.impl.SubmittedFormWriteService
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class FormSubmitController {
     }
 
     @PostMapping()
-    public void submit(@Valid @RequestBody FormInputDto dto) {
+    public ResponseEntity<Integer> submit(@Valid @RequestBody FormInputDto dto) {
         log.info("Received new submitted form");
 
         if (dto.getPsqi() != null) {
@@ -47,6 +48,8 @@ public class FormSubmitController {
         if (dto.getDzs() != null) {
             writeService.save(dto.getDzs(), dto.getIdentifying());
         }
+        log.info("Successfully saved new submitted form.");
+        return new ResponseEntity<>(1, HttpStatus.OK);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

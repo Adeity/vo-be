@@ -9,6 +9,7 @@ import java.util.List;
 
 public class SubmittedFormDto {
     @NotNull
+    @Valid
     private List<@Valid AnswerDto> answers;
 
     public List<AnswerDto> getAnswers() {

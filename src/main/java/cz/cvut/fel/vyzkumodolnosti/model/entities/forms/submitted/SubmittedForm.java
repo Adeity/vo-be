@@ -17,7 +17,6 @@ import java.util.List;
 public class SubmittedForm extends AbstractEntity {
     @Column(name = "alternative_identifier")
     private String alternativeIdentifier;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "research_participant_id", referencedColumnName = "id")
     private ResearchParticipant researchParticipant;

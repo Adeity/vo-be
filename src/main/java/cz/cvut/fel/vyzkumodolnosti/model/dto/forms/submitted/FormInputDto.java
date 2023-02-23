@@ -17,6 +17,7 @@ public class FormInputDto {
     @Valid
     @NotNull
     private IdentifyingVariables identifying;
+    @Valid
     private DemoSubmittedFormDto demo;
 
     public PsqiSubmittedFormDto getPsqi() {

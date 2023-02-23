@@ -61,24 +61,25 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     public MctqEvaluation evaluate(MctqComputationVariablesDto variablesDto) {
         MctqEvaluation evaluation = new MctqEvaluation();
         MctqComputator computator = new MctqComputator();
+        variablesDto.setFd(7 - variablesDto.getWd());
 
-        evaluation.setSOw(computator.calculateSOw(variablesDto.getSPrepw(), variablesDto.getSLatw()));
-        evaluation.setGUw(computator.calculateGUw(variablesDto.getSEw(), variablesDto.getSIw()));
-        evaluation.setSDw(computator.calculateSDw(variablesDto.getSEw(), evaluation.getSOw()));
-        evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBTw()));
+        evaluation.setSOw(computator.calculateSOw(variablesDto.getSprepw(), variablesDto.getSlatw()));
+        evaluation.setGUw(computator.calculateGUw(variablesDto.getSew(), variablesDto.getSiw()));
+        evaluation.setSDw(computator.calculateSDw(variablesDto.getSew(), evaluation.getSOw()));
+        evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBtw()));
         evaluation.setMSW(computator.calculateMSW(evaluation.getSOw(), evaluation.getSDw()));
 
-        evaluation.setSOf(computator.calculateSOf(variablesDto.getSPrepf(), variablesDto.getSLatf()));
-        evaluation.setGUf(computator.calculateGUf(variablesDto.getSEf(), variablesDto.getSIf()));
-        evaluation.setSDf(computator.calculateSDf(variablesDto.getSEf(), evaluation.getSOf()));
-        evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBTf()));
+        evaluation.setSOf(computator.calculateSOf(variablesDto.getSprepf(), variablesDto.getSlatf()));
+        evaluation.setGUf(computator.calculateGUf(variablesDto.getSef(), variablesDto.getSif()));
+        evaluation.setSDf(computator.calculateSDf(variablesDto.getSef(), evaluation.getSOf()));
+        evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBtf()));
         evaluation.setMSF(computator.calculateMSF(evaluation.getSOf(), evaluation.getSDf()));
 
         evaluation.setSDweek(computator.calculateSDweek(
                 evaluation.getSDw(),
-                variablesDto.getWD(),
+                variablesDto.getWd(),
                 evaluation.getSDf(),
-                variablesDto.getFD()));
+                variablesDto.getFd()));
         evaluation.setMSFsc(computator.calculateMSFsc(
                 variablesDto.getAlarmf(),
                 evaluation.getSDf(),
@@ -89,15 +90,15 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                 evaluation.getSDweek(),
                 evaluation.getSDw(),
                 evaluation.getSDf(),
-                variablesDto.getWD(),
-                variablesDto.getFD()));
+                variablesDto.getWd(),
+                variablesDto.getFd()));
         evaluation.setSJLrel(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
         evaluation.setSJL(computator.calculateSJL(evaluation.getMSF(), evaluation.getMSW()));
         evaluation.setLEweek(computator.calculateLEweek(
-                variablesDto.getLEw(),
-                variablesDto.getWD(),
-                variablesDto.getFD(),
-                variablesDto.getLEf()));
+                variablesDto.getLew(),
+                variablesDto.getWd(),
+                variablesDto.getFd(),
+                variablesDto.getLef()));
 
         return evaluation;
     }
@@ -196,8 +197,11 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     }
 
     @Override
-    public PssEvaluation evaluate(PssComputationVariablesDto variablesDto) {
+    public PssEvaluation evaluate(PssComputationVariablesDto v) {
         PssEvaluation evaluation = new PssEvaluation();
+        evaluation.setPssPos(v.getQ1() + v.getQ2() + v.getQ3() + v.getQ6() + v.getQ9() + v.getQ10());
+        evaluation.setPssNeg(v.getQ4() + v.getQ5() + v.getQ7() + v.getQ8());
+        evaluation.setPssSum(evaluation.getPssPos() + evaluation.getPssNeg());
 
         return evaluation;
     }

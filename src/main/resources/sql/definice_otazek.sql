@@ -109,3 +109,64 @@ values
     (290, 'dzsDoYouHaveAPartner', 'Máte v současné době stálého partnera/partnerku?'),
     (291, 'dzsDoYouHaveKids', 'Máte vlastní děti?');
 
+insert into question(id, code, label)
+values
+    (300, 'pssQ0', 'Jak často jste v posledním měsíci byl/a rozrušen/a něčím neočekávaným?'),
+    (301, 'pssQ1', 'Jak často jste v posdlením měsíci měl/a pocit, že nemáte kontrolu nad důležitými věcmi ve svém životě?'),
+    (302, 'pssQ2', 'Jak často jste se v posledním měsíci cítil/a nervózní a ve stresu?'),
+    (303, 'pssQ3', 'Jak často jste v posledním měsíci věřil/a, že dokážete sebejistě zvládat své osobní problémy?'),
+    (304, 'pssQ4', 'Jak často Vam v posledním měsíci přišlo, že jdou věci podle plánu?'),
+    (305, 'pssQ5', 'Jak často jste v posledním měsíci zjistil/a, že nezvládáte všechny věci, které musíte udělat?'),
+    (306, 'pssQ6', 'Jak často jste v posledním měsíci cítil/a, že dokážete kontrolovat nepříjemné situace ve svém životě?'),
+    (307, 'pssQ7', 'Jak často jste v posledním měsíci cítil/a, že máte věci pod kontrolou?'),
+    (308, 'pssQ8', 'Jak často jste byl/a v posledním měsíci rozzlobený/á kvůli věcem, které jste nemohl/a ovlivnit?'),
+    (309, 'pssQ9', 'Jak často jste v posledním měsíci cítil/a, že se potíže hromadí tak moc, že je nedokážete zvládnout?');
+
+insert into question (id, code, label)
+values
+    (401, 'meqQ1', 'Vezmete-li v úvahu pouze to, při jakém denním rytmu se cítíte nejlépe, v kolik hodin byste vstávali, pokud byste si mohli zcela svobodně naplánovat svůj den?'),
+    (402, 'meqQ2', 'Vezmete-li v úvahu pouze to, při jakém denním rytmu se cítíte nejlépe, v kolik hodin byste šli spát, pokud byste si mohli zcela svobodně naplánovat svůj večer?'),
+    (403, 'meqQ3', 'Pokud ráno musíte vstávat v určitou dobu, do jaké míry jste závislý/á na zvonění budíku?'),
+    (404, 'meqQ4', 'Jak snadno se vám ráno vstává v přiměřených podmínkách prostředí? (v případě, že Vás nic nečekaně neprobudí?)'),
+    (405, 'meqQ5', 'Jak čilý/á se cítíte během první půl hodiny po ranním probuzení?'),
+    (406, 'meqQ6', 'Jakou máte chuť k jídlu během první půl hodiny po ranním probuzení?'),
+    (407, 'meqQ7', 'Jak moc se cítíte unavený/á během první půl hodiny po ranním probuzení?'),
+    (408, 'meqQ8', 'Nemáte-li další den žádné povinnosti, kdy půjdete spát ve srovnání s dobou, kdy obvykle chodíte do postele?'),
+    (409, 'meqQ9', 'Rozhodl/a jste se začít pravidelně cvičit. Váš přítel navrhuje, že spolu budete cvičit 2x týdně jednu hodinu. Nejvíce mu vyhovuje čas mezi 7. až 8. hodinou ráno. S ohledem na denní rytmus, při kterém se cítíte nejlépe, jaký výkon byste podle vás podal/a?'),
+    (410, 'meqQ10', 'V kolik hodin večer cítíte únavu a cítíte tedy potřebu jít spát?'),
+    (411, 'meqQ11', 'Přejete si podat co nejlepší výkon v testu, o kterém víte, že je mentálně vyčerpávající a trvá dvě hodiny. Pokud byste mohl/a zcela svobodně plánovat svůj den, s ohledem na rytmus, při kterém se cítíte nejlépe, který ze čtyř časů testu byste si vybral/a?'),
+    (412, 'meqQ12', 'Pokud jdete spát ve 23 hodin, jak moc se cítíte unavený/á?'),
+    (413, 'meqQ13', 'Z nějakého důvodu jste šel/šla spát o několik hodin později než obvykle, ale další den ráno nemusíte vstávat v určitou dobu. Kterou z následujících situací nejpravděpodobněji zažijete?'),
+    (414, 'meqQ14', 'Jednu noc musíte být vzhůru mezi 4. až 6. hodinou ráno, abyste provedl/a noční hlídku. Další den nemáte žádné povinnosti. Která z následujících možností by vám nejvíce vyhovovala?'),
+    (415, 'meqQ15', 'Budete muset dvě hodiny tvrdě fyzicky pracovat. Máte úplnou volnost v plánování svého dne. S ohledem na denní rytmus, při kterém se cítíte nejlépe, které z následujících časových rozmezí byste si vybral/a?'),
+    (416, 'meqQ16', 'Rozhodl/a jste se začít s těžkým tělesným cvičením. Váš přítel navrhuje, že spolu budete cvičit 2x týdně jednu hodinu. Nejvíce mu vyhovuje čas mezi 22. a 23. hodinou večer. S ohledem na denní rytmus, při kterém se cítíte nejlépe, jaký výkon byste podle vás podal/a?'),
+    (417, 'meqQ17', 'Předpokládejte, že si můžete vybrat pracovní dobu. Dále předpokládejte, že pracujete pět hodin denně (včetně přestávek), Vaše práce je zajímavá a placená podle výsledků. V kolik hodin by začínala vaše pětihodinová směna?'),
+    (418, 'meqQ18', 'V kolik hodin během dne se cítíte nejlépe, na vrcholu svých sil?'),
+    (419, 'meqQ19', 'Zřejmě jste už slyšel/a o „ranních“ a „večerních“ typech lidí („ranní ptáčata“ a „noční sovy“). Za který z těchto typů se považujete?');
+
+insert into question (id, code, label)
+values
+    (501, 'demoQ1', 'Zadejte prosím svůj věk.'),
+    (502, 'demoQ2', 'Jaké je vaše pohlaví?'),
+    (503, 'demoQ3', 'Jste převážně student, nebo převážně pracující?'),
+    (504, 'demoQ4', 'Jaké je vaše nejvyšší dosažené vzdělání?'),
+    (505, 'demoQ5', 'Zadejte prosím svou výšku v centimentrech.'),
+    (506, 'demoQ6', 'Zadejte prosím svou váhu v kilogramech.'),
+    (507, 'demoQ7', 'Jaký je Váš rodinný stav?');
+
+insert into question (id, code, label)
+values
+    (601, 'mctqQ1', 'Pracovní dný: V kolik hodin chodíte do postele?'),
+    (602, 'mctqQ2', 'Pracovní dný: V kolik hodin jste připravený usnout? (vemte v úvahu, jak dlouho vám tvrá usnout)'),
+    (603, 'mctqQ3', 'Pracovní dný: Kolik minut Vám po ulehnutí trvá, než usnete?'),
+    (604, 'mctqQ4', 'Pracovní dný: V kolik hodin se probouzíte?'),
+    (605, 'mctqQ5', 'Pracovní dný: Vstáváte s budíkem, či nikoli?'),
+    (606, 'mctqQ6', 'Pracovní dný: Kolik minut po probuzení vstáváte z postele?'),
+    (607, 'mctqQ7', 'Pracovní dný: Kolik průměrně trávíte během dne času na denním světle (bez střechy nad hlavou)?'),
+    (608, 'mctqQ8', 'Volné dne: V kolik hodin chodíte do postele?'),
+    (609, 'mctqQ9', 'Volné dne: V kolik hodin jste připravený usnout? (vemte v úvahu, jak dlouho vám tvrá usnout)'),
+    (610, 'mctqQ10', 'Volné dne: Kolik minut Vám po ulehnutí trvá, než usnete?'),
+    (611, 'mctqQ11', 'Volné dne: V kolik hodin se probouzíte?'),
+    (612, 'mctqQ12', 'Volné dne: Vstáváte s budíkem, či nikoli?'),
+    (613, 'mctqQ13', 'Volné dne: Kolik minut po probuzení vstáváte z postele?'),
+    (614, 'mctqQ14', 'Volné dne: Kolik průměrně trávíte během dne času na denním světle (bez střechy nad hlavou)?')

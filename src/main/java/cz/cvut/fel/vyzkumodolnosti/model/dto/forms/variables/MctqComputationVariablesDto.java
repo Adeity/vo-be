@@ -1,149 +1,166 @@
 package cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables;
 
+import javax.validation.constraints.NotNull;
+
 public class MctqComputationVariablesDto {
-    private String BTw;
-    private String SPrepw;
-    private Integer SLatw;
-    private String SEw;
-    private Boolean Alarmw;
-    private Integer SIw;
-    private Integer WD;
-    private String LEw;
+    @NotNull
+    private String btw;
+    @NotNull
+    private String sprepw;
+    @NotNull
+    private Integer slatw;
+    @NotNull
+    private String sew;
+    @NotNull
+    private Boolean alarmw;
+    @NotNull
+    private Integer siw;
+    @NotNull
+    private Integer wd;
+    @NotNull
+    private String lew;
 
-    private String BTf;
-    private String SPrepf;
-    private Integer SLatf;
-    private String SEf;
-    private Boolean Alarmf;
-    private Integer SIf;
-    private Integer FD;
-    private String LEf;
+    @NotNull
+    private String btf;
+    @NotNull
+    private String sprepf;
+    @NotNull
+    private Integer slatf;
+    @NotNull
+    private String sef;
+    @NotNull
+    private Boolean alarmf;
+    @NotNull
+    private Integer sif;
+    private Integer fd;
+    @NotNull
+    private String lef;
 
-    public String getBTw() {
-        return BTw;
+    public String getBtw() {
+        return btw;
     }
 
-    public void setBTw(String BTw) {
-        this.BTw = BTw;
+    public void setBtw(String btw) {
+        this.btw = btw;
     }
 
-    public String getSPrepw() {
-        return SPrepw;
+    public String getSprepw() {
+        return sprepw;
     }
 
-    public void setSPrepw(String SPrepw) {
-        this.SPrepw = SPrepw;
+    public void setSprepw(String sprepw) {
+        this.sprepw = sprepw;
     }
 
-    public Integer getSLatw() {
-        return SLatw;
+    public Integer getSlatw() {
+        return slatw;
     }
 
-    public void setSLatw(Integer SLatw) {
-        this.SLatw = SLatw;
+    public void setSlatw(Integer slatw) {
+        this.slatw = slatw;
     }
 
-    public String getSEw() {
-        return SEw;
+    public String getSew() {
+        return sew;
     }
 
-    public void setSEw(String SEw) {
-        this.SEw = SEw;
+    public void setSew(String sew) {
+        this.sew = sew;
     }
 
     public Boolean getAlarmw() {
-        return Alarmw;
+        return alarmw;
     }
 
     public void setAlarmw(Boolean alarmw) {
-        Alarmw = alarmw;
+        this.alarmw = alarmw;
     }
 
-    public Integer getSIw() {
-        return SIw;
+    public Integer getSiw() {
+        return siw;
     }
 
-    public void setSIw(Integer SIw) {
-        this.SIw = SIw;
+    public void setSiw(Integer siw) {
+        this.siw = siw;
     }
 
-    public Integer getWD() {
-        return WD;
+    public Integer getWd() {
+        return wd;
     }
 
-    public void setWD(Integer WD) {
-        this.WD = WD;
+    public void setWd(Integer wd) {
+        this.wd = wd;
     }
 
-    public String getLEw() {
-        return LEw;
+    public String getLew() {
+        return lew;
     }
 
-    public void setLEw(String LEw) {
-        this.LEw = LEw;
+    public void setLew(String lew) {
+        this.lew = lew;
     }
 
-    public String getBTf() {
-        return BTf;
+    public String getBtf() {
+        return btf;
     }
 
-    public void setBTf(String BTf) {
-        this.BTf = BTf;
+    public void setBtf(String btf) {
+        this.btf = btf;
     }
 
-    public String getSPrepf() {
-        return SPrepf;
+    public String getSprepf() {
+        return sprepf;
     }
 
-    public void setSPrepf(String SPrepf) {
-        this.SPrepf = SPrepf;
+    public void setSprepf(String sprepf) {
+        this.sprepf = sprepf;
     }
 
-    public Integer getSLatf() {
-        return SLatf;
+    public Integer getSlatf() {
+        return slatf;
     }
 
-    public void setSLatf(Integer SLatf) {
-        this.SLatf = SLatf;
+    public void setSlatf(Integer slatf) {
+        this.slatf = slatf;
     }
 
-    public String getSEf() {
-        return SEf;
+    public String getSef() {
+        return sef;
     }
 
-    public void setSEf(String SEf) {
-        this.SEf = SEf;
+    public void setSef(String sef) {
+        this.sef = sef;
     }
 
     public Boolean getAlarmf() {
-        return Alarmf;
+        return alarmf;
     }
 
     public void setAlarmf(Boolean alarmf) {
-        Alarmf = alarmf;
+        this.alarmf = alarmf;
     }
 
-    public Integer getSIf() {
-        return SIf;
+    public Integer getSif() {
+        return sif;
     }
 
-    public void setSIf(Integer SIf) {
-        this.SIf = SIf;
+    public void setSif(Integer sif) {
+        this.sif = sif;
     }
 
-    public Integer getFD() {
-        return FD;
+    public Integer getFd() {
+        return fd;
     }
 
-    public void setFD(Integer FD) {
-        this.FD = FD;
+    public void setFd(Integer fd) {
+        this.fd = fd;
     }
 
-    public String getLEf() {
-        return LEf;
+    public String getLef() {
+        return lef;
     }
 
-    public void setLEf(String LEf) {
-        this.LEf = LEf;
+    public void setLef(String lef) {
+        this.lef = lef;
     }
 }

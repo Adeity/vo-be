@@ -32,8 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             SecurityConstants.REMEMBER_ME_COOKIE_NAME
     };
 
-    @Value("${localdev}")
-    private Boolean LOCAL_DEV;
+    @Value("${fe_addr_one}")
+    private String FE_ADDR_ONE;
 
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
@@ -88,11 +88,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * tady je potreba zamenit akorat tento radek pod timto
          */
-        if (LOCAL_DEV.equals(Boolean.TRUE)) {
-            configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3000"));
-        } else {
-            configuration.setAllowedOrigins(ImmutableList.of("https://vo-exporter.netlify.app"));
-        }
+        configuration.setAllowedOrigins(ImmutableList.of(
+                FE_ADDR_ONE));
+//        if (LOCAL_DEV.equals(Boolean.TRUE)) {
+//        } else {
+//            configuration.setAllowedOrigins(ImmutableList.of(
+//                    "https://vo-exporter.netlify.app"));
+//        }
 		configuration.setAllowedMethods(ImmutableList.of("HEAD",
 				"GET", "POST", "PUT", "DELETE", "PATCH"));
 		// setAllowCredentials(true) is important, otherwise:

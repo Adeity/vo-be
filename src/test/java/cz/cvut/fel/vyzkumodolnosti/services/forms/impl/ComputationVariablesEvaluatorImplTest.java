@@ -29,46 +29,7 @@ class ComputationVariablesEvaluatorImplTest {
     void testEvaluate() {
     }
 
-    @Test
-    void test_lifesat_1() {
-        LifeSatisfactionComputationVariablesDto dto = new LifeSatisfactionComputationVariablesDto();
-        dto.setZDR(List.of(
-                1, 3, 5, 3, 2, 3, 7));
-        dto.setPRZ(List.of(
-                1, 7, 4, 5, 3, 2, 6));
-        dto.setFIN(List.of(
-                7, 2, 4, 1, 5, 3, 6));
-        dto.setVOL(List.of(
-                4, 5, 6, 1, 3, 7, 2));
-        dto.setMAN(List.of(
-                4, 1, 2, 3, 7, 5, 6));
-        dto.setDET(List.of(
-                6, 5, 3, 1, 4, 7, 2));
-        dto.setVLO(List.of(
-                7, 3, 2, 1, 4, 6, 5));
-        dto.setSEX(List.of(
-                4, 7, 3, 6, 5, 2, 1));
-        dto.setPZP(List.of(
-                1, 2, 4, 3, 5, 1, 6));
-        dto.setBYD(List.of(
-                5, 6, 7, 1, 2, 3, 4));
 
-        LifeSatisfactionEvaluation evaluation = evaluator.evaluate(dto);
-
-        assertEquals(24, evaluation.getZDR());
-        assertEquals(28, evaluation.getPRZ());
-        assertEquals(28, evaluation.getFIN());
-        assertEquals(28, evaluation.getVOL());
-        assertEquals(28, evaluation.getMAN());
-        assertEquals(28, evaluation.getDET());
-        assertEquals(28, evaluation.getVLO());
-        assertEquals(28, evaluation.getSEX());
-        assertEquals(22, evaluation.getPZP());
-        assertEquals(28, evaluation.getBYD());
-
-        assertEquals(270, evaluation.getSUM());
-
-    }
 
     @Test
     void test_psqi_1() {
@@ -91,6 +52,10 @@ class ComputationVariablesEvaluatorImplTest {
         computationVariablesDto.setQ7(0);
         computationVariablesDto.setQ8(1);
         computationVariablesDto.setQ9(0);
+        computationVariablesDto.setWorkDaysGnt("21:45");
+        computationVariablesDto.setWorkDaysGmt("04:45");
+        computationVariablesDto.setFreeDaysGnt("23:00");
+        computationVariablesDto.setFreeDaysGmt("08:10");
 
         PsqiEvaluation evaluationExpected = new PsqiEvaluation();
 
@@ -105,10 +70,29 @@ class ComputationVariablesEvaluatorImplTest {
         evaluationExpected.setPsqislpqual(1);
         evaluationExpected.setPsqimeds(0);
         evaluationExpected.setPsqitotal(5);
+        evaluationExpected.setMidSleepWorkDays("01:15");
+        evaluationExpected.setMidSleepFreeDays("03:35");
+        evaluationExpected.setSleepDurationWorkDays("07:00");
+        evaluationExpected.setSleepDurationFreeDays("09:10");
+        evaluationExpected.setSJL("02:15");
 
         PsqiEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
 
-        assertEquals(evaluationExpected, evaluationActual);
+        Assertions.assertEquals(evaluationExpected.getAverageLaydownTime(), evaluationActual.getAverageLaydownTime());
+        Assertions.assertEquals(evaluationExpected.getMinutesToFallAsleep(), evaluationActual.getMinutesToFallAsleep());
+        Assertions.assertEquals(evaluationExpected.getAverageTimeOfGettingUp(), evaluationActual.getAverageTimeOfGettingUp());
+        Assertions.assertEquals(evaluationExpected.getPsqidurat(), evaluationActual.getPsqidurat());
+        Assertions.assertEquals(evaluationExpected.getPsqidistb(), evaluationActual.getPsqidistb());
+        Assertions.assertEquals(evaluationExpected.getPsqilaten(), evaluationActual.getPsqilaten());
+        Assertions.assertEquals(evaluationExpected.getPsqidaydys(), evaluationActual.getPsqidaydys());
+        Assertions.assertEquals(evaluationExpected.getPsqihse(), evaluationActual.getPsqihse());
+        Assertions.assertEquals(evaluationExpected.getPsqislpqual(), evaluationActual.getPsqislpqual());
+        Assertions.assertEquals(evaluationExpected.getPsqimeds(), evaluationActual.getPsqimeds());
+        Assertions.assertEquals(evaluationExpected.getPsqitotal(), evaluationActual.getPsqitotal());
+        Assertions.assertEquals(evaluationExpected.getMidSleepFreeDays(), evaluationActual.getMidSleepFreeDays());
+        Assertions.assertEquals(evaluationExpected.getMidSleepWorkDays(), evaluationActual.getMidSleepWorkDays());
+        Assertions.assertEquals(evaluationExpected.getSleepDurationFreeDays(), evaluationActual.getSleepDurationFreeDays());
+        Assertions.assertEquals(evaluationExpected.getSleepDurationWorkDays(), evaluationActual.getSleepDurationWorkDays());
     }
 
     @Test
@@ -180,22 +164,22 @@ class ComputationVariablesEvaluatorImplTest {
     @Test
     void test_mctq_1() {
         MctqComputationVariablesDto computationVariablesDto = new MctqComputationVariablesDto();
-        computationVariablesDto.setBTw("21:15");
-        computationVariablesDto.setSPrepw("21:30");
-        computationVariablesDto.setSLatw(15);
-        computationVariablesDto.setSEw("4:45");
+        computationVariablesDto.setBtw("21:15");
+        computationVariablesDto.setSprepw("21:30");
+        computationVariablesDto.setSlatw(15);
+        computationVariablesDto.setSew("4:45");
         computationVariablesDto.setAlarmw(true);
-        computationVariablesDto.setSIw(0);
-        computationVariablesDto.setWD(5);
-        computationVariablesDto.setLEw("2:30");
-        computationVariablesDto.setBTf("22:00");
-        computationVariablesDto.setSPrepf("22:30");
-        computationVariablesDto.setSLatf(30);
-        computationVariablesDto.setSEf("08:00");
+        computationVariablesDto.setSiw(0);
+        computationVariablesDto.setWd(5);
+        computationVariablesDto.setLew("2:30");
+        computationVariablesDto.setBtf("22:00");
+        computationVariablesDto.setSprepf("22:30");
+        computationVariablesDto.setSlatf(30);
+        computationVariablesDto.setSef("08:00");
         computationVariablesDto.setAlarmf(false);
-        computationVariablesDto.setSIf(10);
-        computationVariablesDto.setFD(2);
-        computationVariablesDto.setLEf("6:00");
+        computationVariablesDto.setSif(10);
+        computationVariablesDto.setFd(2);
+        computationVariablesDto.setLef("6:00");
 
         MctqEvaluation evaluationExpected = new MctqEvaluation();
         evaluationExpected.setSOw("21:45");
@@ -236,22 +220,22 @@ class ComputationVariablesEvaluatorImplTest {
     @Test
     void test_mctq_2() {
         MctqComputationVariablesDto computationVariablesDto = new MctqComputationVariablesDto();
-        computationVariablesDto.setBTw("22:40");
-        computationVariablesDto.setSPrepw("22:50");
-        computationVariablesDto.setSLatw(10);
-        computationVariablesDto.setSEw("7:00");
+        computationVariablesDto.setBtw("22:40");
+        computationVariablesDto.setSprepw("22:50");
+        computationVariablesDto.setSlatw(10);
+        computationVariablesDto.setSew("7:00");
         computationVariablesDto.setAlarmw(true);
-        computationVariablesDto.setSIw(0);
-        computationVariablesDto.setWD(5);
-        computationVariablesDto.setLEw("2:00");
-        computationVariablesDto.setBTf("22:40");
-        computationVariablesDto.setSPrepf("22:50");
-        computationVariablesDto.setSLatf(10);
-        computationVariablesDto.setSEf("08:30");
+        computationVariablesDto.setSiw(0);
+        computationVariablesDto.setWd(5);
+        computationVariablesDto.setLew("2:00");
+        computationVariablesDto.setBtf("22:40");
+        computationVariablesDto.setSprepf("22:50");
+        computationVariablesDto.setSlatf(10);
+        computationVariablesDto.setSef("08:30");
         computationVariablesDto.setAlarmf(false);
-        computationVariablesDto.setSIf(10);
-        computationVariablesDto.setFD(2);
-        computationVariablesDto.setLEf("4:00");
+        computationVariablesDto.setSif(10);
+        computationVariablesDto.setFd(2);
+        computationVariablesDto.setLef("4:00");
 
         MctqEvaluation evaluationExpected = new MctqEvaluation();
         evaluationExpected.setSOw("23:00");

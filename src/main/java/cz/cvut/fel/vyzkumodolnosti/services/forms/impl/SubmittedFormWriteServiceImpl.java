@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
+import cz.cvut.fel.vyzkumodolnosti.handler.EntryNotFoundException;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.AnswerDto;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.*;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
@@ -13,6 +14,7 @@ import cz.cvut.fel.vyzkumodolnosti.services.forms.api.SubmittedFormWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -109,7 +111,10 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
 
     private void setResearchParticipantVariables(SubmittedForm submittedForm, IdentifyingVariables identifyingVariables) {
         submittedForm.setAlternativeIdentifier(identifyingVariables.getAlternativeIdentifier());
-        if (identifyingVariables.isHasResearchNumber()) {
+        if (identifyingVariables.getHasResearchNumber()) {
+            if (!identifyingVariables.getResearchNumber().matches("^[A-Z0-9]{3}_[A-Z0-9]{3}")) {
+                throw new EntryNotFoundException("Spatný formát výzkumného čísla");
+            }
             Optional<ResearchParticipant> p = researchParticipantRepository
                     .findByResearchNumber(identifyingVariables.getResearchNumber());
             ResearchParticipant participant;

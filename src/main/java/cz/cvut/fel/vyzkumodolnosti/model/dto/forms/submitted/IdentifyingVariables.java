@@ -4,15 +4,15 @@ import javax.validation.constraints.NotNull;
 
 public class IdentifyingVariables {
     @NotNull
-    private boolean hasResearchNumber;
+    private Boolean hasResearchNumber;
     private String researchNumber;
     private String alternativeIdentifier;
 
-    public boolean isHasResearchNumber() {
+    public Boolean getHasResearchNumber() {
         return hasResearchNumber;
     }
 
-    public void setHasResearchNumber(boolean hasResearchNumber) {
+    public void setHasResearchNumber(Boolean hasResearchNumber) {
         this.hasResearchNumber = hasResearchNumber;
     }
 
