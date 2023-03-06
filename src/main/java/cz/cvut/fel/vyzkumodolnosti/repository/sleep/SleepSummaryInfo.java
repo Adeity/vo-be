@@ -1,6 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.sleep;
 
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceEntityInfo;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.info.DeviceEntityInfo;
 
 public interface SleepSummaryInfo {
     Integer getId();
