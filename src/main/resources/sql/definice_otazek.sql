@@ -7,6 +7,9 @@ ALTER TABLE answer
             REFERENCES question (id);
 alter table answer alter column question_definition_id set not null;
 
+-- uprava submitted form, ze nepotrebuje research participant
+alter table submitted_form alter column research_participant_id drop not null;
+
 -- psqi code: 1xx
 insert into question(id, code, label)
 values
