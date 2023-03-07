@@ -2,6 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.services.forms.impl;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.variables.*;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.*;
+import cz.cvut.fel.vyzkumodolnosti.services.TimeComponent;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,11 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     public PsqiEvaluation evaluate(PsqiComputationVariablesDto variablesDto) {
         PsqiComputator computator = new PsqiComputator();
         PsqiEvaluation evaluation = new PsqiEvaluation();
+        TimeComponent timeComponent = new TimeComponent();
 
-        evaluation.setAverageLaydownTime(variablesDto.getQ1());
+        evaluation.setAverageLaydownTime(timeComponent.addTralingZeroIfNeeded(variablesDto.getQ1()));
         evaluation.setMinutesToFallAsleep(variablesDto.getQ2());
-        evaluation.setAverageTimeOfGettingUp(variablesDto.getQ3());
+        evaluation.setAverageTimeOfGettingUp(timeComponent.addTralingZeroIfNeeded(variablesDto.getQ3()));
         evaluation.setPsqidurat(computator.calculatePsqiDurat(variablesDto.getQ4()));
         evaluation.setPsqidistb(computator.calculatePsqidistb(
                 variablesDto.getQ5b(),
