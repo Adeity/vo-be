@@ -10,6 +10,10 @@ alter table answer alter column question_definition_id set not null;
 -- uprava submitted form, ze nepotrebuje research participant
 alter table submitted_form alter column research_participant_id drop not null;
 
+alter table question drop column type;
+alter table question drop column value;
+
+alter table submitted_form drop column respondent_identifier;
 -- psqi code: 1xx
 insert into question(id, code, label)
 values
