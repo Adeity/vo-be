@@ -9,7 +9,9 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "global_chronotype_values")
 public class GlobalChronotypeValue {
-    private Long id;
+
+    @Id
+    private Integer id;
 
     @Column(name="awakeFrom")
     private LocalTime awakeFrom;
@@ -63,12 +65,11 @@ public class GlobalChronotypeValue {
         this.sleepTo = sleepTo;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    @Id
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 }

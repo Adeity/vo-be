@@ -2,91 +2,89 @@ package cz.cvut.fel.vyzkumodolnosti.model.entities.computations;
 
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronoVsRythm;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronotypeEnum;
+import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ImprovementEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "sleep_computation_forms")
+@Getter
+@Setter
 public class SleepComputationForm {
 
+    public SleepComputationForm(String personId) {
+        this.personId = personId;
+    }
 
+    public SleepComputationForm() {
+
+    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name="person_id")
-    private Integer person_id;
+    private String personId;
 
     @Column(name="chrono_rythm_asleep")
     private ChronoVsRythm chronoFa;
 
-    public Integer getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(Integer person_id) {
-        this.person_id = person_id;
-    }
-
-    public ChronoVsRythm getChronoFa() {
-        return chronoFa;
-    }
-
-    public void setChronoFa(ChronoVsRythm chronoFa) {
-        this.chronoFa = chronoFa;
-    }
-
-    public ChronoVsRythm getChronoWa() {
-        return chronoWa;
-    }
-
-    public void setChronoWa(ChronoVsRythm chronoWa) {
-        this.chronoWa = chronoWa;
-    }
-
     @Column(name="chrono_rythm_wake")
     private ChronoVsRythm chronoWa;
+
+    @Column(name="chrono_rythm_asleep_text")
+    private String chronoFaText;
+
+    @Column(name="chrono_rythm_wake_text")
+    private String chronoWaText;
 
     @Column(name="chronotype")
     private ChronotypeEnum chronotype;
     @Column(name="latency_greater")
     private boolean isLatencyFAGreater;
 
+    @Column(name="latency_greater_text")
+    private String latencyFAGreaterText;
+
     @Column(name="soc_jetlag_greater")
     private boolean isSocJetlagGreater;
 
-    public ChronotypeEnum getChronotype() {
-        return chronotype;
-    }
+    @Column(name="soc_jetlag_greater_text")
+    private String socJetlagGreaterText;
 
-    public void setChronotype(ChronotypeEnum chronotype) {
-        this.chronotype = chronotype;
-    }
+    @Column(name="comparison")
+    private ImprovementEnum compComparison = ImprovementEnum.NO_COMPARE;
 
-    public boolean isLatencyFAGreater() {
-        return isLatencyFAGreater;
-    }
+    @Column(name="created")
+    private Date created = new Date();
 
-    public void setLatencyFAGreater(boolean latencyFAGreater) {
-        isLatencyFAGreater = latencyFAGreater;
-    }
+    @Column(name="modified")
+    private Date modified = new Date();
 
-    public boolean isSocJetlagGreater() {
-        return isSocJetlagGreater;
-    }
+    @Column(name="awakeFrom")
+    private LocalTime awakeFrom;
+    @Column(name="awakeTo")
+    private LocalTime awakeTo;
+    @Column(name="sleepFrom")
+    private LocalTime sleepFrom;
+    @Column(name="sleepTo")
+    private LocalTime sleepTo;
 
-    public void setSocJetlagGreater(boolean socJetlagGreater) {
-        isSocJetlagGreater = socJetlagGreater;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return
+                "Id: " + this.id + "\n" +
+                "person id" + this.personId + "\n" +
+                "chronotype: " + this.chronotype + "\n" +
+                "chronoWa: " +this.chronoWa + "\n" +
+                "chronoFa: " + this.chronoFa + "\n" +
+                "latency FA greater: " + this.isLatencyFAGreater + "\n" +
+                "soc jetlag greater: " + this.isSocJetlagGreater + "\n";
     }
 }

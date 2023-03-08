@@ -10,6 +10,17 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "user_computation_data")
 public class UserComputationData {
+
+    public UserComputationData(String userId, LocalTime socJetlagThreshold, Integer latencyFaThreshold) {
+        this.userId = userId;
+        this.socJetlagThreshold = socJetlagThreshold;
+        this.latencyFaThreshold = latencyFaThreshold;
+    }
+
+    public UserComputationData() {
+
+    }
+
     @Id
     @Column(name = "id")
     private String userId;

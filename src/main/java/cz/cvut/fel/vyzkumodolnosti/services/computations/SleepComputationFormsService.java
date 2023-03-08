@@ -9,16 +9,23 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluati
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.repository.computations.SleepComputationFormRepository;
+import cz.cvut.fel.vyzkumodolnosti.services.TimeComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class SleepComputationFormsService {
+
+    private static final String LATENCY_FA_GREATER_DEFAULT_TEXT = "Větší než";
+    private static final String LATENCY_FA_LOWER_DEFAULT_TEXT = "Menší než";
+    private static final String SOC_JL_GREATER_DEFAULT_TEXT = "Větší než";
+    private static final String SOC_JL_LOWER_DEFAULT_TEXT = "Menší než";
 
     @Autowired
     private GlobalChronotypeValuesService chronoService;
@@ -41,40 +48,130 @@ public class SleepComputationFormsService {
         List<GlobalChronotypeValue> chronoValues = this.chronoService.getGlobalChronotypeValues();
         UserComputationData userData = this.userService.getUserData(userId);
 
-        System.out.println(meq.getMeqValue());
         ChronotypeEnum chronotype = computeChronotypeValue(meq.getMeqValue());
         GlobalChronotypeValue gcv = Objects.requireNonNull(chronoValues.stream()
                 .filter(c -> c.getId() == chronotype.getId())
                 .findFirst().orElse(null));
 
+        TimeComponent timeComponent = new TimeComponent();
 
-        SleepComputationForm scfe = new SleepComputationForm();
+        SleepComputationForm scfe = new SleepComputationForm(userId);
         scfe.setChronotype(chronotype);
+        scfe.setAwakeFrom(gcv.getAwakeFrom());
+        scfe.setAwakeTo(gcv.getAwakeTo());
+        scfe.setSleepFrom(gcv.getSleepFrom());
+        scfe.setSleepTo(gcv.getSleepTo());
+
         scfe.setChronoFa(computeChronoTypeVsRythm(psqi.getAverageLaydownTime(), gcv.getSleepFrom(), gcv.getSleepTo()));
         scfe.setChronoWa(computeChronoTypeVsRythm(psqi.getAverageTimeOfGettingUp(), gcv.getAwakeFrom(), gcv.getAwakeTo()));
         scfe.setLatencyFAGreater(psqi.getPsqilaten() > userData.getLatencyFaThreshold());
-        // TODO: implement after SJL is converted to LocalTime
-//        scfe.setSocJetlagGreater(mctq.getSJL() > userData.getSocJetlagThreshold());
-        scfe.setSocJetlagGreater(mctq.getSJL() > 1.0);
+        scfe.setSocJetlagGreater(
+                timeComponent.hourMinuteFormatToSeconds(mctq.getSJL()) > userData.getSocJetlagThreshold().toSecondOfDay());
 
         return scfe;
     }
 
-    public SleepComputationForm computeInitial(String uid) {
+    private void setDefaultTexts(SleepComputationForm scfe) {
+
+        scfe.setChronoFaText(scfe.getChronoFa().getDefaultTextFa());
+        scfe.setChronoWaText(scfe.getChronoWa().getDefaultTextWa());
+        scfe.setLatencyFAGreaterText(scfe.isLatencyFAGreater() ? LATENCY_FA_GREATER_DEFAULT_TEXT : LATENCY_FA_LOWER_DEFAULT_TEXT);
+        scfe.setSocJetlagGreaterText(scfe.isSocJetlagGreater() ? SOC_JL_GREATER_DEFAULT_TEXT : SOC_JL_LOWER_DEFAULT_TEXT);
+    }
+
+    private void updateScfeTexts(SleepComputationForm previous, SleepComputationForm recalculated) {
+        if(previous.getChronoFa() == recalculated.getChronoFa())
+            recalculated.setChronoFaText(previous.getChronoFaText());
+        else recalculated.setChronoFaText(recalculated.getChronoFa().getDefaultTextFa());
+
+        if(previous.getChronoWa() == recalculated.getChronoWa())
+            recalculated.setChronoWaText(previous.getChronoWaText());
+        else recalculated.setChronoWaText(recalculated.getChronoWa().getDefaultTextWa());
+
+        if(previous.isLatencyFAGreater() == recalculated.isLatencyFAGreater())
+            recalculated.setLatencyFAGreaterText(previous.getLatencyFAGreaterText());
+        else recalculated.setLatencyFAGreaterText(recalculated.isLatencyFAGreater() ? LATENCY_FA_GREATER_DEFAULT_TEXT : LATENCY_FA_LOWER_DEFAULT_TEXT);
+
+        if(previous.isSocJetlagGreater() == recalculated.isSocJetlagGreater())
+            recalculated.setSocJetlagGreaterText(previous.getSocJetlagGreaterText());
+        else recalculated.setSocJetlagGreaterText(recalculated.isSocJetlagGreater() ? SOC_JL_GREATER_DEFAULT_TEXT : SOC_JL_LOWER_DEFAULT_TEXT);
+    }
+
+    private SleepComputationForm computeFromNewest(String uid) {
 
         PsqiEvaluation psqi = formsEvalService.getNewestPsqi(uid);
         MctqEvaluation mctq = formsEvalService.getNewestMctq(uid);
         MeqEvaluation meq = formsEvalService.getNewestMeq(uid);
-        System.out.println(meq);
 
+        SleepComputationForm scfe;
         try {
-            SleepComputationForm scfe = this.computeOverFormsData(mctq, meq, psqi, uid);
-            System.out.println(scfe);
+            scfe = this.computeOverFormsData(mctq, meq, psqi, uid);
+            this.setDefaultTexts(scfe);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return null;
+        return scfe;
+    }
+
+    public SleepComputationForm computeStandard(String uid) {
+
+        SleepComputationForm scfe = this.computeFromNewest(uid);
+        if(scfe != null) {
+            scfe.setId(6385754L);
+            scfe.setSocJetlagGreaterText("kek");
+            repository.save(scfe);
+        }
+
+        return scfe;
+    }
+
+    public SleepComputationForm computeWithComparison(String uid) {
+        SleepComputationForm scfe = this.computeFromNewest(uid);
+//        scfe.setCompComparison();
+        if(scfe != null) {
+            repository.save(scfe);
+        }
+        return scfe;
+    }
+
+    public void relalculateForUser(String uid) {
+        ArrayList<SleepComputationForm> computationForms = new ArrayList<>(repository.findAllByPersonId(uid));
+        computationForms.forEach(this::recalculateForForm);
+    }
+
+    private void recalculateForForm(SleepComputationForm form) {
+
+        PsqiEvaluation psqi = formsEvalService.findNewestPsqiClosesToDate(form.getPersonId(), form.getCreated());
+        MctqEvaluation mctq = formsEvalService.findNewestMctqClosesToDate(form.getPersonId(), form.getCreated());
+        MeqEvaluation meq = formsEvalService.findNewestMeqClosesToDate(form.getPersonId(), form.getCreated());
+
+        if(psqi == null || mctq == null || meq == null) {
+            System.out.println("Null!");
+            System.out.println(psqi);
+            System.out.println(mctq);
+            System.out.println(meq);
+        }
+
+        try {
+            assert mctq != null;
+            assert meq != null;
+            assert psqi != null;
+
+            SleepComputationForm scfe = this.computeOverFormsData(mctq, meq, psqi, form.getPersonId());
+            scfe.setCreated(form.getCreated());
+            this.updateScfeTexts(form, scfe);
+            System.out.println(scfe.getChronoFaText());
+
+            repository.save(scfe);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void recalculateForEveryone() {
+        ArrayList<SleepComputationForm> computationForms = new ArrayList<>(repository.findAll());
+        computationForms.forEach(this::recalculateForForm);
     }
 
     private ChronoVsRythm computeChronoTypeVsRythm(String averageLaydownTime, LocalTime from, LocalTime to) {
@@ -106,4 +203,7 @@ public class SleepComputationFormsService {
         }
     }
 
+    public void updateComputationFormTexts(SleepComputationForm scfe) {
+        this.repository.save(scfe);
+    }
 }

@@ -9,6 +9,9 @@ import cz.cvut.fel.vyzkumodolnosti.repository.computations.PsqiEvaluationJpaRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,5 +36,24 @@ public class FormsEvalService {
     }
     public MeqEvaluation getNewestMeq(String userId) {
         return meqRepository.findNewestFromUser(userId);
+    }
+
+    public PsqiEvaluation findNewestPsqiClosesToDate(String userId, Date date) {
+        LocalDate localDate = date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        return psqiRepository.getClosestBeforeDate(userId, localDate);
+    }
+    public MctqEvaluation findNewestMctqClosesToDate(String userId, Date date) {
+        LocalDate localDate = date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        return mctqRepository.getClosestBeforeDate(userId, localDate);
+    }
+    public MeqEvaluation findNewestMeqClosesToDate(String userId, Date date) {
+        LocalDate localDate = date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        return meqRepository.getClosestBeforeDate(userId, localDate);
     }
 }

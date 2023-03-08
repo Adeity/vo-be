@@ -2,11 +2,7 @@ package cz.cvut.fel.vyzkumodolnosti.services;
 
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -144,5 +140,16 @@ public class TimeComponent {
 
     public long convertLocalDateToEpochSeconds(LocalDate date) {
         return date.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+    }
+
+    public LocalTime convertHhMmStringToLocalDate(String time) {
+        String[] splitted = time.split(":");
+        String hoursStr = splitted[0];
+        String minutesStr = splitted[1];
+
+        int hours = Integer.parseInt(hoursStr);
+        int minutes = Integer.parseInt(minutesStr);
+
+        return LocalTime.of(hours, minutes);
     }
 }

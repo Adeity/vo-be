@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface UserComputationDataRepository extends JpaRepository<UserComputationData, Integer> {
 
     UserComputationData findByUserId(String id);
+
 }

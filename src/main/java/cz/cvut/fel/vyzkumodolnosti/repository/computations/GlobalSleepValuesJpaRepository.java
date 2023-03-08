@@ -9,4 +9,6 @@ import java.util.List;
 public interface GlobalSleepValuesJpaRepository extends JpaRepository<GlobalChronotypeValue, Integer> {
 
     List<GlobalChronotypeValue> findAll();
+
+
 }
