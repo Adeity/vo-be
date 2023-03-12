@@ -1,12 +1,11 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.computations;
 
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 public interface MeqEvaluationJpaRepository extends CrudRepository<MeqEvaluation, Integer> {
     @Query
@@ -30,4 +29,13 @@ public interface MeqEvaluationJpaRepository extends CrudRepository<MeqEvaluation
             nativeQuery = true
     )
     MeqEvaluation getClosestBeforeDate(String id, LocalDate date);
+
+    @Query(value=
+            "SELECT * " +
+                    "FROM meq_evaluation JOIN submitted_form sf " +
+                    "on meq_evaluation.meq_submitted_form_id = sf.id" +
+                    " WHERE sf.respondent_identifier = ?1" +
+                    " ORDER BY created DESC;",
+            nativeQuery = true)
+    public List<MeqEvaluation> getAllByRespId(String respId);
 }

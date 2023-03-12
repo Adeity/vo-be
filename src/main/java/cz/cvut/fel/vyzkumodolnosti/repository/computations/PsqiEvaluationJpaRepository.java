@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.computations;
 
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -44,4 +45,13 @@ public interface PsqiEvaluationJpaRepository extends CrudRepository<PsqiEvaluati
         nativeQuery = true
     )
     PsqiEvaluation getClosestBeforeDate(String id, LocalDate date);
+
+    @Query(value=
+            "SELECT * " +
+                    "FROM psqi_evaluation JOIN submitted_form sf " +
+                    "on psqi_evaluation.psqi_submitted_form_id = sf.id" +
+                    " WHERE sf.respondent_identifier = ?1" +
+                    " ORDER BY created DESC;",
+            nativeQuery = true)
+    public List<PsqiEvaluation> getAllByRespId(String respId);
 }

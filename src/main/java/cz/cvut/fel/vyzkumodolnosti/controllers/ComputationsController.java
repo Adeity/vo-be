@@ -14,12 +14,15 @@ import cz.cvut.fel.vyzkumodolnosti.services.computations.UserComputationDataServ
 import cz.cvut.fel.vyzkumodolnosti.services.computations.mappers.SleepComputationFormMapper;
 import cz.cvut.fel.vyzkumodolnosti.services.computations.mappers.UserComputationDataMapper;
 import cz.cvut.fel.vyzkumodolnosti.services.computations.respondent.SleepRespondentService;
+import cz.cvut.fel.vyzkumodolnosti.services.xls.ReportXlsExportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.List;
@@ -40,14 +43,8 @@ public class ComputationsController {
     @Autowired
     private SleepRespondentService respondentService;
 
-
-    @GetMapping(value = "/id")
-    public List<PsqiEvaluation> getEvaluatedForms() {
-//        List<PsqiEvaluation> results = formsEvalService.getAllPsqiEvalsById(100);
-//        return new ArrayList<>();
-//        System.out.println(results.toString());
-        return formsEvalService.getAllPsqiEvalsById(100);
-    }
+    @Autowired
+    private ReportXlsExportService xlsService;
 
     @GetMapping(value="/global-chrono")
     public List<GlobalChronotypeValue> getGlobalChronotypeValues() {
@@ -111,4 +108,26 @@ public class ComputationsController {
         return respondentService.getRespondentData();
     }
 
+
+    @GetMapping(value="/export-to-xls/{id}")
+    public ResponseEntity<Resource> exportRespondentToXls(@PathVariable("id") String uid) {
+        try {
+            Resource resource = xlsService.exportReportsToXls(uid);
+            return ResponseEntity.ok()
+                    .body(resource);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping(value="/export-to-xls")
+    public ResponseEntity<Resource> exportMultipleRespondentsToXls(@RequestBody List<String> respIds) {
+        try {
+            Resource resource = xlsService.exportReportsToXlsForSelected(respIds);
+            return ResponseEntity.ok()
+                    .body(resource);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

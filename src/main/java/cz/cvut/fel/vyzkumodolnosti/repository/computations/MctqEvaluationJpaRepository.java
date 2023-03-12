@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public interface MctqEvaluationJpaRepository extends CrudRepository<MctqEvaluation, Integer> {
     @Query
@@ -30,4 +31,13 @@ public interface MctqEvaluationJpaRepository extends CrudRepository<MctqEvaluati
             nativeQuery = true
     )
     public MctqEvaluation getClosestBeforeDate(String id, LocalDate date);
+
+    @Query(value=
+            "SELECT * " +
+            "FROM mctq_evaluation JOIN submitted_form sf " +
+            "on mctq_evaluation.mctq_submitted_form_id = sf.id" +
+            " WHERE sf.respondent_identifier = ?1" +
+            " ORDER BY created DESC;",
+    nativeQuery = true)
+    public List<MctqEvaluation> getAllByRespId(String respId);
 }
