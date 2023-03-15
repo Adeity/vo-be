@@ -19,23 +19,23 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
         evaluation.setAverageTimeOfGettingUp(variablesDto.getQ3());
         evaluation.setPsqidurat(computator.calculatePsqiDurat(variablesDto.getQ4()));
         evaluation.setPsqidistb(computator.calculatePsqidistb(
-                variablesDto.getQ5bScore(),
-                variablesDto.getQ5cScore(),
-                variablesDto.getQ5dScore(),
-                variablesDto.getQ5eScore(),
-                variablesDto.getQ5fScore(),
-                variablesDto.getQ5gScore(),
-                variablesDto.getQ5hScore(),
-                variablesDto.getQ5iScore(),
-                variablesDto.getQ5jScore()));
-        evaluation.setPsqilaten(computator.calculatePsqilaten(variablesDto.getQ2(), variablesDto.getQ5aScore()));
-        evaluation.setPsqidaydys(computator.calculatePsqidaydys(variablesDto.getQ8Score(), variablesDto.getQ9Score()));
+                variablesDto.getQ5b(),
+                variablesDto.getQ5c(),
+                variablesDto.getQ5d(),
+                variablesDto.getQ5e(),
+                variablesDto.getQ5f(),
+                variablesDto.getQ5g(),
+                variablesDto.getQ5h(),
+                variablesDto.getQ5i(),
+                variablesDto.getQ5j()));
+        evaluation.setPsqilaten(computator.calculatePsqilaten(variablesDto.getQ2(), variablesDto.getQ5a()));
+        evaluation.setPsqidaydys(computator.calculatePsqidaydys(variablesDto.getQ8(), variablesDto.getQ9()));
         evaluation.setPsqihse(computator.calculatePsqihse(
                 variablesDto.getQ1(),
                 variablesDto.getQ3(),
                 variablesDto.getQ4()));
-        evaluation.setPsqislpqual(variablesDto.getQ6Score());
-        evaluation.setPsqimeds(variablesDto.getQ7Score());
+        evaluation.setPsqislpqual(variablesDto.getQ6());
+        evaluation.setPsqimeds(variablesDto.getQ7());
         evaluation.setPsqitotal(
                 evaluation.getPsqidurat() +
                         evaluation.getPsqidistb() +
@@ -44,6 +44,15 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                         evaluation.getPsqihse() +
                         evaluation.getPsqislpqual() +
                         evaluation.getPsqimeds());
+        evaluation.setSleepDurationFreeDays(computator.calculateSleepDurationFreeDays(
+                variablesDto.getFreeDaysGnt(), variablesDto.getFreeDaysGmt()));
+        evaluation.setSleepDurationWorkDays(computator.calculateSleepDurationWorkDays(
+                variablesDto.getWorkDaysGnt(), variablesDto.getWorkDaysGmt()));
+        evaluation.setMidSleepFreeDays(computator.calculateMidSleepFreeDays(
+                variablesDto.getFreeDaysGnt(), evaluation.getSleepDurationFreeDays()));
+        evaluation.setMidSleepWorkDays(computator.calculateMidSleepWorkDays(
+                variablesDto.getWorkDaysGnt(), evaluation.getSleepDurationWorkDays()));
+        evaluation.setSJL(computator.calculateSJL(evaluation.getMidSleepFreeDays(), evaluation.getMidSleepWorkDays()));
 
         return evaluation;
     }
@@ -52,24 +61,25 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     public MctqEvaluation evaluate(MctqComputationVariablesDto variablesDto) {
         MctqEvaluation evaluation = new MctqEvaluation();
         MctqComputator computator = new MctqComputator();
+        variablesDto.setFd(7 - variablesDto.getWd());
 
-        evaluation.setSOw(computator.calculateSOw(variablesDto.getSPrepw(), variablesDto.getSLatw()));
-        evaluation.setGUw(computator.calculateGUw(variablesDto.getSEw(), variablesDto.getSIw()));
-        evaluation.setSDw(computator.calculateSDw(variablesDto.getSEw(), evaluation.getSOw()));
-        evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBTw()));
+        evaluation.setSOw(computator.calculateSOw(variablesDto.getSprepw(), variablesDto.getSlatw()));
+        evaluation.setGUw(computator.calculateGUw(variablesDto.getSew(), variablesDto.getSiw()));
+        evaluation.setSDw(computator.calculateSDw(variablesDto.getSew(), evaluation.getSOw()));
+        evaluation.setTBTw(computator.calculateTBTw(evaluation.getGUw(), variablesDto.getBtw()));
         evaluation.setMSW(computator.calculateMSW(evaluation.getSOw(), evaluation.getSDw()));
 
-        evaluation.setSOf(computator.calculateSOf(variablesDto.getSPrepf(), variablesDto.getSLatf()));
-        evaluation.setGUf(computator.calculateGUf(variablesDto.getSEf(), variablesDto.getSIf()));
-        evaluation.setSDf(computator.calculateSDf(variablesDto.getSEf(), evaluation.getSOf()));
-        evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBTf()));
+        evaluation.setSOf(computator.calculateSOf(variablesDto.getSprepf(), variablesDto.getSlatf()));
+        evaluation.setGUf(computator.calculateGUf(variablesDto.getSef(), variablesDto.getSif()));
+        evaluation.setSDf(computator.calculateSDf(variablesDto.getSef(), evaluation.getSOf()));
+        evaluation.setTBTf(computator.calculateTBTf(evaluation.getGUf(), variablesDto.getBtf()));
         evaluation.setMSF(computator.calculateMSF(evaluation.getSOf(), evaluation.getSDf()));
 
         evaluation.setSDweek(computator.calculateSDweek(
                 evaluation.getSDw(),
-                variablesDto.getWD(),
+                variablesDto.getWd(),
                 evaluation.getSDf(),
-                variablesDto.getFD()));
+                variablesDto.getFd()));
         evaluation.setMSFsc(computator.calculateMSFsc(
                 variablesDto.getAlarmf(),
                 evaluation.getSDf(),
@@ -80,33 +90,61 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                 evaluation.getSDweek(),
                 evaluation.getSDw(),
                 evaluation.getSDf(),
-                variablesDto.getWD(),
-                variablesDto.getFD()));
+                variablesDto.getWd(),
+                variablesDto.getFd()));
         evaluation.setSJLrel(computator.calculateSJLrel(evaluation.getMSF(), evaluation.getMSW()));
         evaluation.setSJL(computator.calculateSJL(evaluation.getMSF(), evaluation.getMSW()));
         evaluation.setLEweek(computator.calculateLEweek(
-                variablesDto.getLEw(),
-                variablesDto.getWD(),
-                variablesDto.getFD(),
-                variablesDto.getLEf()));
+                variablesDto.getLew(),
+                variablesDto.getWd(),
+                variablesDto.getFd(),
+                variablesDto.getLef()));
 
         return evaluation;
     }
 
     @Override
-    public LifeSatisfactionEvaluation evaluate(LifeSatisfactionComputationVariablesDto variablesDto) {
+    public LifeSatisfactionEvaluation evaluate(LifeSatisfactionComputationVariablesDto v) {
         LifeSatisfactionEvaluation evaluation = new LifeSatisfactionEvaluation();
 
-        evaluation.setZDR(variablesDto.getZDR().stream().reduce(0, Integer::sum));
-        evaluation.setPRZ(variablesDto.getPRZ().stream().reduce(0, Integer::sum));
-        evaluation.setFIN(variablesDto.getFIN().stream().reduce(0, Integer::sum));
-        evaluation.setVOL(variablesDto.getVOL().stream().reduce(0, Integer::sum));
-        evaluation.setMAN(variablesDto.getMAN().stream().reduce(0, Integer::sum));
-        evaluation.setDET(variablesDto.getDET().stream().reduce(0, Integer::sum));
-        evaluation.setVLO(variablesDto.getVLO().stream().reduce(0, Integer::sum));
-        evaluation.setSEX(variablesDto.getSEX().stream().reduce(0, Integer::sum));
-        evaluation.setPZP(variablesDto.getPZP().stream().reduce(0, Integer::sum));
-        evaluation.setBYD(variablesDto.getBYD().stream().reduce(0, Integer::sum));
+        evaluation.setZDR(
+                v.getHealthQ0() +v.getHealthQ1() +v.getHealthQ2() +v.getHealthQ3() +v.getHealthQ4() +v.getHealthQ5() +v.getHealthQ6()
+        );
+        evaluation.setPRZ(
+                v.getWorkQ0() +v.getWorkQ1() +v.getWorkQ2() +v.getWorkQ3() +v.getWorkQ4() +v.getWorkQ5() +v.getWorkQ6()
+        );
+        evaluation.setFIN(
+                v.getFinancesQ0() +v.getFinancesQ1() +v.getFinancesQ2() +v.getFinancesQ3() +v.getFinancesQ4() +v.getFinancesQ5() +v.getFinancesQ6()
+        );
+        evaluation.setVOL(
+                v.getFreeTimeQ0() +v.getFreeTimeQ1() +v.getFreeTimeQ2() +v.getFreeTimeQ3() +v.getFreeTimeQ4() +v.getFreeTimeQ5() +v.getFreeTimeQ6()
+        );
+        if (v.getHasPartner()) {
+            evaluation.setMAN(
+                    v.getPartnershipQ0() +v.getPartnershipQ1() +v.getPartnershipQ2() +v.getPartnershipQ3() +v.getPartnershipQ4() +v.getPartnershipQ5() +v.getPartnershipQ6()
+            );
+        } else {
+            evaluation.setMAN(0);
+        }
+        if (v.getHasKids()) {
+            evaluation.setDET(
+                    v.getChildrenQ0() +v.getChildrenQ1() +v.getChildrenQ2() +v.getChildrenQ3() +v.getChildrenQ4() +v.getChildrenQ5() +v.getChildrenQ6()
+            );
+        } else {
+            evaluation.setDET(0);
+        }
+        evaluation.setVLO(
+                v.getPersonalityQ0() +v.getPersonalityQ1() +v.getPersonalityQ2() +v.getPersonalityQ3() +v.getPersonalityQ4() +v.getPersonalityQ5() +v.getPersonalityQ6()
+        );
+        evaluation.setSEX(
+                v.getSexualityQ0() +v.getSexualityQ1() +v.getSexualityQ2() +v.getSexualityQ3() +v.getSexualityQ4() +v.getSexualityQ5() +v.getSexualityQ6()
+        );
+        evaluation.setPZP(
+                v.getFriendsQ0() +v.getFriendsQ1() +v.getFriendsQ2() +v.getFriendsQ3() +v.getFriendsQ4() +v.getFriendsQ5() +v.getFriendsQ6()
+        );
+        evaluation.setBYD(
+                v.getHabitationQ0() +v.getHabitationQ1() +v.getHabitationQ2() +v.getHabitationQ3() +v.getHabitationQ4() +v.getHabitationQ5() +v.getHabitationQ6()
+        );
 
         evaluation.setSUM(
                 sumNInts(
@@ -120,6 +158,9 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
                         evaluation.getSEX(),
                         evaluation.getPZP(),
                         evaluation.getBYD()));
+
+        evaluation.setHasKids(v.getHasKids());
+        evaluation.setHasPartner(v.getHasPartner());
 
         return evaluation;
     }
@@ -156,8 +197,11 @@ public class ComputationVariablesEvaluatorImpl implements ComputationVariablesEv
     }
 
     @Override
-    public PssEvaluation evaluate(PssComputationVariablesDto variablesDto) {
+    public PssEvaluation evaluate(PssComputationVariablesDto v) {
         PssEvaluation evaluation = new PssEvaluation();
+        evaluation.setPssPos(v.getQ1() + v.getQ2() + v.getQ3() + v.getQ6() + v.getQ9() + v.getQ10());
+        evaluation.setPssNeg(v.getQ4() + v.getQ5() + v.getQ7() + v.getQ8());
+        evaluation.setPssSum(evaluation.getPssPos() + evaluation.getPssNeg());
 
         return evaluation;
     }

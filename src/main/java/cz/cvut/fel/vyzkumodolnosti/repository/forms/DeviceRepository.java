@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.repository.forms;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.DeviceEntity;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.info.DeviceEntityInfo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;

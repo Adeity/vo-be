@@ -26,6 +26,9 @@ public class DeviceEntity implements Serializable {
     @NotNull
     @Column(name = "research_number", nullable = false, unique = true)
     private String researchNumber;
+    @ManyToOne
+    @JoinColumn(name = "research_participant_id", referencedColumnName = "id")
+    private ResearchParticipant researchParticipant;
 
     @Column(name = "request_token")
     private String requestToken;
@@ -156,5 +159,13 @@ public class DeviceEntity implements Serializable {
 
     public void setDeregistrationTime(LocalDate deregistrationTime) {
         this.deregistrationTime = deregistrationTime;
+    }
+
+    public ResearchParticipant getResearchParticipant() {
+        return researchParticipant;
+    }
+
+    public void setResearchParticipant(ResearchParticipant researchParticipant) {
+        this.researchParticipant = researchParticipant;
     }
 }

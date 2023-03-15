@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 
 @ControllerAdvice
@@ -46,6 +47,11 @@ public class RestResponseEntityExceptionHandler {
 
 	@ExceptionHandler(PSQLException.class)
 	public ResponseEntity<ErrorInfo> idk(HttpServletRequest request, PSQLException e) {
+		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<ErrorInfo> idk(HttpServletRequest request, ConstraintViolationException e) {
 		return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
 	}
 }

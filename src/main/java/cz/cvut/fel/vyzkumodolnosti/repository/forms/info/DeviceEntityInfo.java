@@ -1,4 +1,4 @@
-package cz.cvut.fel.vyzkumodolnosti.repository.forms;
+package cz.cvut.fel.vyzkumodolnosti.repository.forms.info;
 
 import java.time.LocalDate;
 

@@ -9,10 +9,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "answer")
 public class Answer extends AbstractEntity {
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "question_definition_id", referencedColumnName = "code")
+    @JoinColumn(name = "question_definition_id", referencedColumnName = "id")
     private Question question;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "form_id", referencedColumnName = "id")
     private SubmittedForm form;
@@ -20,9 +22,6 @@ public class Answer extends AbstractEntity {
     @NotNull
     @Column(name = "value", nullable = false)
     private String value;
-
-    @Column(name = "note")
-    private String note;
 
     public Question getQuestion() {
         return question;
@@ -38,14 +37,6 @@ public class Answer extends AbstractEntity {
 
     public void setValue(String answer) {
         this.value = answer;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String comment) {
-        this.note = comment;
     }
 
     public SubmittedForm getForm() {

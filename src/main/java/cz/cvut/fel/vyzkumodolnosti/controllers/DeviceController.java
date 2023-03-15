@@ -1,9 +1,8 @@
 package cz.cvut.fel.vyzkumodolnosti.controllers;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.UpdateResearchNumberDto;
-import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceEntityInfo;
+import cz.cvut.fel.vyzkumodolnosti.repository.forms.info.DeviceEntityInfo;
 import cz.cvut.fel.vyzkumodolnosti.repository.forms.DeviceRepository;
-import cz.cvut.fel.vyzkumodolnosti.services.DeviceServiceFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;

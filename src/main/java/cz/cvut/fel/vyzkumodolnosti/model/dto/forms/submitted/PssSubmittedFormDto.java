@@ -9,13 +9,13 @@ public class PssSubmittedFormDto extends SubmittedFormDto {
 
     @NotNull
     @Valid
-    private PssComputationVariablesDto variablesDto;
+    private PssComputationVariablesDto computationVariables;
 
-    public PssComputationVariablesDto getVariablesDto() {
-        return variablesDto;
+    public PssComputationVariablesDto getComputationVariables() {
+        return computationVariables;
     }
 
-    public void setVariablesDto(PssComputationVariablesDto variablesDto) {
-        this.variablesDto = variablesDto;
+    public void setComputationVariables(PssComputationVariablesDto computationVariables) {
+        this.computationVariables = computationVariables;
     }
 }

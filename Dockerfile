@@ -27,4 +27,4 @@ WORKDIR /usr/app/
 
 COPY --from=build /app/build/libs/*.jar ./
 EXPOSE 8090/tcp
-CMD ["java", "-jar", "./garmin-worker-0.0.1-SNAPSHOT-boot.jar"]
+CMD ["java", "-jar", "./vyzkumodolnosti-0.0.1-SNAPSHOT-boot.jar"]

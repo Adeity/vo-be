@@ -9,13 +9,13 @@ public class MeqSubmittedFormDto extends SubmittedFormDto {
 
     @NotNull
     @Valid
-    private MeqComputationVariablesDto variablesDto;
+    private MeqComputationVariablesDto computationVariables;
 
-    public MeqComputationVariablesDto getVariablesDto() {
-        return variablesDto;
+    public MeqComputationVariablesDto getComputationVariables() {
+        return computationVariables;
     }
 
-    public void setVariablesDto(MeqComputationVariablesDto variablesDto) {
-        this.variablesDto = variablesDto;
+    public void setComputationVariables(MeqComputationVariablesDto computationVariables) {
+        this.computationVariables = computationVariables;
     }
 }

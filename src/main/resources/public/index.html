@@ -29,7 +29,7 @@
     Stačí vyplnit a odeslat výzkumné číslo, které Vám bylo přiděleno.</p>
 
     <div class="d-flex justify-content-center">
-        <form id="research_number_form" class="form-control">
+        <form id="research_number_form" class="form-control" onsubmit="return false;">
             <label for="researchNumber">Zadejte své výzkumné číslo.</label>
             <div id="emailHelp" class="form-text">Výzkumné číslo se skládá ze šešti
                 alfanumerickych znaků oddělených podtržítkem.
@@ -65,7 +65,7 @@
                 researchNumberInvalidFeedback.innerText = "Výzkumné číslo musí být ve formátu šesti alfanumerických znaků oddělených podtržítkem. Např. AB3_C3A."
                 return;
             }
-            const baseUrl = "http://localhost:8080"
+            const baseUrl = ""
             const url = baseUrl + "/garmin/authorize?device_id=" + researchNumberInput.value
             fetch(url, {
                 method: "GET",

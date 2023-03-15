@@ -8,20 +8,28 @@ public class PsqiComputationVariablesDto {
     private int q2;
     private String q3;
     private Double q4;
-    private int q5aScore;
-    private int q5bScore;
-    private int q5cScore;
-    private int q5dScore;
-    private int q5eScore;
-    private int q5fScore;
-    private int q5gScore;
-    private int q5hScore;
-    private int q5iScore;
-    private int q5jScore;
-    private int q6Score;
-    private int q7Score;
-    private int q8Score;
-    private int q9Score;
+    private int q5a;
+    private int q5b;
+    private int q5c;
+    private int q5d;
+    private int q5e;
+    private int q5f;
+    private int q5g;
+    private int q5h;
+    private int q5i;
+    private int q5j;
+    private int q6;
+    private int q7;
+    private int q8;
+    private int q9;
+    // O volných dnech chodím spát v (HH:MM): (1)
+    private String freeDaysGnt;
+    // O volných dnech vstávám  v (HH:MM): (2)
+    private String freeDaysGmt;
+    // V pracovních dnech chodím spát v (HH:MM): (3)
+    private String workDaysGnt;
+    // V pracovních dnech vstávám v (HH:MM): (4)
+    private String workDaysGmt;
 
     public String getQ1() {
         return q1;
@@ -55,115 +63,147 @@ public class PsqiComputationVariablesDto {
         this.q4 = q4;
     }
 
-    public int getQ5aScore() {
-        return q5aScore;
+    public int getQ5a() {
+        return q5a;
     }
 
-    public void setQ5aScore(int q5aScore) {
-        this.q5aScore = q5aScore;
+    public void setQ5a(int q5a) {
+        this.q5a = q5a;
     }
 
-    public int getQ5bScore() {
-        return q5bScore;
+    public int getQ5b() {
+        return q5b;
     }
 
-    public void setQ5bScore(int q5bScore) {
-        this.q5bScore = q5bScore;
+    public void setQ5b(int q5b) {
+        this.q5b = q5b;
     }
 
-    public int getQ5cScore() {
-        return q5cScore;
+    public int getQ5c() {
+        return q5c;
     }
 
-    public void setQ5cScore(int q5cScore) {
-        this.q5cScore = q5cScore;
+    public void setQ5c(int q5c) {
+        this.q5c = q5c;
     }
 
-    public int getQ5dScore() {
-        return q5dScore;
+    public int getQ5d() {
+        return q5d;
     }
 
-    public void setQ5dScore(int q5dScore) {
-        this.q5dScore = q5dScore;
+    public void setQ5d(int q5d) {
+        this.q5d = q5d;
     }
 
-    public int getQ5eScore() {
-        return q5eScore;
+    public int getQ5e() {
+        return q5e;
     }
 
-    public void setQ5eScore(int q5eScore) {
-        this.q5eScore = q5eScore;
+    public void setQ5e(int q5e) {
+        this.q5e = q5e;
     }
 
-    public int getQ5fScore() {
-        return q5fScore;
+    public int getQ5f() {
+        return q5f;
     }
 
-    public void setQ5fScore(int q5fScore) {
-        this.q5fScore = q5fScore;
+    public void setQ5f(int q5f) {
+        this.q5f = q5f;
     }
 
-    public int getQ5gScore() {
-        return q5gScore;
+    public int getQ5g() {
+        return q5g;
     }
 
-    public void setQ5gScore(int q5gScore) {
-        this.q5gScore = q5gScore;
+    public void setQ5g(int q5g) {
+        this.q5g = q5g;
     }
 
-    public int getQ5hScore() {
-        return q5hScore;
+    public int getQ5h() {
+        return q5h;
     }
 
-    public void setQ5hScore(int q5hScore) {
-        this.q5hScore = q5hScore;
+    public void setQ5h(int q5h) {
+        this.q5h = q5h;
     }
 
-    public int getQ5iScore() {
-        return q5iScore;
+    public int getQ5i() {
+        return q5i;
     }
 
-    public void setQ5iScore(int q5iScore) {
-        this.q5iScore = q5iScore;
+    public void setQ5i(int q5i) {
+        this.q5i = q5i;
     }
 
-    public int getQ5jScore() {
-        return q5jScore;
+    public int getQ5j() {
+        return q5j;
     }
 
-    public void setQ5jScore(int q5jScore) {
-        this.q5jScore = q5jScore;
+    public void setQ5j(int q5j) {
+        this.q5j = q5j;
     }
 
-    public int getQ6Score() {
-        return q6Score;
+    public int getQ6() {
+        return q6;
     }
 
-    public void setQ6Score(int q6Score) {
-        this.q6Score = q6Score;
+    public void setQ6(int q6) {
+        this.q6 = q6;
     }
 
-    public int getQ7Score() {
-        return q7Score;
+    public int getQ7() {
+        return q7;
     }
 
-    public void setQ7Score(int q7Score) {
-        this.q7Score = q7Score;
+    public void setQ7(int q7) {
+        this.q7 = q7;
     }
 
-    public int getQ8Score() {
-        return q8Score;
+    public int getQ8() {
+        return q8;
     }
 
-    public void setQ8Score(int q8Score) {
-        this.q8Score = q8Score;
+    public void setQ8(int q8) {
+        this.q8 = q8;
     }
 
-    public int getQ9Score() {
-        return q9Score;
+    public int getQ9() {
+        return q9;
     }
 
-    public void setQ9Score(int q9Score) {
-        this.q9Score = q9Score;
+    public void setQ9(int q9) {
+        this.q9 = q9;
+    }
+
+    public String getFreeDaysGnt() {
+        return freeDaysGnt;
+    }
+
+    public void setFreeDaysGnt(String freeDaysGnt) {
+        this.freeDaysGnt = freeDaysGnt;
+    }
+
+    public String getFreeDaysGmt() {
+        return freeDaysGmt;
+    }
+
+    public void setFreeDaysGmt(String freeDaysGmt) {
+        this.freeDaysGmt = freeDaysGmt;
+    }
+
+    public String getWorkDaysGnt() {
+        return workDaysGnt;
+    }
+
+    public void setWorkDaysGnt(String workDaysGnt) {
+        this.workDaysGnt = workDaysGnt;
+    }
+
+    public String getWorkDaysGmt() {
+        return workDaysGmt;
+    }
+
+    public void setWorkDaysGmt(String workDaysGmt) {
+        this.workDaysGmt = workDaysGmt;
     }
 }

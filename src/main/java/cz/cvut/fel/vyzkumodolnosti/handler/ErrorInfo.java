@@ -5,24 +5,24 @@ package cz.cvut.fel.vyzkumodolnosti.handler;
  */
 public class ErrorInfo {
 
-	private String message;
+	private String errorMessage;
 
 	private String requestUri;
 
 	public ErrorInfo() {
 	}
 
-	public ErrorInfo(String message, String requestUri) {
-		this.message = message;
+	public ErrorInfo(String errorMessage, String requestUri) {
+		this.errorMessage = errorMessage;
 		this.requestUri = requestUri;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
 	public String getRequestUri() {
@@ -35,6 +35,6 @@ public class ErrorInfo {
 
 	@Override
 	public String toString() {
-		return "ErrorInfo{" + requestUri + ", message = " + message + "}";
+		return "ErrorInfo{" + requestUri + ", message = " + errorMessage + "}";
 	}
 }

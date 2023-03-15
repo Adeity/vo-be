@@ -46,6 +46,12 @@ public class LifeSatisfactionEvaluation extends AbstractEntity {
     @NotNull
     @Column(name = "SUM")
     private Integer SUM;
+    @NotNull
+    @Column(name = "has_kids")
+    private Boolean hasKids;
+    @NotNull
+    @Column(name = "has_partner")
+    private Boolean hasPartner;
 
     public LifeSatisfactionSubmittedForm getSubmittedForm() {
         return submittedForm;
@@ -141,5 +147,21 @@ public class LifeSatisfactionEvaluation extends AbstractEntity {
 
     public void setSUM(Integer SUM) {
         this.SUM = SUM;
+    }
+
+    public Boolean getHasKids() {
+        return hasKids;
+    }
+
+    public void setHasKids(Boolean hasKids) {
+        this.hasKids = hasKids;
+    }
+
+    public Boolean getHasPartner() {
+        return hasPartner;
+    }
+
+    public void setHasPartner(Boolean hasPartner) {
+        this.hasPartner = hasPartner;
     }
 }

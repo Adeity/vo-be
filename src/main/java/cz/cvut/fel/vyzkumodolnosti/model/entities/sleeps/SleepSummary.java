@@ -12,85 +12,53 @@ import java.util.List;
 @Table(name = "sleeps")
 public class SleepSummary extends AbstractEntity {
 
-	@NotNull
-	@Column(name = "user_access_token")
-	private String userAccessToken;
+    @NotNull
+    @Column(name = "user_access_token")
+    private String userAccessToken;
+
 
     @NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "device_id",
-			referencedColumnName = "id"
-    )
+            referencedColumnName = "id")
     private DeviceEntity device;
 
-    @NotNull
-    @Column(
-            name = "summary_id"
-    )
+    @Column(name = "summary_id")
     private String summaryId;
 
-    @NotNull
-    @Column(
-            name = "calendar_date"
-    )
+    @Column(name = "calendar_date")
     private String calendarDate;
 
-    @NotNull
-    @Column(
-            name = "duration_in_seconds"
-    )
+    @Column(name = "duration_in_seconds")
     private Integer durationInSeconds;
 
-    @NotNull
-    @Column(
-            name = "start_time_in_seconds"
-    )
+    @Column(name = "start_time_in_seconds")
     private Long startTimeInSeconds;
 
-    @NotNull
-    @Column(
-            name = "start_time_offset_in_seconds"
-    )
+    @Column(name = "start_time_offset_in_seconds")
     private Long startTimeOffsetInSeconds;
 
-    @NotNull
-    @Column(
-            name = "unmeasurable_sleep_in_seconds"
-    )
+    @Column(name = "unmeasurable_sleep_in_seconds")
     private Integer unmeasurableSleepInSeconds;
 
-    @NotNull
-    @Column(
-            name = "deep_sleep_duration_in_seconds"
-    )
+    @Column(name = "deep_sleep_duration_in_seconds")
     private Integer deepSleepDurationInSeconds;
 
-    @NotNull
-    @Column(
-            name = "light_sleep_duration_in_seconds"
-    )
+    @Column(name = "light_sleep_duration_in_seconds")
     private Integer lightSleepDurationInSeconds;
 
-    @NotNull
-    @Column(
-            name = "rem_sleep_in_seconds"
-    )
+    @Column(name = "rem_sleep_in_seconds")
     private Integer remSleepInSeconds;
 
-    @NotNull
-    @Column(
-            name = "awake_duration_in_seconds"
-    )
+    @Column(name = "awake_duration_in_seconds")
     private Integer awakeDurationInSeconds;
 
     @OneToOne(cascade = CascadeType.ALL)
     private SleepLevelsMap sleepLevelsMap;
 
-    @NotNull
-    @Column(
-            name = "validation"
-    )
+
+    @Column(name = "validation")
     private ValidationTypeEnum validation;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -105,26 +73,26 @@ public class SleepSummary extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<SleepScore> sleepScores;
 
-	public String getUserAccessToken() {
-		return userAccessToken;
-	}
+    public String getUserAccessToken() {
+        return userAccessToken;
+    }
 
-	public void setUserAccessToken(String userAccessToken) {
-		this.userAccessToken = userAccessToken;
-	}
+    public void setUserAccessToken(String userAccessToken) {
+        this.userAccessToken = userAccessToken;
+    }
 
     public SleepSummary() {
     }
 
-	public DeviceEntity getDevice() {
-		return device;
-	}
+    public DeviceEntity getDevice() {
+        return device;
+    }
 
-	public void setDevice(DeviceEntity userAccessToken) {
-		this.device = userAccessToken;
-	}
+    public void setDevice(DeviceEntity userAccessToken) {
+        this.device = userAccessToken;
+    }
 
-	public String getSummaryId() {
+    public String getSummaryId() {
         return summaryId;
     }
 

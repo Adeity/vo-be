@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted;
 
 import cz.cvut.fel.vyzkumodolnosti.model.entities.AbstractEntity;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.Answer;
 
 import javax.persistence.*;
@@ -14,14 +15,14 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "form_type", discriminatorType = DiscriminatorType.STRING)
 public class SubmittedForm extends AbstractEntity {
+    @Column(name = "alternative_identifier")
+    private String alternativeIdentifier;
+    @ManyToOne
+    @JoinColumn(name = "research_participant_id", referencedColumnName = "id")
+    private ResearchParticipant researchParticipant;
     @NotNull
     @Column(name = "created")
     private LocalDate created;
-    @NotNull
-    @Column(name = "respondent_identifier")
-    private String respondentIdentifier;
-    @Column(name = "research_number")
-    private String researchNumber;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "form", orphanRemoval = true)
     private List<Answer> answers;
 
@@ -34,25 +35,24 @@ public class SubmittedForm extends AbstractEntity {
         return created;
     }
 
+    public String getAlternativeIdentifier() {
+        return alternativeIdentifier;
+    }
+
+    public void setAlternativeIdentifier(String alternativeIdentifier) {
+        this.alternativeIdentifier = alternativeIdentifier;
+    }
+
+    public ResearchParticipant getResearchParticipant() {
+        return researchParticipant;
+    }
+
+    public void setResearchParticipant(ResearchParticipant researchParticipant) {
+        this.researchParticipant = researchParticipant;
+    }
+
     public void setCreated(LocalDate created) {
         this.created = created;
-        setCreatedPrePersist();
-    }
-
-    public String getRespondentIdentifier() {
-        return respondentIdentifier;
-    }
-
-    public void setRespondentIdentifier(String respondentIdentifier) {
-        this.respondentIdentifier = respondentIdentifier;
-    }
-
-    public String getResearchNumber() {
-        return researchNumber;
-    }
-
-    public void setResearchNumber(String researchNumber) {
-        this.researchNumber = researchNumber;
     }
 
     public List<Answer> getAnswers() {
