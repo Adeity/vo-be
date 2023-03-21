@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.services.computations;
 
+import cz.cvut.fel.vyzkumodolnosti.handler.IllegalMeqValueException;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronoVsRythm;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronotypeEnum;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.GlobalChronotypeValue;
@@ -43,7 +44,7 @@ public class SleepComputationFormsService {
         return this.repository.findById(id);
     }
 
-    public SleepComputationForm computeOverFormsData(MctqEvaluation mctq, MeqEvaluation meq, PsqiEvaluation psqi, String userId) throws Exception {
+    public SleepComputationForm computeOverFormsData(MctqEvaluation mctq, MeqEvaluation meq, PsqiEvaluation psqi, String userId) throws IllegalMeqValueException {
 
         List<GlobalChronotypeValue> chronoValues = this.chronoService.getGlobalChronotypeValues();
         UserComputationData userData = this.userService.getUserData(userId);
@@ -108,7 +109,7 @@ public class SleepComputationFormsService {
             scfe = this.computeOverFormsData(mctq, meq, psqi, uid);
             this.setDefaultTexts(scfe);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalMeqValueException(e);
         }
 
         return scfe;
@@ -118,8 +119,6 @@ public class SleepComputationFormsService {
 
         SleepComputationForm scfe = this.computeFromNewest(uid);
         if(scfe != null) {
-            scfe.setId(6385754L);
-            scfe.setSocJetlagGreaterText("kek");
             repository.save(scfe);
         }
 
@@ -146,13 +145,6 @@ public class SleepComputationFormsService {
         MctqEvaluation mctq = formsEvalService.findNewestMctqClosesToDate(form.getPersonId(), form.getCreated());
         MeqEvaluation meq = formsEvalService.findNewestMeqClosesToDate(form.getPersonId(), form.getCreated());
 
-        if(psqi == null || mctq == null || meq == null) {
-            System.out.println("Null!");
-            System.out.println(psqi);
-            System.out.println(mctq);
-            System.out.println(meq);
-        }
-
         try {
             assert mctq != null;
             assert meq != null;
@@ -161,11 +153,10 @@ public class SleepComputationFormsService {
             SleepComputationForm scfe = this.computeOverFormsData(mctq, meq, psqi, form.getPersonId());
             scfe.setCreated(form.getCreated());
             this.updateScfeTexts(form, scfe);
-            System.out.println(scfe.getChronoFaText());
 
             repository.save(scfe);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalMeqValueException(e);
         }
     }
 
@@ -187,7 +178,7 @@ public class SleepComputationFormsService {
 
     }
 
-    private ChronotypeEnum computeChronotypeValue(int meqVal) throws Exception {
+    private ChronotypeEnum computeChronotypeValue(int meqVal) throws IllegalMeqValueException {
         if (meqVal <= 30) {
             return ChronotypeEnum.STRONGLY_EVENING;
         } else if(meqVal < 41) {
@@ -199,7 +190,7 @@ public class SleepComputationFormsService {
         } else if (meqVal < 86) {
             return ChronotypeEnum.STRONGLY_MORNING;
         } else {
-            throw new Exception();
+            throw new IllegalMeqValueException();
         }
     }
 

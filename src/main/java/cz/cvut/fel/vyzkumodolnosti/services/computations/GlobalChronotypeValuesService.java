@@ -21,8 +21,6 @@ public class GlobalChronotypeValuesService {
     }
 
     public void updateGlobalChronotypeValue(SingleGlobalValueDto dto) {
-        System.out.println("updating");
-        System.out.println(dto);
         repository.save(
                 new GlobalChronotypeValuesMapper().dtoToEntity(dto)
         );

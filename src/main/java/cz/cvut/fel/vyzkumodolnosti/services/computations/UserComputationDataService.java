@@ -23,7 +23,7 @@ public class UserComputationDataService {
 
         if(data == null) {
             data = new UserComputationData(id, sjlThreshold, latencyFaThreshold);
-            repository.save(new UserComputationData(id, sjlThreshold, latencyFaThreshold));
+            repository.save(data);
         }
 
         return data;
@@ -35,10 +35,6 @@ public class UserComputationDataService {
     }
 
     public void updateUserComputationData(UserComputationData data) {
-        System.out.println(data.getId());
-        System.out.println(data.getLatencyFaThreshold());
-        System.out.println(data.getSocJetlagThreshold());
-        System.out.println();
         this.repository.save(data);
     }
 }

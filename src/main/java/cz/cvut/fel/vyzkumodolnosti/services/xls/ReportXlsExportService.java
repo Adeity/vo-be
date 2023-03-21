@@ -38,7 +38,7 @@ public class ReportXlsExportService {
 
     public ByteArrayResource exportReportsToXlsForSelected(List<String> respIds) throws IOException {
 
-        ArrayList<FormEvals> formEvals = new ArrayList<>();
+        List<FormEvals> formEvals = new ArrayList<>();
 
         List<MctqEvaluation> exampleMctqs = new ArrayList<>();
         List<PsqiEvaluation> examplePsqis = new ArrayList<>();
