@@ -19,7 +19,7 @@ public class UserComputationDataService {
     UserComputationDataRepository repository;
 
     public UserComputationData getUserData(String id) {
-        UserComputationData data = repository.findByUserId(id);
+        UserComputationData data = repository.findByResearchParticipantResearchNumber(id);
 
         if(data == null) {
             data = new UserComputationData(id, sjlThreshold, latencyFaThreshold);

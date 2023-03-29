@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.services.computations;
 
 import cz.cvut.fel.vyzkumodolnosti.handler.IllegalMeqValueException;
+import cz.cvut.fel.vyzkumodolnosti.handler.IncompleteFormsException;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronoVsRythm;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronotypeEnum;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.GlobalChronotypeValue;
@@ -98,11 +99,18 @@ public class SleepComputationFormsService {
         else recalculated.setSocJetlagGreaterText(recalculated.isSocJetlagGreater() ? SOC_JL_GREATER_DEFAULT_TEXT : SOC_JL_LOWER_DEFAULT_TEXT);
     }
 
-    private SleepComputationForm computeFromNewest(String uid) {
+    private SleepComputationForm computeFromNewest(String uid) throws IncompleteFormsException {
 
         PsqiEvaluation psqi = formsEvalService.getNewestPsqi(uid);
         MctqEvaluation mctq = formsEvalService.getNewestMctq(uid);
         MeqEvaluation meq = formsEvalService.getNewestMeq(uid);
+
+        if (psqi == null || meq == null) {
+            String message = "Incomplete forms!"
+                    + (psqi == null ? " PSQI is missing!" : "")
+                    + (meq == null ? " MEQ is missing!" : "");
+            throw new IncompleteFormsException(message);
+        }
 
         SleepComputationForm scfe;
         try {
@@ -115,7 +123,7 @@ public class SleepComputationFormsService {
         return scfe;
     }
 
-    public SleepComputationForm computeStandard(String uid) {
+    public SleepComputationForm computeStandard(String uid) throws IncompleteFormsException {
 
         SleepComputationForm scfe = this.computeFromNewest(uid);
         if(scfe != null) {
@@ -135,7 +143,7 @@ public class SleepComputationFormsService {
     }
 
     public void relalculateForUser(String uid) {
-        ArrayList<SleepComputationForm> computationForms = new ArrayList<>(repository.findAllByPersonId(uid));
+        ArrayList<SleepComputationForm> computationForms = new ArrayList<>(repository.findAllByResearchParticipantResearchNumber(uid));
         computationForms.forEach(this::recalculateForForm);
     }
 

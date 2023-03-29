@@ -3,6 +3,7 @@ package cz.cvut.fel.vyzkumodolnosti.model.entities.computations;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronoVsRythm;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ChronotypeEnum;
 import cz.cvut.fel.vyzkumodolnosti.model.domain.computations.ImprovementEnum;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,9 @@ import java.util.Date;
 public class SleepComputationForm {
 
     public SleepComputationForm(String personId) {
-        this.personId = personId;
+
+        this.researchParticipant = new ResearchParticipant();
+        this.researchParticipant.setResearchNumber(personId);
     }
 
     public SleepComputationForm() {
@@ -29,8 +32,9 @@ public class SleepComputationForm {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name="person_id")
-    private String personId;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private ResearchParticipant researchParticipant;
 
     @Column(name="chrono_rythm_asleep")
     private ChronoVsRythm chronoFa;
@@ -80,11 +84,15 @@ public class SleepComputationForm {
     public String toString() {
         return
                 "Id: " + this.id + "\n" +
-                "person id" + this.personId + "\n" +
+                "person id" + this.researchParticipant.getResearchNumber() + "\n" +
                 "chronotype: " + this.chronotype + "\n" +
                 "chronoWa: " +this.chronoWa + "\n" +
                 "chronoFa: " + this.chronoFa + "\n" +
                 "latency FA greater: " + this.isLatencyFAGreater + "\n" +
                 "soc jetlag greater: " + this.isSocJetlagGreater + "\n";
+    }
+
+    public String getPersonId() {
+        return this.researchParticipant.getResearchNumber();
     }
 }

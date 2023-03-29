@@ -1,18 +1,23 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities.computations;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "user_computation_data")
-public class UserComputationData {
+@Getter
+@Setter
+public class UserComputationData implements Serializable {
 
     public UserComputationData(String userId, LocalTime socJetlagThreshold, Integer latencyFaThreshold) {
-        this.userId = userId;
+        this.researchParticipant = new ResearchParticipant();
+        this.researchParticipant.setResearchNumber(userId);
         this.socJetlagThreshold = socJetlagThreshold;
         this.latencyFaThreshold = latencyFaThreshold;
     }
@@ -22,8 +27,13 @@ public class UserComputationData {
     }
 
     @Id
-    @Column(name = "id")
-    private String userId;
+    @Column(name="inner_id")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private ResearchParticipant researchParticipant;
 
     @Column(name="soc_jetlag_threshold")
     private LocalTime socJetlagThreshold;
@@ -47,11 +57,7 @@ public class UserComputationData {
         this.latencyFaThreshold = latencyFaThreshold;
     }
 
-    public void setId(String id) {
-        this.userId = id;
-    }
-
     public String getId() {
-        return userId;
+        return this.researchParticipant.getResearchNumber();
     }
 }

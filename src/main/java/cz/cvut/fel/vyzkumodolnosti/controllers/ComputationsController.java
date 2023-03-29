@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.controllers;
 
+import cz.cvut.fel.vyzkumodolnosti.handler.IncompleteFormsException;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.computations.*;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.GlobalChronotypeValue;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.SleepComputationForm;
@@ -15,6 +16,7 @@ import cz.cvut.fel.vyzkumodolnosti.services.computations.mappers.SleepComputatio
 import cz.cvut.fel.vyzkumodolnosti.services.computations.mappers.UserComputationDataMapper;
 import cz.cvut.fel.vyzkumodolnosti.services.computations.respondent.SleepRespondentService;
 import cz.cvut.fel.vyzkumodolnosti.services.xls.ReportXlsExportService;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -26,10 +28,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.List;
+import org.apache.logging.log4j.Logger;
 
 @RestController
 @RequestMapping(value = "/comps")
 public class ComputationsController {
+
+    private static final Logger LOGGER = LogManager.getLogger(ComputationsController.class);
 
     @Autowired
     private FormsEvalService formsEvalService;
@@ -69,7 +74,12 @@ public class ComputationsController {
     @GetMapping(value="/test/initial/{id}")
     public SleepComputationForm makeInitialComputation(@PathVariable("id") String uid) {
 
-        return computationService.computeStandard(uid);
+        try {
+            return computationService.computeStandard(uid);
+        } catch(IncompleteFormsException e) {
+            LOGGER.error("Exception occured! " + e.getMessage());
+            return null;
+        }
     }
 
     @PostMapping(value="/update-computation")

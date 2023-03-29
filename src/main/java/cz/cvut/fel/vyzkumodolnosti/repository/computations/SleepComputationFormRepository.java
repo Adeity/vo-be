@@ -14,5 +14,5 @@ public interface SleepComputationFormRepository extends JpaRepository<SleepCompu
 
     List<SleepComputationForm> findAll();
 
-    List<SleepComputationForm> findAllByPersonId(String uid);
+    List<SleepComputationForm> findAllByResearchParticipantResearchNumber(String uid);
 }

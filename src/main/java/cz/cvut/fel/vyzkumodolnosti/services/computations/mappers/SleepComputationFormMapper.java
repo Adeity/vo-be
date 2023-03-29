@@ -1,6 +1,7 @@
 package cz.cvut.fel.vyzkumodolnosti.services.computations.mappers;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.computations.SleepComputationFormDto;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.SleepComputationForm;
 
 public class SleepComputationFormMapper {
@@ -33,6 +34,8 @@ public class SleepComputationFormMapper {
     public SleepComputationForm dtoToEntity(SleepComputationFormDto dto) {
 
         SleepComputationForm entity = new SleepComputationForm();
+        ResearchParticipant researchParticipant = new ResearchParticipant();
+        researchParticipant.setResearchNumber(dto.getPerson_id());
 
         entity.setChronotype(dto.getChronotype());
         entity.setChronoFa(dto.getChronoFa());
@@ -40,7 +43,7 @@ public class SleepComputationFormMapper {
         entity.setId(dto.getId());
         entity.setCreated(dto.getCreated());
         entity.setModified(dto.getModified());
-        entity.setPersonId(dto.getPerson_id());
+        entity.setResearchParticipant(researchParticipant);
         entity.setLatencyFAGreater(dto.isLatencyFAGreater());
         entity.setSocJetlagGreater(dto.isSocJetlagGreater());
         entity.setChronoFaText(dto.getChronoFaText());
