@@ -103,4 +103,34 @@ class TimeComponentTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void test_addTralingZero_notModifiyng() {
+		String in = "23:23";
+
+		String expected = "23:23";
+		String actual = timeComponent.addTralingZeroIfNeeded(in);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_addTralingZero_addingZero() {
+		String in = "3:23";
+
+		String expected = "03:23";
+		String actual = timeComponent.addTralingZeroIfNeeded(in);
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void test_addTralingZero_notModifyingWithZero() {
+		String in = "03:23";
+
+		String expected = "03:23";
+		String actual = timeComponent.addTralingZeroIfNeeded(in);
+
+		assertEquals(expected, actual);
+	}
+
 }

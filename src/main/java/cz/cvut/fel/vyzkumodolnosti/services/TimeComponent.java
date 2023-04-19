@@ -54,6 +54,31 @@ public class TimeComponent {
         return p2s + ":" + p3s;
     }
 
+    /**
+     * Adds trailing zero to hh mm string if the hh part is lesser than 10
+     * @param hhMm hh mm String with or without trailing zero
+     * @return hh mm string with trailing zero
+     */
+    public String addTralingZeroIfNeeded(String hhMm) {
+        String[] split = hhMm.split(":");
+        String s0 = split[0];
+        String s1 = split[1];
+        int p1 = Integer.parseInt(s0);
+        if (p1 < 10) {
+            StringBuilder sb = new StringBuilder(s0);
+            sb.setCharAt(0, '0');
+            if (s0.length() == 2) {
+                sb.setCharAt(0, '0');
+            } else {
+                sb.append(s0);
+                sb.setCharAt(0, '0');
+            }
+            s0 = sb.toString();
+        }
+
+        return s0 + ":" + s1;
+    }
+
     public Integer hourMinuteFormatToSeconds(String hourMinute) {
         String[] splitted = hourMinute.split(":");
         String hoursStr = splitted[0];
