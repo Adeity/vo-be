@@ -8,13 +8,13 @@ import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.Answer;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.questions.Question;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.*;
 import cz.cvut.fel.vyzkumodolnosti.repository.forms.*;
+import cz.cvut.fel.vyzkumodolnosti.services.MethodService;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.ComputationVariablesEvaluator;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.SubmittedFormMapper;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.api.SubmittedFormWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,9 +31,10 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
     private final ComputationVariablesEvaluator evaluator;
     private final ResearchParticipantRepository researchParticipantRepository;
     private final QuestionRepository questionRepository;
+    private final MethodService methodService;
 
     @Autowired
-    public SubmittedFormWriteServiceImpl(PsqiSubmittedFormJpaRepository psqiRepository, MeqSubmittedFormJpaRepository meqRepository, MctqSubmittedFormJpaRepository mctqRepository, LifeSatisfactionSubmittedFormJpaRepository lifesatRepository, SubmittedFormMapper formMapper, PssSubmittedFormRepository pssRepository, DemoSubmittedFormJpaRepository demoRepository, ResearchParticipantRepository researchParticipantRepository, QuestionRepository questionRepository) {
+    public SubmittedFormWriteServiceImpl(PsqiSubmittedFormJpaRepository psqiRepository, MeqSubmittedFormJpaRepository meqRepository, MctqSubmittedFormJpaRepository mctqRepository, LifeSatisfactionSubmittedFormJpaRepository lifesatRepository, SubmittedFormMapper formMapper, PssSubmittedFormRepository pssRepository, DemoSubmittedFormJpaRepository demoRepository, ResearchParticipantRepository researchParticipantRepository, QuestionRepository questionRepository, MethodService methodService) {
         this.psqiRepository = psqiRepository;
         this.meqRepository = meqRepository;
         this.mctqRepository = mctqRepository;
@@ -43,6 +44,7 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
         this.demoRepository = demoRepository;
         this.researchParticipantRepository = researchParticipantRepository;
         this.questionRepository = questionRepository;
+        this.methodService = methodService;
         this.evaluator = new ComputationVariablesEvaluatorImpl();
     }
 
@@ -125,8 +127,10 @@ public class SubmittedFormWriteServiceImpl implements SubmittedFormWriteService 
                 participant = new ResearchParticipant();
                 Objects.requireNonNull(identifyingVariables.getResearchNumber());
                 participant.setResearchNumber(identifyingVariables.getResearchNumber());
-                researchParticipantRepository.save(participant);
             }
+            participant.setMethods(methodService.findMethodNamesByResearchNumber(participant.getResearchNumber()));
+            researchParticipantRepository.save(participant);
+
             submittedForm.setResearchParticipant(participant);
         }
     }

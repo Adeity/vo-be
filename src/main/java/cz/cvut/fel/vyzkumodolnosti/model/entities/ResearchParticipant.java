@@ -18,6 +18,14 @@ public class ResearchParticipant extends AbstractEntity {
     private DeviceEntity deviceEntity;
     @OneToMany(mappedBy = "researchParticipant")
     private List<SubmittedForm> submittedForms;
+    @ManyToMany
+    @JoinTable(name = "research_participant_methods",
+            joinColumns =
+            @JoinColumn(name = "research_participants_id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "methods_id")
+    )
+    private List<Method> methods;
 
     public String getResearchNumber() {
         return researchNumber;
@@ -44,5 +52,16 @@ public class ResearchParticipant extends AbstractEntity {
 
     public void setSubmittedForms(List<SubmittedForm> submittedForms) {
         this.submittedForms = submittedForms;
+    }
+
+    public List<Method> getMethods() {
+        if (methods == null) {
+            methods = new ArrayList<>();
+        }
+        return methods;
+    }
+
+    public void setMethods(List<Method> methods) {
+        this.methods = methods;
     }
 }
