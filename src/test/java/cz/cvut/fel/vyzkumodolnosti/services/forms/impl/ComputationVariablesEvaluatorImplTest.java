@@ -61,7 +61,7 @@ class ComputationVariablesEvaluatorImplTest {
 
         evaluationExpected.setAverageLaydownTime("22:15");
         evaluationExpected.setMinutesToFallAsleep(10);
-        evaluationExpected.setAverageTimeOfGettingUp("6:30");
+        evaluationExpected.setAverageTimeOfGettingUp("06:30");
         evaluationExpected.setPsqidurat(0);
         evaluationExpected.setPsqidistb(1);
         evaluationExpected.setPsqilaten(1);
@@ -125,7 +125,7 @@ class ComputationVariablesEvaluatorImplTest {
 
         evaluationExpected.setAverageLaydownTime("22:30");
         evaluationExpected.setMinutesToFallAsleep(10);
-        evaluationExpected.setAverageTimeOfGettingUp("6:30");
+        evaluationExpected.setAverageTimeOfGettingUp("06:30");
         evaluationExpected.setPsqidurat(2);
         evaluationExpected.setPsqidistb(1);
         evaluationExpected.setPsqilaten(0);
