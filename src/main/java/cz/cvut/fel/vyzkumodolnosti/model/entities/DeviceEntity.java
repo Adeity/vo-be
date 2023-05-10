@@ -50,6 +50,8 @@ public class DeviceEntity implements Serializable {
     private Boolean allowed = false;
     @Column(name = "deregistration_time")
     private LocalDate deregistrationTime;
+    @Column(name = "registration_day")
+    private Integer registrationDay;
 
     public DeviceEntity() {
     }
@@ -167,5 +169,13 @@ public class DeviceEntity implements Serializable {
 
     public void setResearchParticipant(ResearchParticipant researchParticipant) {
         this.researchParticipant = researchParticipant;
+    }
+
+    public Integer getRegistrationDay() {
+        return registrationDay;
+    }
+
+    public void setRegistrationDay(Integer registrationDay) {
+        this.registrationDay = registrationDay;
     }
 }
