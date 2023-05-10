@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Slf4j
@@ -147,6 +148,7 @@ public class OauthController {
         deviceEntity.setOauthTokenSecret(accessTokenResponse.tokenSecret);
         deviceEntity.setAllowed(true);
         deviceEntity.setDeregistrationTime(null);
+        deviceEntity.setRegistrationDay(LocalDate.now().getDayOfWeek().getValue());
         deviceRepository.save(deviceEntity);
 
         log.debug("deviceId: {}    - access_token        = {}", deviceEntity.getResearchNumber(), accessTokenResponse.token);
