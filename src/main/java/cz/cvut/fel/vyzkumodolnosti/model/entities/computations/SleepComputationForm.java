@@ -17,10 +17,9 @@ import java.util.Date;
 @Setter
 public class SleepComputationForm {
 
-    public SleepComputationForm(String personId) {
+    public SleepComputationForm(ResearchParticipant researchParticipant) {
 
-        this.researchParticipant = new ResearchParticipant();
-        this.researchParticipant.setResearchNumber(personId);
+        this.researchParticipant = researchParticipant;
     }
 
     public SleepComputationForm() {
@@ -33,11 +32,26 @@ public class SleepComputationForm {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "research_participant_research_number", referencedColumnName = "research_number")
     private ResearchParticipant researchParticipant;
 
     @Column(name="chrono_rythm_asleep")
     private ChronoVsRythm chronoFa;
+
+    @Column(name="version")
+    private Integer version;
+
+    @Column(name="recalculations")
+    private Integer recalculations;
+    @Column(name="latency")
+    private Integer latency;
+    @Column(name="socJetlag")
+    private String socJetlag;
+    @Column(name="soc_jetlag_threshold")
+    private LocalTime socJetlagThreshold;
+
+    @Column(name="latency_fa_threshold")
+    private Integer latencyFaThreshold;
 
     @Column(name="chrono_rythm_wake")
     private ChronoVsRythm chronoWa;
@@ -70,6 +84,11 @@ public class SleepComputationForm {
 
     @Column(name="modified")
     private Date modified = new Date();
+
+    @Column(name="avg_laydown_time")
+    private String avgLaydownTime;
+    @Column(name="avg_waking_time")
+    private String avgWakingTime;
 
     @Column(name="awakeFrom")
     private LocalTime awakeFrom;
