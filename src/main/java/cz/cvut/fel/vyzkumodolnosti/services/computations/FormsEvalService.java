@@ -38,6 +38,10 @@ public class FormsEvalService {
         return meqRepository.findNewestFromUser(userId);
     }
 
+    public long getPsqiCount(String researchNumber) {
+        return this.psqiRepository.countBySubmittedFormResearchParticipantResearchNumber(researchNumber);
+    }
+
     public PsqiEvaluation findNewestPsqiClosesToDate(String userId, Date date) {
         LocalDate localDate = date.toInstant()
                 .atZone(ZoneId.systemDefault())

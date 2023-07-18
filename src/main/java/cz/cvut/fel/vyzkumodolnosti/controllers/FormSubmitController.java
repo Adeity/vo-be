@@ -3,6 +3,7 @@ package cz.cvut.fel.vyzkumodolnosti.controllers;
 import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorModel;
 import cz.cvut.fel.vyzkumodolnosti.controllers.errormodel.ErrorResponse;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.submitted.*;
+import cz.cvut.fel.vyzkumodolnosti.services.computations.SleepComputationFormsService;
 import cz.cvut.fel.vyzkumodolnosti.services.forms.impl.SubmittedFormWriteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,12 @@ import java.util.stream.Collectors;
 public class FormSubmitController {
     private final SubmittedFormWriteServiceImpl writeService;
 
+    private final SleepComputationFormsService computationsService;
+
     @Autowired
-    public FormSubmitController(SubmittedFormWriteServiceImpl writeService) {
+    public FormSubmitController(SubmittedFormWriteServiceImpl writeService, SleepComputationFormsService computationsService) {
         this.writeService = writeService;
+        this.computationsService = computationsService;
     }
 
     @PostMapping()
@@ -49,6 +53,10 @@ public class FormSubmitController {
             writeService.save(dto.getDzs(), dto.getIdentifying());
         }
         log.info("Successfully saved new submitted form.");
+
+        if(dto.getIdentifying().getHasResearchNumber())
+            this.computationsService.compute(dto.getIdentifying().getResearchNumber());
+
         return new ResponseEntity<>(1, HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package cz.cvut.fel.vyzkumodolnosti.model.entities;
 
+import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.UserComputationData;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.submitted.SubmittedForm;
 
 import javax.persistence.*;

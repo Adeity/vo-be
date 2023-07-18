@@ -22,6 +22,8 @@ bootJar {
 	classifier = 'boot'
 }
 
+def springfoxVersion = '3.0.0'
+def springfoxUiVersion = '2.9.2'
 dependencies {
 	implementation group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.31.5'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.5'
@@ -74,8 +76,11 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-math3
 	implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
-}
 
+	// swagger
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+}
 test {
 	useJUnitPlatform()
 }

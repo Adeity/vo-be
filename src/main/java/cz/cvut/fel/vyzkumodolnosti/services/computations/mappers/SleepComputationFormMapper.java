@@ -3,8 +3,20 @@ package cz.cvut.fel.vyzkumodolnosti.services.computations.mappers;
 import cz.cvut.fel.vyzkumodolnosti.model.dto.computations.SleepComputationFormDto;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.computations.SleepComputationForm;
+import cz.cvut.fel.vyzkumodolnosti.services.computations.ComputationUtilsService;
+import cz.cvut.fel.vyzkumodolnosti.utils.TimeConversionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+
+@Service
 public class SleepComputationFormMapper {
+
+    @Autowired
+    ComputationUtilsService computationUtilsService;
+
+    private final String sqlInjectionRegex = "([';])+|(--)+";
 
     public SleepComputationFormDto entityToDto(SleepComputationForm entity) {
 
@@ -27,6 +39,14 @@ public class SleepComputationFormMapper {
         dto.setAwakeTo(entity.getAwakeTo());
         dto.setSleepFrom(entity.getSleepFrom());
         dto.setSleepTo(entity.getSleepTo());
+        dto.setVersion(entity.getVersion());
+        dto.setRecalculations(entity.getRecalculations());
+        dto.setLatency(entity.getLatency());
+        dto.setSocJetlag(entity.getSocJetlag());
+        dto.setLatencyFaThreshold(entity.getLatencyFaThreshold());
+        dto.setSocJetlagThreshold(TimeConversionUtils.localTimeToHhMm(entity.getSocJetlagThreshold()));
+        dto.setAvgLaydownTime(entity.getAvgLaydownTime());
+        dto.setAvgWakingTime(entity.getAvgWakingTime());
 
         return dto;
     }
@@ -34,27 +54,34 @@ public class SleepComputationFormMapper {
     public SleepComputationForm dtoToEntity(SleepComputationFormDto dto) {
 
         SleepComputationForm entity = new SleepComputationForm();
-        ResearchParticipant researchParticipant = new ResearchParticipant();
-        researchParticipant.setResearchNumber(dto.getPerson_id());
+        ResearchParticipant researchParticipant =
+                this.computationUtilsService.getResearchParticipantByResearchNumber(dto.getPerson_id());
 
+        entity.setResearchParticipant(researchParticipant);
         entity.setChronotype(dto.getChronotype());
         entity.setChronoFa(dto.getChronoFa());
         entity.setChronoWa(dto.getChronoWa());
         entity.setId(dto.getId());
         entity.setCreated(dto.getCreated());
         entity.setModified(dto.getModified());
-        entity.setResearchParticipant(researchParticipant);
         entity.setLatencyFAGreater(dto.isLatencyFAGreater());
         entity.setSocJetlagGreater(dto.isSocJetlagGreater());
-        entity.setChronoFaText(dto.getChronoFaText());
-        entity.setChronoWaText(dto.getChronoWaText());
-        entity.setLatencyFAGreaterText(dto.getLatencyFAGreaterText());
-        entity.setSocJetlagGreaterText(dto.getSocJetlagGreaterText());
+        entity.setChronoFaText(dto.getChronoFaText().replaceAll(sqlInjectionRegex, ""));
+        entity.setChronoWaText(dto.getChronoWaText().replaceAll(sqlInjectionRegex, ""));
+        entity.setLatencyFAGreaterText(dto.getLatencyFAGreaterText().replaceAll(sqlInjectionRegex, ""));
+        entity.setSocJetlagGreaterText(dto.getSocJetlagGreaterText().replaceAll(sqlInjectionRegex, ""));
         entity.setAwakeFrom(dto.getAwakeFrom());
         entity.setAwakeTo(dto.getAwakeTo());
         entity.setSleepFrom(dto.getSleepFrom());
         entity.setSleepTo(dto.getSleepTo());
-
+        entity.setVersion(dto.getVersion());
+        entity.setRecalculations(dto.getRecalculations());
+        entity.setLatency(dto.getLatency());
+        entity.setSocJetlag(dto.getSocJetlag());
+        entity.setLatencyFaThreshold(dto.getLatencyFaThreshold());
+        entity.setSocJetlagThreshold(TimeConversionUtils.hhMmToLocalTime(dto.getSocJetlagThreshold()));
+        entity.setAvgLaydownTime(dto.getAvgLaydownTime());
+        entity.setAvgWakingTime(dto.getAvgWakingTime());
 
         return entity;
     }

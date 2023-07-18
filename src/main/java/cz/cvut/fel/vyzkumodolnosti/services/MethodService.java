@@ -73,6 +73,16 @@ public class MethodService {
 
     }
 
+    public List<MethodDto> getAllMethods() {
+        List<Method> methods = this.methodRepository.findAll();
+        return methods.stream().map(m -> {
+            MethodDto dto = new MethodDto();
+            dto.setId(m.getId());
+            dto.setTitle(m.getName());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
     private List<Method> mapNamesToMethods (List<String> names) {
         List<Method> methods = new ArrayList<>();
         for (var name : names) {
