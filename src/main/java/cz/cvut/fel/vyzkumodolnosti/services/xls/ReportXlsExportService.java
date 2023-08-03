@@ -49,10 +49,14 @@ public class ReportXlsExportService {
 
 
     public ByteArrayResource exportReportsToXlsForAll() throws IOException {
-        List<MctqEvaluation> mctqs = mctqRepository.findAllByOrderBySubmittedFormCreated();
-        List<PsqiEvaluation> psqis = psqiRepository.findAllByOrderBySubmittedFormCreated();
-        List<MeqEvaluation> meqs = meqRepository.findAllByOrderBySubmittedFormCreated();
-        List<DeviceSleepEvaluation> sleeps = deviceSleepRepository.findAllOrderByCreated();
+        List<MctqEvaluation> mctqs = mctqRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() != null).collect(Collectors.toList());
+        List<PsqiEvaluation> psqis = psqiRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() != null).collect(Collectors.toList());
+        List<MeqEvaluation> meqs = meqRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() != null).collect(Collectors.toList());
+        List<DeviceSleepEvaluation> sleeps = deviceSleepRepository.findAllOrderByCreated()
+                .stream().filter(sleep -> sleep.getResearchParticipant() != null).collect(Collectors.toList());
 
         Map<String, List<MctqEvaluation>> mctqMap = new HashMap<>();
         for (MctqEvaluation mctq : mctqs) {
