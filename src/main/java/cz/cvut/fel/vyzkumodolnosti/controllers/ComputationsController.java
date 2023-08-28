@@ -214,4 +214,16 @@ public class ComputationsController {
             throw new RuntimeException(e);
         }
     }
+
+    @GetMapping(value = "/export-unregistered")
+    public ResponseEntity<Resource> exportUnregistered() {
+        try {
+            log.info("Exporting forms from unregistered people to xls!");
+            Resource resource = xlsService.exportUnregisteredToXls();
+            return ResponseEntity.ok()
+                    .body(resource);
+        } catch (IOException e) {
+            throw  new RuntimeException(e);
+        }
+    }
 }

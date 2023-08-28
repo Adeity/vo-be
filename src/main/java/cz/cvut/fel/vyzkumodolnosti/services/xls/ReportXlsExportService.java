@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -355,6 +356,115 @@ public class ReportXlsExportService {
         return !field.getName().equals("submittedForm")
                 && !field.getName().equals("researchParticipant")
                 && !field.getName().equals("version");
+    }
+
+    public Resource exportUnregisteredToXls() throws IOException {
+
+        List<MctqEvaluation> mctqs = mctqRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
+        List<PsqiEvaluation> psqis = psqiRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
+        List<MeqEvaluation> meqs = meqRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
+
+        Map<String, List<MctqEvaluation>> mctqMap = new HashMap<>();
+        for (MctqEvaluation mctq : mctqs) {
+            if (!mctqMap.containsKey(mctq.getSubmittedForm().getAlternativeIdentifier())) {
+                mctqMap.put(mctq.getSubmittedForm().getAlternativeIdentifier(), new ArrayList<>());
+            }
+            mctqMap.get(mctq.getSubmittedForm().getAlternativeIdentifier()).add(mctq);
+        }
+
+
+        Map<String, List<PsqiEvaluation>> psqiMap = new HashMap<>();
+        for (PsqiEvaluation psqi : psqis) {
+            if (!psqiMap.containsKey(psqi.getSubmittedForm().getAlternativeIdentifier())) {
+                psqiMap.put(psqi.getSubmittedForm().getAlternativeIdentifier(), new ArrayList<>());
+            }
+            psqiMap.get(psqi.getSubmittedForm().getAlternativeIdentifier()).add(psqi);
+        }
+
+        Map<String, List<MeqEvaluation>> meqMap = new HashMap<>();
+        for (MeqEvaluation meq : meqs) {
+            if (!meqMap.containsKey(meq.getSubmittedForm().getAlternativeIdentifier())) {
+                meqMap.put(meq.getSubmittedForm().getAlternativeIdentifier(), new ArrayList<>());
+            }
+            meqMap.get(meq.getSubmittedForm().getAlternativeIdentifier()).add(meq);
+        }
+
+        Set<String> respIds = new HashSet<>();
+        respIds.addAll(mctqMap.keySet());
+        respIds.addAll(psqiMap.keySet());
+        respIds.addAll(meqMap.keySet());
+
+        List<MctqEvaluationXlsDto> exampleMctqs = new ArrayList<>();
+        List<PsqiEvaluationXlsDto> examplePsqis = new ArrayList<>();
+        List<MeqEvaluationXlsDto> exampleMeqs = new ArrayList<>();
+        List<DeviceSleepEvaluationXlsDto> exampleSleeps = new ArrayList<>();
+
+        List<FormEvals> formEvals = new ArrayList<>();
+
+        for(String respId : respIds) {
+            FormEvals fe = new FormEvals(
+                    respId,
+                    mctqMap.containsKey(respId) ? mctqMap.get(respId) : new ArrayList<>(),
+                    psqiMap.containsKey(respId) ? psqiMap.get(respId) : new ArrayList<>(),
+                    meqMap.containsKey(respId) ? meqMap.get(respId) : new ArrayList<>(),
+                    new ArrayList<>()
+            );
+
+            if(exampleMctqs.size() < fe.mctqs.size()) {
+                exampleMctqs = fe.mctqs;
+            }
+            if(examplePsqis.size() < fe.psqis.size()) {
+                examplePsqis = fe.psqis;
+            }
+            if(exampleMeqs.size() < fe.meqs.size()) {
+                exampleMeqs = fe.meqs;
+            }
+            if(exampleSleeps.size() < fe.sleeps.size()) {
+                exampleSleeps = fe.sleeps;
+            }
+
+            formEvals.add(fe);
+        }
+        formEvals.sort(FormEvals::compareTo);
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sheet1");
+        XSSFRow headerRow = (XSSFRow) sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("resp id");
+
+        int maxMctqsCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMctqs), headerRow, 1) - 1;
+        int maxPsqiCells = formEvaluationHeadersToXls(Collections.singletonList(examplePsqis), headerRow, maxMctqsCells + 1) - maxMctqsCells - 1;
+        int maxMeqCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMeqs), headerRow, maxMctqsCells + maxPsqiCells + 1) - maxMctqsCells - maxPsqiCells - 1;
+
+        for(int i = 0; i < formEvals.size(); i++) {
+            FormEvals formEval = formEvals.get(i);
+
+            XSSFRow dataRow = (XSSFRow) sheet.createRow(i + 1);
+            dataRow.createCell(0).setCellValue(formEval.researchNumber);
+
+            int gap;
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.mctqs), dataRow, 1);
+            for(int j = gap; j < maxMctqsCells + 1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.psqis), dataRow, maxMctqsCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + 1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.meqs), dataRow, maxPsqiCells + maxMctqsCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + 1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+        }
+
+        sheet.setAutoFilter(new CellRangeAddress(0, 0, 0, maxMctqsCells + maxPsqiCells + maxMeqCells + 1));
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+
+        return new ByteArrayResource(outputStream.toByteArray());
     }
 }
 
