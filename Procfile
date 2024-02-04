@@ -1,1 +1,1 @@
-web: java -jar build/libs/java-getting-started-gradle-1.0.0-SNAPSHOT.jar
+web: java -jar build/libs/vyzkumodolnosti-0.0.1-SNAPSHOT-boot.jar
