@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.0'
+	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -26,7 +26,7 @@ def springfoxVersion = '3.0.0'
 def springfoxUiVersion = '2.9.2'
 dependencies {
 	implementation group: 'com.google.oauth-client', name: 'google-oauth-client', version: '1.31.5'
-	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.5'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.1'
 	implementation 'org.springframework.kafka:spring-kafka:2.8.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.6'
 	implementation('org.springframework.boot:spring-boot-starter-validation')
