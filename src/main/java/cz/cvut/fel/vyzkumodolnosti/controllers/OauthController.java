@@ -39,6 +39,8 @@ public class OauthController {
     private String AUTHORIZE_URL;
     @Value("${garmin.api.access.url}")
     private String ACCESS_URL;
+    @Value("${HOST_URL}")
+    private String HOST_URL;
 
     public OauthController(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
@@ -93,7 +95,7 @@ public class OauthController {
         OAuthAuthorizeTemporaryTokenUrl authorizeUrl = new OAuthAuthorizeTemporaryTokenUrl(AUTHORIZE_URL);
         authorizeUrl.temporaryToken = requestTokenResponse.token;
 
-        String oath_callback = "&oauth_callback=https://vyzkumodolnosti.felk.cvut.cz/garmin/oauthCallback";
+        String oath_callback = "&oauth_callback="+HOST_URL+ "/garmin/oauthCallback";
         String authURL = authorizeUrl.buildAuthority();
         String relURL = authorizeUrl.buildRelativeUrl() + oath_callback;
 
@@ -137,7 +139,7 @@ public class OauthController {
         OAuthCredentialsResponse accessTokenResponse = accessToken.execute();
         log.info("Successfully received access token for device with deviceId: {}", deviceEntity.getResearchNumber());
 
-        String authURL = "https://vyzkumodolnosti.felk.cvut.cz/";
+        String authURL = HOST_URL + "/";
         var alreadyExists = deviceRepository.existsByUserAccessToken(accessTokenResponse.token);
         var isTheSameEntity = deviceRepository.existsByUserAccessTokenAndId(accessTokenResponse.token, deviceEntity.getId());
         if (alreadyExists && !isTheSameEntity) {
