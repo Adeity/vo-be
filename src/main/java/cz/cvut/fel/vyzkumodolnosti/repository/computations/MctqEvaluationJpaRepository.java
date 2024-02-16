@@ -25,8 +25,8 @@ public interface MctqEvaluationJpaRepository extends CrudRepository<MctqEvaluati
             (value =
                     "SELECT * " +
                             "FROM mctq_evaluation JOIN submitted_form sf " +
-                            "on mctq_evaluation.mctq_submitted_form_id = sf.id" +
-                            " WHERE sf.respondent_identifier = ?1" +
+                            "on mctq_evaluation.mctq_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id " +
+                            " WHERE rp.research_number = ?1" +
                             " ORDER BY created DESC LIMIT 1;",
                     nativeQuery=true)
     MctqEvaluation findNewestFromUser(String respId);
@@ -35,9 +35,9 @@ public interface MctqEvaluationJpaRepository extends CrudRepository<MctqEvaluati
             value =
                     "SELECT * " +
                             "FROM mctq_evaluation JOIN submitted_form sf " +
-                            "on mctq_evaluation.mctq_submitted_form_id = sf.id " +
+                            "on mctq_evaluation.mctq_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id " +
                             "WHERE sf.created <= ?2 " +
-                            "AND sf.respondent_identifier = ?1 " +
+                            "AND rp.research_number = ?1 " +
                             "ORDER BY sf.created DESC LIMIT 1;",
             nativeQuery = true
     )
@@ -46,8 +46,8 @@ public interface MctqEvaluationJpaRepository extends CrudRepository<MctqEvaluati
     @Query(value=
             "SELECT * " +
             "FROM mctq_evaluation JOIN submitted_form sf " +
-            "on mctq_evaluation.mctq_submitted_form_id = sf.id" +
-            " WHERE sf.respondent_identifier = ?1" +
+            "on mctq_evaluation.mctq_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id " +
+            " WHERE rp.research_number = ?1" +
             " ORDER BY created DESC;",
     nativeQuery = true)
     public List<MctqEvaluation> getAllByRespId(String respId);

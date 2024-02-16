@@ -29,8 +29,8 @@ public interface PsqiEvaluationJpaRepository extends CrudRepository<PsqiEvaluati
                 value =
             "SELECT * " +
                     "FROM psqi_evaluation JOIN submitted_form sf " +
-                    "on psqi_evaluation.psqi_submitted_form_id = sf.id" +
-                    " WHERE sf.respondent_identifier = ?1" +
+                    "on psqi_evaluation.psqi_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id" +
+                    " WHERE rp.research_number = ?1" +
                     " ORDER BY created DESC LIMIT 1;",
             nativeQuery=true)
         PsqiEvaluation findNewestFromUser(String respId);
@@ -41,9 +41,9 @@ public interface PsqiEvaluationJpaRepository extends CrudRepository<PsqiEvaluati
         value =
             "SELECT * " +
             "FROM psqi_evaluation JOIN submitted_form sf " +
-            "on psqi_evaluation.psqi_submitted_form_id = sf.id " +
+            "on psqi_evaluation.psqi_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id " +
             "WHERE sf.created <= ?2 " +
-            "AND sf.respondent_identifier = ?1 " +
+            "AND rp.research_number = ?1 " +
             "ORDER BY sf.created DESC LIMIT 1;",
         nativeQuery = true
     )
@@ -52,8 +52,8 @@ public interface PsqiEvaluationJpaRepository extends CrudRepository<PsqiEvaluati
     @Query(value=
             "SELECT * " +
                     "FROM psqi_evaluation JOIN submitted_form sf " +
-                    "on psqi_evaluation.psqi_submitted_form_id = sf.id" +
-                    " WHERE sf.respondent_identifier = ?1" +
+                    "on psqi_evaluation.psqi_submitted_form_id = sf.id JOIN research_participant rp on sf.research_participant_id = rp.id " +
+                    " WHERE rp.research_number = ?1" +
                     " ORDER BY created DESC;",
             nativeQuery = true)
     public List<PsqiEvaluation> getAllByRespId(String respId);
