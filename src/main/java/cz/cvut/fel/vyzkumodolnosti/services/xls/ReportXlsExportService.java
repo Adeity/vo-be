@@ -216,6 +216,8 @@ public class ReportXlsExportService {
         List<MctqEvaluation> mctqs = mctqRepository.getAllBySubmittedFormResearchParticipantResearchNumberIn(respIds);
         List<PsqiEvaluation> psqis = psqiRepository.getAllBySubmittedFormResearchParticipantResearchNumberIn(respIds);
         List<MeqEvaluation> meqs = meqRepository.getAllBySubmittedFormResearchParticipantResearchNumberIn(respIds);
+        List<PssEvaluation> psss = pssRepository.getAllBySubmittedFormResearchParticipantResearchNumberIn(respIds);
+        List<LifeSatisfactionEvaluation> lifeSats = lifeSatRepository.getAllBySubmittedFormResearchParticipantResearchNumberIn(respIds);
         List<DeviceSleepEvaluation> sleeps = deviceSleepRepository.getAllByResearchParticipantResearchNumberInOrderByCreated(respIds);
 
         List<FormEvals> formEvals = new ArrayList<>();
@@ -223,6 +225,8 @@ public class ReportXlsExportService {
         List<MctqEvaluationXlsDto> exampleMctqs = new ArrayList<>();
         List<PsqiEvaluationXlsDto> examplePsqis = new ArrayList<>();
         List<MeqEvaluationXlsDto> exampleMeqs = new ArrayList<>();
+        List<PssEvaluationXlsDto> examplePsss = new ArrayList<>();
+        List<LifeSatisfactionEvaluationXlsDto> exampleLifeSats = new ArrayList<>();
         List<DeviceSleepEvaluationXlsDto> exampleSleeps = new ArrayList<>();
 
         for(String respId : respIds) {
@@ -231,6 +235,8 @@ public class ReportXlsExportService {
                     mctqs.stream().filter(m -> Objects.equals(m.getSubmittedForm().getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList()),
                     psqis.stream().filter(p -> Objects.equals(p.getSubmittedForm().getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList()),
                     meqs.stream().filter(m -> Objects.equals(m.getSubmittedForm().getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList()),
+                    psss.stream().filter(m -> Objects.equals(m.getSubmittedForm().getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList()),
+                    lifeSats.stream().filter(m -> Objects.equals(m.getSubmittedForm().getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList()),
                     sleeps.stream().filter(s -> Objects.equals(s.getResearchParticipant().getResearchNumber(), respId)).collect(Collectors.toList())
             );
 
@@ -242,6 +248,12 @@ public class ReportXlsExportService {
             }
             if(exampleMeqs.size() < fe.meqs.size()) {
                 exampleMeqs = fe.meqs;
+            }
+            if(examplePsss.size() < fe.psss.size()) {
+                examplePsss = fe.psss;
+            }
+            if(exampleLifeSats.size() < fe.lifeSats.size()) {
+                exampleLifeSats = fe.lifeSats;
             }
             if(exampleSleeps.size() < fe.sleeps.size()) {
                 exampleSleeps = fe.sleeps;
@@ -259,7 +271,9 @@ public class ReportXlsExportService {
         int maxMctqsCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMctqs), headerRow, 1) - 1;
         int maxPsqiCells = formEvaluationHeadersToXls(Collections.singletonList(examplePsqis), headerRow, maxMctqsCells + 1) - maxMctqsCells - 1;
         int maxMeqCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMeqs), headerRow, maxMctqsCells + maxPsqiCells + 1) - maxMctqsCells - maxPsqiCells - 1;
-        int maxSleepCells = formEvaluationHeadersToXls(Collections.singletonList(exampleSleeps), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - 1;
+        int maxPssCells = formEvaluationHeadersToXls(Collections.singletonList(examplePsss), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - 1;
+        int maxLifeSatisfactionCells = formEvaluationHeadersToXls(Collections.singletonList(exampleLifeSats), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - maxPssCells - 1;
+        int maxSleepCells = formEvaluationHeadersToXls(Collections.singletonList(exampleSleeps), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - maxPssCells - maxLifeSatisfactionCells - 1;
 
         for(int i = 0; i < formEvals.size(); i++) {
             FormEvals formEval = formEvals.get(i);
@@ -280,12 +294,20 @@ public class ReportXlsExportService {
             for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + 1; j++)
                 dataRow.createCell(j).setCellValue("NULL");
 
-            gap = formEvaluationDataToXls(Collections.singletonList(formEval.sleeps), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + 1);
-            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxSleepCells + 1; j++)
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.psss), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells +  1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.lifeSats), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + maxPssCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + 1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.sleeps), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + maxSleepCells + 1; j++)
                 dataRow.createCell(j).setCellValue("NULL");
         }
 
-        sheet.setAutoFilter(new CellRangeAddress(0, 0, 0, maxMctqsCells + maxPsqiCells + maxMeqCells + maxSleepCells + 1));
+        sheet.setAutoFilter(new CellRangeAddress(0, 0, 0, maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + maxSleepCells + 1));
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
@@ -298,9 +320,11 @@ public class ReportXlsExportService {
         List<MctqEvaluation> mctqs = mctqRepository.getAllByRespId(respId);
         List<PsqiEvaluation> psqis = psqiRepository.getAllByRespId(respId);
         List<MeqEvaluation> meqs = meqRepository.getAllByRespId(respId);
+        List<PssEvaluation> psss = pssRepository.getAllByRespId(respId);
+        List<LifeSatisfactionEvaluation> lifeSats = lifeSatRepository.getAllByRespId(respId);
         List<DeviceSleepEvaluation> sleeps = deviceSleepRepository.getAllByResearchParticipantResearchNumber(respId);
 
-        FormEvals fe = new FormEvals(respId, mctqs, psqis, meqs, sleeps);
+        FormEvals fe = new FormEvals(respId, mctqs, psqis, meqs, psss, lifeSats, sleeps);
 
         if(fe.getSize() == 0) {
             return null;
@@ -314,6 +338,8 @@ public class ReportXlsExportService {
         index = formEvaluationHeadersToXls(Collections.singletonList(fe.mctqs), headerRow, index);
         index = formEvaluationHeadersToXls(Collections.singletonList(fe.psqis), headerRow, index);
         index = formEvaluationHeadersToXls(Collections.singletonList(fe.meqs), headerRow, index);
+        index = formEvaluationHeadersToXls(Collections.singletonList(fe.psss), headerRow, index);
+        index = formEvaluationHeadersToXls(Collections.singletonList(fe.lifeSats), headerRow, index);
 
         if(!fe.sleeps.isEmpty())
             formEvaluationHeadersToXls(Collections.singletonList(fe.sleeps), headerRow, index);
@@ -324,6 +350,8 @@ public class ReportXlsExportService {
         index = formEvaluationDataToXls(Collections.singletonList(fe.mctqs), dataRow, index);
         index = formEvaluationDataToXls(Collections.singletonList(fe.psqis), dataRow, index);
         index = formEvaluationDataToXls(Collections.singletonList(fe.meqs), dataRow, index);
+        index = formEvaluationDataToXls(Collections.singletonList(fe.psss), dataRow, index);
+        index = formEvaluationDataToXls(Collections.singletonList(fe.lifeSats), dataRow, index);
 
         if(!fe.sleeps.isEmpty())
             formEvaluationDataToXls(Collections.singletonList(fe.sleeps), dataRow, index);
