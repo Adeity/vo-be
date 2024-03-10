@@ -1,23 +1,15 @@
 package cz.cvut.fel.vyzkumodolnosti.services.xls;
 
 import cz.cvut.fel.vyzkumodolnosti.model.dto.device.DeviceSleepEvaluationXlsDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.MctqEvaluationXlsDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.MeqEvaluationXlsDto;
-import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.PsqiEvaluationXlsDto;
+import cz.cvut.fel.vyzkumodolnosti.model.dto.forms.evaluation.*;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.ResearchParticipant;
 import cz.cvut.fel.vyzkumodolnosti.model.entities.device.DeviceSleepEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MctqEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.MeqEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.PsqiEvaluation;
-import cz.cvut.fel.vyzkumodolnosti.repository.computations.MctqEvaluationJpaRepository;
-import cz.cvut.fel.vyzkumodolnosti.repository.computations.MeqEvaluationJpaRepository;
-import cz.cvut.fel.vyzkumodolnosti.repository.computations.PsqiEvaluationJpaRepository;
+import cz.cvut.fel.vyzkumodolnosti.model.entities.forms.evaluations.*;
+import cz.cvut.fel.vyzkumodolnosti.repository.computations.*;
 import cz.cvut.fel.vyzkumodolnosti.repository.device.DeviceSleepEvaluationRepository;
 import cz.cvut.fel.vyzkumodolnosti.repository.forms.ResearchParticipantRepository;
 import cz.cvut.fel.vyzkumodolnosti.services.device.mappers.DeviceSleepEvaluationXlsMapper;
-import cz.cvut.fel.vyzkumodolnosti.services.forms.xls.MctqEvaluationXlsMapper;
-import cz.cvut.fel.vyzkumodolnosti.services.forms.xls.MeqEvaluationXlsMapper;
-import cz.cvut.fel.vyzkumodolnosti.services.forms.xls.PsqiEvaluationXlsMapper;
+import cz.cvut.fel.vyzkumodolnosti.services.forms.xls.*;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -45,6 +37,10 @@ public class ReportXlsExportService {
     PsqiEvaluationJpaRepository psqiRepository;
     @Autowired
     MeqEvaluationJpaRepository meqRepository;
+    @Autowired
+    PssEvaluationJpaRepository pssRepository;
+    @Autowired
+    LifeSatisfactionEvaluationJpaRepository lifeSatRepository;
     @Autowired
     DeviceSleepEvaluationRepository deviceSleepRepository;
 
@@ -366,6 +362,10 @@ public class ReportXlsExportService {
                 .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
         List<MeqEvaluation> meqs = meqRepository.findAllByOrderBySubmittedFormCreated()
                 .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
+        List<PssEvaluation> psss = pssRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
+        List<LifeSatisfactionEvaluation> lifeSats = lifeSatRepository.findAllByOrderBySubmittedFormCreated()
+                .stream().filter(eval -> eval.getSubmittedForm().getResearchParticipant() == null && eval.getSubmittedForm().getAlternativeIdentifier() != null).collect(Collectors.toList());
 
         Map<String, List<MctqEvaluation>> mctqMap = new HashMap<>();
         for (MctqEvaluation mctq : mctqs) {
@@ -392,14 +392,34 @@ public class ReportXlsExportService {
             meqMap.get(meq.getSubmittedForm().getAlternativeIdentifier()).add(meq);
         }
 
+        Map<String, List<PssEvaluation>> pssMap = new HashMap<>();
+        for (PssEvaluation pss : psss) {
+            if (!pssMap.containsKey(pss.getSubmittedForm().getAlternativeIdentifier())) {
+                pssMap.put(pss.getSubmittedForm().getAlternativeIdentifier(), new ArrayList<>());
+            }
+            pssMap.get(pss.getSubmittedForm().getAlternativeIdentifier()).add(pss);
+        }
+
+        Map<String, List<LifeSatisfactionEvaluation>> lifeSatMap = new HashMap<>();
+        for (LifeSatisfactionEvaluation lifeSat : lifeSats) {
+            if (!lifeSatMap.containsKey(lifeSat.getSubmittedForm().getAlternativeIdentifier())) {
+                lifeSatMap.put(lifeSat.getSubmittedForm().getAlternativeIdentifier(), new ArrayList<>());
+            }
+            lifeSatMap.get(lifeSat.getSubmittedForm().getAlternativeIdentifier()).add(lifeSat);
+        }
+
         Set<String> respIds = new HashSet<>();
         respIds.addAll(mctqMap.keySet());
         respIds.addAll(psqiMap.keySet());
         respIds.addAll(meqMap.keySet());
+        respIds.addAll(pssMap.keySet());
+        respIds.addAll(lifeSatMap.keySet());
 
         List<MctqEvaluationXlsDto> exampleMctqs = new ArrayList<>();
         List<PsqiEvaluationXlsDto> examplePsqis = new ArrayList<>();
         List<MeqEvaluationXlsDto> exampleMeqs = new ArrayList<>();
+        List<PssEvaluationXlsDto> examplePsss = new ArrayList<>();
+        List<LifeSatisfactionEvaluationXlsDto> exampleLifeSats = new ArrayList<>();
         List<DeviceSleepEvaluationXlsDto> exampleSleeps = new ArrayList<>();
 
         List<FormEvals> formEvals = new ArrayList<>();
@@ -410,6 +430,8 @@ public class ReportXlsExportService {
                     mctqMap.containsKey(respId) ? mctqMap.get(respId) : new ArrayList<>(),
                     psqiMap.containsKey(respId) ? psqiMap.get(respId) : new ArrayList<>(),
                     meqMap.containsKey(respId) ? meqMap.get(respId) : new ArrayList<>(),
+                    pssMap.containsKey(respId) ? pssMap.get(respId) : new ArrayList<>(),
+                    lifeSatMap.containsKey(respId) ? lifeSatMap.get(respId) : new ArrayList<>(),
                     new ArrayList<>()
             );
 
@@ -421,6 +443,12 @@ public class ReportXlsExportService {
             }
             if(exampleMeqs.size() < fe.meqs.size()) {
                 exampleMeqs = fe.meqs;
+            }
+            if(examplePsss.size() < fe.psss.size()) {
+                examplePsss = fe.psss;
+            }
+            if(exampleLifeSats.size() < fe.lifeSats.size()) {
+                exampleLifeSats = fe.lifeSats;
             }
             if(exampleSleeps.size() < fe.sleeps.size()) {
                 exampleSleeps = fe.sleeps;
@@ -438,6 +466,9 @@ public class ReportXlsExportService {
         int maxMctqsCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMctqs), headerRow, 1) - 1;
         int maxPsqiCells = formEvaluationHeadersToXls(Collections.singletonList(examplePsqis), headerRow, maxMctqsCells + 1) - maxMctqsCells - 1;
         int maxMeqCells = formEvaluationHeadersToXls(Collections.singletonList(exampleMeqs), headerRow, maxMctqsCells + maxPsqiCells + 1) - maxMctqsCells - maxPsqiCells - 1;
+
+        int maxPssCells = formEvaluationHeadersToXls(Collections.singletonList(examplePsss), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - 1;
+        int maxLifeSatisfactionCells = formEvaluationHeadersToXls(Collections.singletonList(exampleLifeSats), headerRow, maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + 1) - maxMctqsCells - maxPsqiCells - maxMeqCells - maxPssCells - 1;
 
         for(int i = 0; i < formEvals.size(); i++) {
             FormEvals formEval = formEvals.get(i);
@@ -457,9 +488,17 @@ public class ReportXlsExportService {
             gap = formEvaluationDataToXls(Collections.singletonList(formEval.meqs), dataRow, maxPsqiCells + maxMctqsCells + 1);
             for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + 1; j++)
                 dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.psss), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells +  1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
+
+            gap = formEvaluationDataToXls(Collections.singletonList(formEval.lifeSats), dataRow, maxPsqiCells + maxMctqsCells + maxMeqCells + maxPssCells + 1);
+            for(int j = gap; j < maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + 1; j++)
+                dataRow.createCell(j).setCellValue("NULL");
         }
 
-        sheet.setAutoFilter(new CellRangeAddress(0, 0, 0, maxMctqsCells + maxPsqiCells + maxMeqCells + 1));
+        sheet.setAutoFilter(new CellRangeAddress(0, 0, 0, maxMctqsCells + maxPsqiCells + maxMeqCells + maxPssCells + maxLifeSatisfactionCells + 1));
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         workbook.write(outputStream);
@@ -473,24 +512,32 @@ class FormEvals implements Comparable<FormEvals> {
     MctqEvaluationXlsMapper mctqXlsMapper;
     PsqiEvaluationXlsMapper psqiXlsMapper;
     MeqEvaluationXlsMapper meqXlsMapper;
+    PssEvaluationXlsMapper pssXlsMapper;
+    LifeSatisfactionEvaluationXlsMapper lifeSatXlsMapper;
     DeviceSleepEvaluationXlsMapper deviceXlsMapper;
     String researchNumber;
     List<MctqEvaluationXlsDto> mctqs;
     List<PsqiEvaluationXlsDto> psqis;
     List<MeqEvaluationXlsDto> meqs;
+    List<PssEvaluationXlsDto> psss;
+    List<LifeSatisfactionEvaluationXlsDto> lifeSats;
     List<DeviceSleepEvaluationXlsDto> sleeps;
 
-    public FormEvals(String researchNumber, List<MctqEvaluation> mctqs, List<PsqiEvaluation> psqis, List<MeqEvaluation> meqs, List<DeviceSleepEvaluation> sleeps) {
+    public FormEvals(String researchNumber, List<MctqEvaluation> mctqs, List<PsqiEvaluation> psqis, List<MeqEvaluation> meqs, List<PssEvaluation> psss, List<LifeSatisfactionEvaluation> lifeSats, List<DeviceSleepEvaluation> sleeps) {
 
         this.mctqXlsMapper = new MctqEvaluationXlsMapper();
         this.psqiXlsMapper = new PsqiEvaluationXlsMapper();
         this.meqXlsMapper = new MeqEvaluationXlsMapper();
+        this.pssXlsMapper = new PssEvaluationXlsMapper();
+        this.lifeSatXlsMapper = new LifeSatisfactionEvaluationXlsMapper();
         this.deviceXlsMapper = new DeviceSleepEvaluationXlsMapper();
 
         this.researchNumber = researchNumber;
         this.setMctqs(mctqs);
         this.setPsqis(psqis);
         this.setMeqs(meqs);
+        this.setPsss(psss);
+        this.setLifeSats(lifeSats);
         this.setSleeps(sleeps);
     }
 
@@ -512,6 +559,18 @@ class FormEvals implements Comparable<FormEvals> {
                 .collect(Collectors.toList());
     }
 
+    public void setPsss(List<PssEvaluation> psss) {
+        this.psss = psss.stream()
+                .map(pss -> pssXlsMapper.entityToXls(pss))
+                .collect(Collectors.toList());
+    }
+
+    public void setLifeSats(List<LifeSatisfactionEvaluation> lifeSats) {
+        this.lifeSats = lifeSats.stream()
+                .map(lifeSat -> lifeSatXlsMapper.entityToXls(lifeSat))
+                .collect(Collectors.toList());
+    }
+
     public void setSleeps(List<DeviceSleepEvaluation> sleeps) {
         this.sleeps = sleeps.stream()
                 .map(me -> deviceXlsMapper.entityToXls(me))
@@ -520,7 +579,7 @@ class FormEvals implements Comparable<FormEvals> {
 
 
     public int getSize() {
-        return this.mctqs.size() + this.meqs.size() + this.psqis.size() + this.sleeps.size();
+        return this.mctqs.size() + this.meqs.size() + this.psqis.size() + + this.psss.size() + this.lifeSats.size() + this.sleeps.size();
     }
 
     @Override
