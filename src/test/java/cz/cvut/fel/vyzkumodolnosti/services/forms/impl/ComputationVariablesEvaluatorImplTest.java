@@ -274,6 +274,62 @@ class ComputationVariablesEvaluatorImplTest {
     }
 
     @Test
+    void test_mctq_3() {
+        MctqComputationVariablesDto computationVariablesDto = new MctqComputationVariablesDto();
+        computationVariablesDto.setBtw("22:40");
+        computationVariablesDto.setSprepw("22:50");
+        computationVariablesDto.setSlatw(10);
+        computationVariablesDto.setSew("7:00");
+        computationVariablesDto.setAlarmw(true);
+        computationVariablesDto.setSiw(0);
+        computationVariablesDto.setWd(5);
+        computationVariablesDto.setLew("2:00");
+        computationVariablesDto.setBtf("22:40");
+        computationVariablesDto.setSprepf("22:50");
+        computationVariablesDto.setSlatf(10);
+        computationVariablesDto.setSef("08:30");
+        computationVariablesDto.setAlarmf(true);
+        computationVariablesDto.setSif(10);
+        computationVariablesDto.setFd(2);
+        computationVariablesDto.setLef("4:00");
+
+        MctqEvaluation evaluationExpected = new MctqEvaluation();
+        evaluationExpected.setSOw("23:00");
+        evaluationExpected.setGUw("07:00");
+        evaluationExpected.setSDw("08:00");
+        evaluationExpected.setTBTw("08:20");
+        evaluationExpected.setMSW("03:00");
+        evaluationExpected.setSOf("23:00");
+        evaluationExpected.setGUf("08:40");
+        evaluationExpected.setSDf("09:30");
+        evaluationExpected.setTBTf("10:00");
+        evaluationExpected.setMSF("03:45");
+        evaluationExpected.setSDweek("08:25");
+        evaluationExpected.setMSFsc("");
+        evaluationExpected.setSLossweek("02:05");
+        evaluationExpected.setSJLrel("00:45");
+        evaluationExpected.setSJL("00:45");
+        evaluationExpected.setLEweek("02:34");
+
+        MctqEvaluation evaluationActual = evaluator.evaluate(computationVariablesDto);
+
+        Assertions.assertEquals(evaluationExpected.getSOw(), evaluationActual.getSOw());
+        Assertions.assertEquals(evaluationExpected.getGUw(), evaluationActual.getGUw());
+        Assertions.assertEquals(evaluationExpected.getTBTw(), evaluationActual.getTBTw());
+        Assertions.assertEquals(evaluationExpected.getMSW(), evaluationActual.getMSW());
+        Assertions.assertEquals(evaluationExpected.getSOf(), evaluationActual.getSOf());
+        Assertions.assertEquals(evaluationExpected.getGUf(), evaluationActual.getGUf());
+        Assertions.assertEquals(evaluationExpected.getTBTf(), evaluationActual.getTBTf());
+        Assertions.assertEquals(evaluationExpected.getMSF(), evaluationActual.getMSF());
+        Assertions.assertEquals(evaluationExpected.getSDweek(), evaluationActual.getSDweek());
+        Assertions.assertEquals(evaluationExpected.getMSFsc(), evaluationActual.getMSFsc());
+        Assertions.assertEquals(evaluationExpected.getSLossweek(), evaluationActual.getSLossweek());
+        Assertions.assertEquals(evaluationExpected.getSJLrel(), evaluationActual.getSJLrel());
+        Assertions.assertEquals(evaluationExpected.getSJL(), evaluationActual.getSJL());
+        Assertions.assertEquals(evaluationExpected.getLEweek(), evaluationActual.getLEweek());
+    }
+
+    @Test
     void test_meq_1() {
         MeqComputationVariablesDto computationVariablesDto = new MeqComputationVariablesDto();
         computationVariablesDto.setQ1("06:00"); // 5

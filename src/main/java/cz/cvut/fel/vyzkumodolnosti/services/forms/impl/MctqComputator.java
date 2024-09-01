@@ -66,7 +66,7 @@ public class MctqComputator {
 
     public String calculateMSFsc(Boolean alarmf, String SDf, String SDw, String MSF, String SDweek) {
         if (Boolean.TRUE.equals(alarmf)) {
-            return null;
+            return "";
         }
 
         Integer SDfseconds = timeComponent.hourMinuteFormatToSeconds(SDf);
